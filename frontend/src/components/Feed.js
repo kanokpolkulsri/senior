@@ -1,4 +1,7 @@
 import React from 'react'
+import axios from 'axios'
+
+const Config = require('../Config')
 
 class Feed extends React.Component {
 
@@ -13,6 +16,12 @@ class Feed extends React.Component {
         e.preventDefault()
         const username = e.target.elements.username.value
         console.log(username)
+
+        // stucking here!
+        axios.get(Config.API_URL)
+        .then( res => {
+            console.log(res)
+        })
     }
 
     render() {
