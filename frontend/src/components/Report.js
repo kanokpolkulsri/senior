@@ -1,11 +1,13 @@
 import React from 'react'
 
-const Report = () => {
-    return (
-        <div>
-            <p>Report</p>
-        </div>
-    )
+class Report extends React.Component {
+    render() {
+        return (
+            <div>
+                <p>Report</p>
+            </div>
+        )
+    }
 }
 
 export default Report
