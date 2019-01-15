@@ -1,7 +1,6 @@
 import React from 'react'
-import axios from 'axios'
 
-const Config = require('../Config')
+const API = require('../api/Feed')
 
 class Feed extends React.Component {
 
@@ -17,11 +16,9 @@ class Feed extends React.Component {
         const username = e.target.elements.username.value
         console.log(username)
 
-        // stucking here!
-        axios.get(Config.API_URL)
-        .then( res => {
-            console.log(res)
-        })
+        const FEED_TEST = API.FEED_TEST()
+        console.log(FEED_TEST)
+        
     }
 
     render() {
