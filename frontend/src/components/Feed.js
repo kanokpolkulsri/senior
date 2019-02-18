@@ -8,7 +8,9 @@ class Feed extends React.Component {
         super(props)
         this.state = {
             name: "Feed",
+        
         }
+        
     }
 
     getUser = (e) => {
@@ -18,7 +20,6 @@ class Feed extends React.Component {
 
         const FEED_TEST = API.FEED_TEST()
         console.log(FEED_TEST)
-        
     }
 
     render() {

@@ -7,6 +7,8 @@ import Feed from './components/Feed'
 import Register from './components/Register'
 import Report from './components/Report'
 import Review from './components/Review'
+import FAQ from './components/Faq'
+
 import Error from './components/Error'
 
 import Navigation from './components/Navigation'
@@ -15,13 +17,16 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
-          <Navigation />
+        <div class="">
+
+          <Navigation></Navigation>
           <Switch>
             <Route path='/' component={Feed} exact />
             <Route path='/Register' component={Register} />
             <Route path='/Report' component={Report} />
             <Route path='/Review' component={Review} />
+            <Route path='/FAQ' component={FAQ} />
+
             <Route component={Error} />
           </Switch>
         </div>

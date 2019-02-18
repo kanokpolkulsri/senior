@@ -1,0 +1,51 @@
+.col-search-filter{
+    border-right: 1px solid #707070;
+    height: 100%;
+    padding-right: 0;
+}
+
+.search-filter-header{
+    display:block;
+    color:white;
+    background-color: #048C8A;
+    height:50px;
+    width:100%;
+    padding: 10px;
+}
+.search-filter-content{
+    padding: 15px
+}
+i.material-icons {
+    vertical-align: bottom;
+}
+i.fa{
+    vertical-align: baseline;
+}
+.filter-topic{
+    margin-top: 15px;
+    display: block;
+    font-weight: 500;
+}
+.filter-topic:first-child{
+    margin:0px
+}
+/* .company{
+    padding: 20px;
+} */
+.star-ratings{
+    display:inline-block;
+    text-align: right;
+}
+.trans-tag{
+    border-radius: 5px;
+    background-color: #bebebe;
+    padding: 2px 7px;
+    margin-right: 5px;
+    color:white;
+}
+.review-container{
+    padding: 30px;
+}
+.sort-name{
+    margin-right:10px;
+}

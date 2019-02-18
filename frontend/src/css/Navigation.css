@@ -1,0 +1,26 @@
+.header{
+    padding: 10px;
+    height: 60px;
+}
+.nav{
+    position: absolute;
+    right:10px;
+}
+.nav-menu{
+    height:30px;
+    padding: 0px 30px;
+    border-right: 1px solid #707070;
+    color: #002B33;
+}
+.nav-menu:nth-child(4){
+    border: none;
+}
+.login-btn{
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #048C8A;
+    border: 1px solid #048C8A;
+}
+.not-index{
+    border-bottom: 1px solid #707070
+}
