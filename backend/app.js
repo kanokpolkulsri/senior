@@ -1,17 +1,22 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+let express = require('express');
+let path = require('path');
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var register = require('./routes/register');
-var feed = require('./routes/feed');
-var report = require('./routes/report');
-var review = require('./routes/review');
+let index = require('./routes/index');
+let register = require('./routes/register');
+let feed = require('./routes/feed');
+let report = require('./routes/report');
+let review = require('./routes/review');
 
-var app = express();
+let app = express();
+
+let MongoClient = require('mongodb').MongoClient;
+let Config = require('./config.json')
+let MongoURL = Config.MongoURL;
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -33,7 +38,7 @@ app.use('/review', review);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -49,5 +54,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+MongoClient.connect(MongoURL, { useNewUrlParser: true })
+.then(client => {
+  const db = client.db("Backend");
+  const review = db.collection("Review");
+  app.locals.DB_REVIEW = review;
+})
+.catch(error => console.error(error));
+
 
 module.exports = app;

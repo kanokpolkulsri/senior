@@ -1,5 +1,4 @@
 import React from 'react'
-
 const API = require('../api/Feed')
 
 class Feed extends React.Component {
