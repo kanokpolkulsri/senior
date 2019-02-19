@@ -9,7 +9,8 @@ class ReviewCompany extends React.Component {
         return (
         
             <div class="container">
-                Company
+                <p> Company </p>
+                <hr/>
             </div>
             )
     }
