@@ -7,6 +7,7 @@ import Feed from './components/Feed'
 import Register from './components/Register'
 import Report from './components/Report'
 import Review from './components/Review'
+import ReviewCompany from './components/ReviewCompany'
 import FAQ from './components/Faq'
 
 import Error from './components/Error'
@@ -24,6 +25,7 @@ class App extends Component {
             <Route path='/' component={Feed} exact />
             <Route path='/Register' component={Register} />
             <Route path='/Report' component={Report} />
+            <Route path='/Review/:company' component={ReviewCompany}/>
             <Route path='/Review' component={Review} />
             <Route path='/FAQ' component={FAQ} />
 
