@@ -60,7 +60,8 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
   const db = client.db("Backend");
   const review = db.collection("Review");
   app.locals.DB_REVIEW = review;
-}).catch(error => console.error(error));
+})
+.catch(error => console.error(error));
 
 
 module.exports = app;
