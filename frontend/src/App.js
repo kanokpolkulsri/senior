@@ -23,7 +23,8 @@ class App extends Component {
           <Navigation></Navigation>
           <Switch>
             <Route path='/' component={Feed} exact />
-            <Route path='/Register' component={Register} />
+            <Route path='/Login' component={Register} />
+            <Route path='/Signup' component={Register} />
             <Route path='/Report' component={Report} />
             <Route path='/Review/:company' component={ReviewCompany}/>
             <Route path='/Review' component={Review} />

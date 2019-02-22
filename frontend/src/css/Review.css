@@ -36,11 +36,13 @@ i.fa{
     display:inline-block;
     text-align: right;
 }
-.trans-tag{
+.tag{
     border-radius: 5px;
-    background-color: #bebebe;
     padding: 2px 7px;
     margin-right: 5px;
+}
+.trans-tag{
+    background-color: #bebebe;
     color:white;
 }
 .review-container{
