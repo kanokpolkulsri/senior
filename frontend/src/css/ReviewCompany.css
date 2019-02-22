@@ -1,3 +1,47 @@
 .container{
     padding: 20px;
 }
+.short-desc{
+    padding:15px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    height:100%;
+}
+.company-logo{
+    display: block;
+    width: 85%;
+    height:100px;
+    margin: 10px auto;
+}
+.review-topic{
+    margin-top:15px;
+    margin-right:10px;
+}
+.card-header{
+    padding:0px;
+}
+.btn-link{
+    vertical-align: super;
+}
+.cpe-tag{
+    background-color: #F06050;
+    color:white;
+}
+.ske-tag{
+    background-color: #415C71;
+    color:white;
+}
+.comment-block{
+    border-radius: 10px;
+    border:1px solid #d9d9d9;
+    padding: 10px;
+}
+.comment-content{
+    display: inline-block;
+    margin-left: 10px
+}
+.comment-img{
+    width:70px;
+    height: 70px;
+    border-radius: 50%;
+}

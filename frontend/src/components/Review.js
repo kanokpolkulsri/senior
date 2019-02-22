@@ -1,83 +1,159 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
+import { NavLink } from "react-router-dom";
+import { Tag, Row, Col, Menu, Dropdown, Icon, message, } from 'antd';
 
 // var Template = require('./Review.jsx')
 import '../css/Review.css';
+import "antd/dist/antd.css";
+
+
+const CheckableTag = Tag.CheckableTag;
+const tagsFromServer = ['Bus', 'BTS', 'MRT'];
+
 
 class Review extends React.Component {
-   
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedTags: [],
+    
+        }
+    }
+    handleChange = (tag, checked) => {
+        const { selectedTags } = this.state;
+        const nextSelectedTags = checked
+          ? [...selectedTags, tag]
+          : selectedTags.filter(t => t !== tag);
+        console.log('You are interested in: ', nextSelectedTags);
+        this.setState({ selectedTags: nextSelectedTags });
+      }
+
+    onClick = ({ key }) => {
+        message.info(`Click on item ${key}`);
+    };
+
+    menu = () =>{
+        const menuList = ["0-250","250-500","more than 500"]
+        const menuItem = menuList.map((option,idx)=>
+            <Menu.Item key={idx}>{option}</Menu.Item>
+        );
+        return (<Menu> onClick={this.onClick}</Menu>);
+    }
+    // menu = (
+    //     <Menu onClick={onClick}>
+    //       <Menu.Item key="1">1st menu item</Menu.Item>
+    //       <Menu.Item key="2">2nd memu item</Menu.Item>
+    //       <Menu.Item key="3">3rd menu item</Menu.Item>
+    //     </Menu>
+    //   );
+      
     render() {
+        const { selectedTags } = this.state;
+
         return (
         
-            <div class="row">
-                <div class="col-3 col-search-filter">
-                    <span class="search-filter-header"><i class="fa fa-search"></i>  Search</span>
-                    <div class="search-filter-content"><input type="keyword" class="col-11 form-control" id="exampleInputKeyword1" aria-describedby="keywordHelp" placeholder="Enter any keyword"/></div>
-                    <span class="search-filter-header"><i class="material-icons">tune</i>  Filter</span>
-                    <div class="search-filter-content">
-                        <span class="filter-topic">Job Description</span>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label class="form-check-label" for="defaultCheck1">
+            <Row>
+                <Col span={6}>
+                <div className="col-search-filter">
+                    <span className="search-filter-header"><i className="fa fa-search"></i>  Search</span>
+                    <div className="search-filter-content"><input type="keyword" className="col-11 form-control" id="exampleInputKeyword1" aria-describedby="keywordHelp" placeholder="Enter any keyword"/></div>
+                    <span className="search-filter-header"><i className="material-icons">tune</i>  Filter</span>
+                    <div className="search-filter-content">
+                        <span className="filter-topic">Job Description</span>
+                        <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
+                            <label className="form-check-label" for="defaultCheck1">
                                 Frontend Development
                             </label>
                         </div>
-                        <span class="filter-topic">Payment Range</span>
-                        <select>
-                            <option> 0-100 THB </option>
-                        </select>
-                        <span class="filter-topic">Transportation options</span>
-                        <span class="trans-tag">Bus</span>
-                        <span class="trans-tag">BTS</span>
-                        <span class="trans-tag">MRT</span>
+                        <span className="filter-topic">Payment Range</span>
+                        <Dropdown overlay={this.menu()}>
+                            <a className="ant-dropdown-link" href="#">
+                            Hover me, Click menu item <Icon type="down" />
+                            </a>
+                        </Dropdown>
+                        <span className="filter-topic">Transportation options</span>
+                        {tagsFromServer.map(tag => (
+                        <CheckableTag
+                            key={tag}
+                            checked={selectedTags.indexOf(tag) > -1}
+                            onChange={checked => this.handleChange(tag, checked)}
+                        >
+                            {tag}
+                        </CheckableTag>
+                        ))}
                     </div>
                   
 
                 </div>
-                <div class="col-9 container review-container">
-                    <div class="row justify-content-end">
-                        <div class="sort col-4 offset-8">
+                </Col>
+
+                <Col span={18}>
+                <div className="container review-container">
+                    <Row>
+                    <div className="justify-content-end">
+                        <Col span={8} offset={16}>
+                        <div className="sort">
                             <span>Sort By: </span>
-                            <select class="sort-select sort-name"> 
+                            <select className="sort-select sort-name"> 
                                 <option>
                                     Name
                                 </option>
                             </select>
-                            <select class="sort-select sort-asending">
+                            <select className="sort-select sort-asending">
                                 <option>
                                     Ascending
                                 </option>
                             </select>
                         </div>
-                    </div>
-                    <br/>
-                <div class="row company">
-                    <div class="company-logo"></div>
-                    <div class="company-detail row col-12">
-                        <div class="col-10">
-                            <h5>Company Name</h5>
-                            <p> Job description: <br/>
-                                Payment:    <br/>
-                                Transportation option:
-                            </p>
+            
+                        </Col>
                         </div>
-                        <div class="star-ratings col-2">  <StarRatings
-                            // rating={this.state.rating}
-                            rating={3}
-                            starRatedColor={"#F7CD1F"}
-                            numberOfStars={3}
-                            name='rating'
-                            isSelectable='false'
-                            starDimension="15px"
-                            starSpacing="0px"
-                            />
+                        <br/>
+                        <Row>
+                        <div className="company">
+                        <div className="company-logo"></div>
+                        <Row>
+                        <div className="company-detail">
+                            <Col span={20}>
+                                <NavLink to={`${this.props.match.url}/exxon mobil`} Component="">Company Name</NavLink>
+                                <p> Job description: <br/>
+                                    Payment:    <br/>
+                                    Transportation option:
+                                </p>
+                            </Col>
+                            <Col span={4}>
+                                <div className="star-ratings">  <StarRatings
+                                    // rating={this.state.rating}
+                                    rating={3}
+                                    starRatedColor={"#F7CD1F"}
+                                    numberOfStars={3}
+                                    name='rating'
+                                    isSelectable='false'
+                                    starDimension="15px"
+                                    starSpacing="0px"
+                                    />
+                                </div>
+                            </Col>
+                         
+                            </div>
+                        </Row>
+               
+                
                         </div>
-                      
-                    </div>
-                    </div>
+
+                        </Row>
+                        
+                    </Row>
+                
+         
 
                 </div>
-            </div>
+                </Col>
+               
+             
+            </Row>
             )
     }
 }
