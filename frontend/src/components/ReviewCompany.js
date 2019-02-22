@@ -4,14 +4,13 @@ import React from 'react'
 import '../css/ReviewCompany.css';
 
 class ReviewCompany extends React.Component {
-   
+
     render() {
         return (
-        
             <div class="container">
-                Company
+                {this.props.match.params.company}
             </div>
-            )
+        )
     }
 }
 
