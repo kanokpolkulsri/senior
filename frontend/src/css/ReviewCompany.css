@@ -7,14 +7,23 @@
     border-radius: 10px;
     height:100%;
 }
+.company-name { 
+    font-size: 22px;
+    font-weight: bold;
+}
 .company-logo{
     display: block;
     width: 85%;
     height:100px;
     margin: 10px auto;
 }
+.job-desc{
+    margin-bottom: 15px;
+}
 .review-topic{
-    margin-top:15px;
+    margin:15px 0px;
+}
+.transport{
     margin-right:10px;
 }
 .card-header{
@@ -31,10 +40,19 @@
     background-color: #415C71;
     color:white;
 }
+.trans-detail,.intern-name{
+    display: inline-block;
+    margin-top:10px;
+    margin-bottom: 0;
+}
+.previous-intern-year{
+    margin-bottom: 10px;
+}
 .comment-block{
     border-radius: 10px;
     border:1px solid #d9d9d9;
     padding: 10px;
+    margin-bottom: 10px;
 }
 .comment-content{
     display: inline-block;
@@ -43,5 +61,6 @@
 .comment-img{
     width:70px;
     height: 70px;
+    vertical-align: top;
     border-radius: 50%;
 }

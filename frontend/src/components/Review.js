@@ -11,6 +11,13 @@ import "antd/dist/antd.css";
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = ['Bus', 'BTS', 'MRT'];
 
+const review = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","jobDesc`  riptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"]}];
+
+
+
+
+
+
 
 class Review extends React.Component {
     constructor(props) {
@@ -40,14 +47,9 @@ class Review extends React.Component {
         );
         return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
     }
-    // menu = (
-    //     <Menu onClick={onClick}>
-    //       <Menu.Item key="1">1st menu item</Menu.Item>
-    //       <Menu.Item key="2">2nd memu item</Menu.Item>
-    //       <Menu.Item key="3">3rd menu item</Menu.Item>
-    //     </Menu>
-    //   );
-      
+    
+    
+
     render() {
         const { selectedTags } = this.state;
 
@@ -125,7 +127,6 @@ class Review extends React.Component {
                             </Col>
                             <Col span={4}>
                                 <div className="star-ratings">  <StarRatings
-                                    // rating={this.state.rating}
                                     rating={3}
                                     starRatedColor={"#F7CD1F"}
                                     numberOfStars={3}
