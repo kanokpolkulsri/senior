@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div class="">
+        <div className="">
 
           <Navigation></Navigation>
           <Switch>

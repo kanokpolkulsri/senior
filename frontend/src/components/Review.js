@@ -38,7 +38,7 @@ class Review extends React.Component {
         const menuItem = menuList.map((option,idx)=>
             <Menu.Item key={idx}>{option}</Menu.Item>
         );
-        return (<Menu> onClick={this.onClick}</Menu>);
+        return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
     }
     // menu = (
     //     <Menu onClick={onClick}>
@@ -63,12 +63,12 @@ class Review extends React.Component {
                         <span className="filter-topic">Job Description</span>
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label className="form-check-label" for="defaultCheck1">
+                            <label className="form-check-label" htmlFor="defaultCheck1">
                                 Frontend Development
                             </label>
                         </div>
                         <span className="filter-topic">Payment Range</span>
-                        <Dropdown overlay={this.menu()}>
+                        <Dropdown overlay={this.menu}>
                             <a className="ant-dropdown-link" href="#">
                             Hover me, Click menu item <Icon type="down" />
                             </a>
@@ -117,7 +117,7 @@ class Review extends React.Component {
                         <Row>
                         <div className="company-detail">
                             <Col span={20}>
-                                <NavLink to={`${this.props.match.url}/exxon mobil`} Component="">Company Name</NavLink>
+                                <NavLink to={`${this.props.match.url}/exxon mobil`} component="">Company Name</NavLink>
                                 <p> Job description: <br/>
                                     Payment:    <br/>
                                     Transportation option:
