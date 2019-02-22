@@ -31,8 +31,8 @@ class ReviewCompany extends React.Component {
     render() {
 
         return (
-        
             <div class="container">
+
                 <p> {this.props.match.params.company} </p>
                 <hr/>
                 <Row>
@@ -118,9 +118,8 @@ class ReviewCompany extends React.Component {
                         </div>
                     </Col>
                 </Row>
-               
             </div>
-            )
+        )
     }
 }
 
