@@ -6,10 +6,14 @@ import { Row, Col } from 'antd';
 import '../css/Navigation.css';
 import "antd/dist/antd.css";
 
+class Navigation extends React.Component {
 
-const Navigation = () => {
-  
-    return (
+    componentDidMount = () => {
+        console.log(this.props.match)
+    }
+
+    render() {
+        return (
             <div className="header not-index">
              <Row>
                 <Col span={6}>
@@ -30,6 +34,7 @@ const Navigation = () => {
           
             </div>  
     )
+    }
 }
 
 export default Navigation

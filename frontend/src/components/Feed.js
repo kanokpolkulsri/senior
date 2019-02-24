@@ -29,7 +29,7 @@ class Feed extends React.Component {
                     <input type="text" name="username" />
                     <button>Submit</button>
                 </form>
-            </div>
+            </div>      
         )
     }
 }
