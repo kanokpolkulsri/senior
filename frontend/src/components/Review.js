@@ -22,6 +22,7 @@ class Review extends React.Component {
             allreview: review
         }
     }
+
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
         const nextSelectedTags = checked

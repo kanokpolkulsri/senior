@@ -8,8 +8,25 @@ import "antd/dist/antd.css";
 
 class Navigation extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            classPath: "eiei"
+        }
+    }
+
+    checkPath = () => {
+        if(window.location.pathname === "/")
+            console.log("/ woei")
+        else
+            console.log("/... woei")
+    }
+
     componentDidMount = () => {
-        console.log(this.props.match)
+        this.checkPath()
+    }
+    componentDidUpdate = () => {
+        this.checkPath()
     }
 
     render() {

@@ -17,7 +17,6 @@ import Navigation from './components/Navigation'
 
 class App extends Component {
 
-
   render() {
     return (
       <BrowserRouter>
@@ -32,7 +31,6 @@ class App extends Component {
             <Route path='/Review/:company' component={ReviewCompany}/>
             <Route path='/Review' component={Review} />
             <Route path='/FAQ' component={FAQ} />
-
             <Route component={Error} />
           </Switch>
         </div>
