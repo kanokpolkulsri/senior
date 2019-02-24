@@ -8,11 +8,13 @@ import "antd/dist/antd.css";
 
 
 const Navigation = () => {
+  
     return (
             <div className="header not-index">
              <Row>
                 <Col span={6}>
-                    <span className="web-logo">Internship Program</span>
+                    <span className="web-logo">Internship Program  </span>
+                    {/* {location} */}
                 </Col>
                 <Col span={12} offset={5}>
                     <div className="nav"> 

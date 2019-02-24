@@ -41,6 +41,9 @@ i.fa{
     padding: 2px 7px;
     margin-right: 5px;
 }
+.tag-check{
+    text-transform: uppercase;
+}
 .trans-tag{
     background-color: #bebebe;
     color:white;

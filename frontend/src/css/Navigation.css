@@ -2,6 +2,12 @@
     padding: 10px;
     height: 60px;
 }
+.web-logo{
+    font-weight: bold;
+    font-size: 20px;
+    color: #048C8A;
+    text-transform: uppercase;
+}
 .nav{
     position: absolute;
     right:10px;

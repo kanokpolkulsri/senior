@@ -11,12 +11,7 @@ import "antd/dist/antd.css";
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = ['Bus', 'BTS', 'MRT'];
 
-const review = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","jobDesc`  riptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"]}];
-
-
-
-
-
+const review = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","jobDescriptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"]}];
 
 
 class Review extends React.Component {
@@ -24,7 +19,7 @@ class Review extends React.Component {
         super(props)
         this.state = {
             selectedTags: [],
-    
+            allreview: review
         }
     }
     handleChange = (tag, checked) => {
@@ -47,8 +42,54 @@ class Review extends React.Component {
         );
         return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
     }
-    
-    
+    genJobDesc = (j) => {
+        let jobDesc = this.state.allreview[j].jobDescriptionTitle[0];
+        for(var i = 1;i < this.state.allreview[j].jobDescriptionTitle.length;i++){
+            jobDesc += ", "+this.state.allreview[j].jobDescriptionTitle[i];
+        }
+        return jobDesc;
+    }
+    getTransTag = (j) =>{
+        let transShortTag = []
+        for (var i = 0; i < this.state.allreview[j].transportationTitle.length; i++){
+            transShortTag.push(<span className="tag trans-tag">{this.state.allreview[j].transportationTitle[i]}</span>)
+        }
+        return transShortTag
+    }
+    genResult = () => {
+        let result = this.state.allreview.map((option,idx) => 
+            <div className="company">
+            <div className="company-logo"></div>
+            <Row>
+            <div className="company-detail">
+                <Col span={20}>
+                    <NavLink to={`${this.props.match.url}/exxon mobil`} component="">{option.companyName}</NavLink>
+                    <p> Job description: {this.genJobDesc(idx)} <br/>
+                        Payment: {option.payment} Baht <br/>
+                        Transportation option: {this.getTransTag(idx)}
+                    </p>
+                </Col>
+                <Col span={4}>
+                    <div className="star-ratings">  <StarRatings
+                        rating={3}
+                        starRatedColor={"#F7CD1F"}
+                        numberOfStars={3}
+                        name='rating'
+                        isSelectable='false'
+                        starDimension="15px"
+                        starSpacing="0px"
+                        />
+                    </div>
+                </Col>
+            
+                </div>
+            </Row>
+            </div>
+        
+            )
+            
+        return result
+    }
 
     render() {
         const { selectedTags } = this.state;
@@ -78,6 +119,7 @@ class Review extends React.Component {
                         <span className="filter-topic">Transportation options</span>
                         {tagsFromServer.map(tag => (
                         <CheckableTag
+                            className="tag-check"
                             key={tag}
                             checked={selectedTags.indexOf(tag) > -1}
                             onChange={checked => this.handleChange(tag, checked)}
@@ -114,36 +156,7 @@ class Review extends React.Component {
                         </div>
                         <br/>
                         <Row>
-                        <div className="company">
-                        <div className="company-logo"></div>
-                        <Row>
-                        <div className="company-detail">
-                            <Col span={20}>
-                                <NavLink to={`${this.props.match.url}/exxon mobil`} component="">Company Name</NavLink>
-                                <p> Job description: <br/>
-                                    Payment:    <br/>
-                                    Transportation option:
-                                </p>
-                            </Col>
-                            <Col span={4}>
-                                <div className="star-ratings">  <StarRatings
-                                    rating={3}
-                                    starRatedColor={"#F7CD1F"}
-                                    numberOfStars={3}
-                                    name='rating'
-                                    isSelectable='false'
-                                    starDimension="15px"
-                                    starSpacing="0px"
-                                    />
-                                </div>
-                            </Col>
-                         
-                            </div>
-                        </Row>
-               
-                
-                        </div>
-
+                            {this.genResult()}
                         </Row>
                         
                     </Row>

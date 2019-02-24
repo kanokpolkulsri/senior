@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 
 import './css/App.css';
 
@@ -14,10 +14,14 @@ import Error from './components/Error'
 
 import Navigation from './components/Navigation'
 
+
 class App extends Component {
+
+  test=(a)=>{
+console.log(a)  }
   render() {
     return (
-      <BrowserRouter>
+      <Router>
         <div className="">
 
           <Navigation></Navigation>
@@ -33,7 +37,7 @@ class App extends Component {
             <Route component={Error} />
           </Switch>
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
