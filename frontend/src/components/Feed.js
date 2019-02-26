@@ -1,5 +1,78 @@
 import React from 'react'
+import '../css/Feed.css';
+
+
 const API = require('../api/Feed')
+const tagList = ["Application Development","Network","Data Science","IoT","etc."]
+/*
+const feed = {
+    "_id" : ObjectId("5c726ee7e440f7d89bb87217"),
+    "Event" : [ 
+        {
+            "name" : "Getting to know more about Wongnai",
+            "location" : "E203",
+            "date" : "04/Feb/2019",
+            "register" : 20
+        }, 
+        {
+            "name" : "CPSK Job Fair",
+            "location" : "1st floor",
+            "date" : "04/Feb/2019",
+            "register" : 178
+        }
+    ],
+    "Announcement" : [ 
+        {
+            "title" : "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+            "description" : "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"
+        },
+        {
+            "title" : "2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+            "description" : "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"
+        }
+    ],
+    "Company" : [ 
+        {
+            "name" : "บริษัท เอ-โอสต์ จำกัด",
+            "url" : "kanokpolkulsri.netlify.com",
+            "category" : [ 
+                "application", 
+                "network", 
+                "datascience", 
+                "consulting", 
+                "iot", 
+                "etc"
+            ]
+        }, 
+        {
+            "name" : "บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด",
+            "url" : "www.facebook.com/ton2plam",
+            "category" : [ 
+                "application", 
+                "consulting", 
+                "iot", 
+                "etc"
+            ]
+        }, 
+        {
+            "name" : "บริษัท อัฟวาแลนท์ จำกัด",
+            "url" : "github.com/ton2plam",
+            "category" : [ 
+                "network", 
+                "datascience", 
+                "etc"
+            ]
+        }, 
+        {
+            "name" : "บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด",
+            "url" : "www.instagram.com/tonplamm",
+            "category" : [ 
+                "datascience", 
+                "etc"
+            ]
+        }
+    ]
+}*/
 
 class Feed extends React.Component {
 
@@ -7,28 +80,74 @@ class Feed extends React.Component {
         super(props)
         this.state = {
             name: "Feed",
-        
+            selectedTags: [],
+            // feed: feed
         }
-        
     }
 
-    getUser = (e) => {
-        e.preventDefault()
-        const username = e.target.elements.username.value
-        console.log(username)
+    handleChange = (tag, checked) => {
+        const { selectedTags } = this.state;
+        const nextSelectedTags = checked
+          ? [...selectedTags, tag]
+          : selectedTags.filter(t => t !== tag);
+        console.log('You are interested in: ', nextSelectedTags);
+        this.setState({ selectedTags: nextSelectedTags });
+      }
 
-        const FEED_TEST = API.FEED_TEST()
-        console.log(FEED_TEST)
+    onClick = ({ key }) => {
+        message.info(`Click on item ${key}`);
+    };
+
+    getAnnouncement = () => {
+        const announcement = this.state.feed.Announcement.map((option,idx)=>
+            <div>
+                <p className="content">{option.title}</p>
+                <p className="content">{option.description}</p>
+            </div>
+        );
+        return ({announcement});
     }
 
     render() {
         return (
             <div>
-                <p>{this.state.name}</p>
-                <form onSubmit={this.getUser}>
-                    <input type="text" name="username" />
-                    <button>Submit</button>
-                </form>
+                <div className="header-feed">
+                    <div className="feed-head-text">
+                        <p className="feed-logo"> INTERNSHIP PROGRAM </p>
+                        <p className="feed-head-detail">Department of Computer Engineering <br/>
+                        Kasetsart University
+                        </p>
+                    </div>
+                 
+                </div>
+                <div className="feed-content container">
+                    <p className="feed-title">Upcoming Events</p>
+                    <p className="feed-title">Announcement</p>
+                        <p className="announce-topic content">1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)</p>
+                        <p className="content">หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ) <br/>
+                        1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย <br/>
+                        2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก) <br/>
+                        3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก) <br/>
+                        4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ) <br/>
+                        โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น
+                        </p>
+                    <p className="feed-title">Company Lists</p>
+                    {/* {tagList.map(tag => (
+                        <CheckableTag
+                            className="tag-check"
+                            key={tag}
+                            checked={selectedTags.indexOf(tag) > -1}
+                            onChange={checked => this.handleChange(tag, checked)}
+                        >
+                            {tag}
+                        </CheckableTag>
+                        ))} */}
+                        <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <br/>
+                        <span className="content">บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด</span> <br/>
+                        <span className="content">บริษัท อัฟวาแลนท์ จำกัด</span> <br/>
+                      
+                </div>
+              
             </div>      
         )
     }

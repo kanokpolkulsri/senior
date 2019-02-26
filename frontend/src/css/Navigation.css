@@ -2,11 +2,16 @@
     padding: 10px;
     height: 60px;
 }
+.not-index{
+    background-color: white;
+}
 .web-logo{
     font-weight: bold;
     font-size: 20px;
-    color: #048C8A;
     text-transform: uppercase;
+}
+.not-index .web-logo{
+    color: #048C8A;
 }
 .nav{
     position: absolute;
@@ -15,11 +20,12 @@
 .nav-menu{
     height:30px;
     padding: 0px 30px;
-    border-right: 1px solid #707070;
+}
+.not-index .nav-menu{
     color: #002B33;
 }
-.nav-menu:nth-child(4){
-    border: none;
+.not-index .divider{
+    color: white;
 }
 .login-btn{
     border-radius: 5px;
@@ -29,4 +35,22 @@
 }
 .not-index{
     border-bottom: 1px solid #707070
+}
+
+
+/* for feed */
+
+.index.header{
+    background-color: transparent;
+    border:0px;
+}
+.index .header,.web-logo,.nav-menu {
+    color:white;
+}
+.index .divider{
+    color: #707070;
+}
+.index .login-btn{
+    color:white;
+    border: 1px solid white;
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { Row, Col } from 'antd';
+import { Row, Col,Divider } from 'antd';
 
 
 import '../css/Navigation.css';
@@ -11,37 +11,44 @@ class Navigation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            classPath: "eiei"
+            checkFeed: true,
         }
     }
 
-    checkPath = () => {
-        if(window.location.pathname === "/")
-            console.log("/ woei")
-        else
-            console.log("/... woei")
+    checkPath = (prevState) => {
+        if(window.location.pathname === "/"){
+            if(prevState == null || !prevState.checkFeed)
+                this.setState({checkFeed: true});
+        }    
+        else{
+            if(prevState == null || prevState.checkFeed)
+                this.setState({checkFeed: false});
+        }
     }
 
     componentDidMount = () => {
-        this.checkPath()
+        this.checkPath(null)
     }
-    componentDidUpdate = () => {
-        this.checkPath()
+    componentDidUpdate = (prevProps,prevState) => {
+        this.checkPath(prevState)
     }
 
     render() {
+        let headerClass = this.state.checkFeed? "index":"not-index";
         return (
-            <div className="header not-index">
+            <div className={"header "+ `${headerClass}`}>
              <Row>
                 <Col span={6}>
                     <span className="web-logo">Internship Program  </span>
-                    {/* {location} */}
                 </Col>
-                <Col span={12} offset={5}>
+                <Col span={13} offset={5}>
                     <div className="nav"> 
                         <NavLink className="nav-menu" to='/'>Annoucement</NavLink>
+                        <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/Review'>Review</NavLink>
+                        <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
+                        <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/Report'>My Assignment</NavLink>
                         <NavLink className="login-btn" to='/Login'>Log in</NavLink>
                     </div> 

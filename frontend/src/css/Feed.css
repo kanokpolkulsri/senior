@@ -1,0 +1,38 @@
+.header-feed{
+    background:linear-gradient( rgba(4, 140, 138, 0.81) 81%,rgba(4, 140, 138, 0.81)81%),url('../img/447.jpg');
+    position: absolute;
+    top:0;
+    height: 360px;
+    width:100%;
+    background-position-y: 13%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: -1;
+    text-align: center;
+    color:white;
+    vertical-align: middle;
+} 
+.feed-head-text{
+    position: absolute;
+    top:35%;
+    left:38%;
+    text-align: center;
+
+}
+.feed-content{
+    position: absolute;
+    top:360px;
+}
+.feed-logo{
+    font-weight: bold;
+    font-size: 30px;
+} 
+.feed-title{
+    font-size: 20px;
+}
+.announce-topic{
+    font-weight: bold;
+    margin-bottom: 5px;
+}

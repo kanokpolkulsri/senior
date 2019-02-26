@@ -34,8 +34,12 @@
 }
 
 
-span,a,p,h5{
+span,p,a,h5{
   font-family: 'cs_prajadregular'
+}
+.content{
+  font-family: 'sarabun';
+  font-size:20px;
 }
 @font-face {
   font-family: 'cs_prajadregular';
@@ -46,6 +50,10 @@ span,a,p,h5{
        url('../fonts/csprajad-webfont.svg#cs_prajadregular') format('svg');
   font-weight: normal;
   font-style: normal;
+}
+@font-face{
+  font-family: 'sarabun';
+  src: url('../fonts/THSarabunNew.ttf') format('truetype');
 }
 
 .topic{
