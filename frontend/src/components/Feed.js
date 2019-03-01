@@ -1,8 +1,13 @@
 import React from 'react'
 import '../css/Feed.css';
+import { Tag,message } from 'antd';
+
+import "antd/dist/antd.css";
 
 
 const API = require('../api/Feed')
+const CheckableTag = Tag.CheckableTag;
+
 const tagList = ["Application Development","Network","Data Science","IoT","etc."]
 /*
 const feed = {
@@ -80,11 +85,15 @@ class Feed extends React.Component {
         super(props)
         this.state = {
             name: "Feed",
-            selectedTags: [],
+            selectedTags: []
             // feed: feed
         }
     }
 
+    addTagClass = (checked) =>{
+        alert(checked)
+        return checked? "tag-check job-desc-checked" : "tag-check";
+    }
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
         const nextSelectedTags = checked
@@ -109,6 +118,8 @@ class Feed extends React.Component {
     }
 
     render() {
+        const { selectedTags } = this.state;
+
         return (
             <div>
                 <div className="header-feed">
@@ -132,19 +143,23 @@ class Feed extends React.Component {
                         โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น
                         </p>
                     <p className="feed-title">Company Lists</p>
-                    {/* {tagList.map(tag => (
+                    Job Description: {tagList.map(tag => (
                         <CheckableTag
-                            className="tag-check"
                             key={tag}
                             checked={selectedTags.indexOf(tag) > -1}
+                            className={checked => this.addTagClass(checked)}
                             onChange={checked => this.handleChange(tag, checked)}
                         >
                             {tag}
                         </CheckableTag>
-                        ))} */}
-                        <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <br/>
-                        <span className="content">บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด</span> <br/>
-                        <span className="content">บริษัท อัฟวาแลนท์ จำกัด</span> <br/>
+                        ))}
+                        <br/>
+                        <div class="set-of-company">
+                            <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <span className="tag job-desc-tag">Data Science</span> <br/>
+                            <span className="content">บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด</span> <br/>
+                            <span className="content">บริษัท อัฟวาแลนท์ จำกัด</span> <br/>
+                        </div>
+                  
                       
                 </div>
               

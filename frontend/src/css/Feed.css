@@ -36,3 +36,19 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
+.set-of-company{
+    margin-top: 10px;
+}
+.job-desc-tag{
+    background-color: #bebebe;
+    color:white;
+    text-transform: uppercase;
+    font-size:12px;
+}
+div.tag-check{
+    background-color: #bebebe;
+    color:white;
+}
+div.tag-check.job-desc-checked{
+    background-color: #F06050;
+}
