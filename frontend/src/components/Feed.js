@@ -1,6 +1,6 @@
 import React from 'react'
 import '../css/Feed.css';
-import { Tag,message } from 'antd';
+import { Tag,message,Row,Col,Button } from 'antd';
 
 import "antd/dist/antd.css";
 
@@ -9,9 +9,9 @@ const API = require('../api/Feed')
 const CheckableTag = Tag.CheckableTag;
 
 const tagList = ["Application Development","Network","Data Science","IoT","etc."]
-/*
+
 const feed = {
-    "_id" : ObjectId("5c726ee7e440f7d89bb87217"),
+    // "_id" : ObjectId("5c726ee7e440f7d89bb87217"),
     "Event" : [ 
         {
             "name" : "Getting to know more about Wongnai",
@@ -77,7 +77,7 @@ const feed = {
             ]
         }
     ]
-}*/
+}
 
 class Feed extends React.Component {
 
@@ -85,16 +85,11 @@ class Feed extends React.Component {
         super(props)
         this.state = {
             name: "Feed",
-            selectedTags: []
-            // feed: feed
+            selectedTags: [],
+            feed: feed
         }
     }
 
-    addTagClass = (tag) =>{
-        console.log(tag)
-        // alert(checked)
-        // return checked? "tag-check job-desc-checked" : "tag-check";
-    }
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
         const nextSelectedTags = checked
@@ -111,11 +106,11 @@ class Feed extends React.Component {
     getAnnouncement = () => {
         const announcement = this.state.feed.Announcement.map((option,idx)=>
             <div>
-                <p className="content">{option.title}</p>
-                <p className="content">{option.description}</p>
+                <p className="announce-topic content">{option.title}</p>
+                <p className="content announce-content">{option.description}</p>
             </div>
         );
-        return ({announcement});
+        return (announcement);
     }
 
     render() {
@@ -134,29 +129,41 @@ class Feed extends React.Component {
                 </div>
                 <div className="feed-content container">
                     <p className="feed-title">Upcoming Events</p>
+                    <div className="event-block pink">
+                        <div className="event-color-tab"></div>
+                        <Row>
+                            <Col span={4}>
+                                <span className="event-date">4</span>
+                            </Col>
+                            <Col span={19} offset={1}>
+                                <span className="event-month">February</span>
+                                <span className="event-time">13:00-16:00</span>
+                            </Col>
+                        </Row>
+                        <span className="event-name">Getting to know More About Wongnai</span><br/>
+                        <span className="event-place">place: E203</span>
+                        <span className="people-event-interest">23 people interested</span><br/>
+
+                        <Button icon="star" className="event-btn" block>interested</Button><br/>
+                    </div> 
                     <p className="feed-title">Announcement</p>
-                        <p className="announce-topic content">1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)</p>
-                        <p className="content">หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ) <br/>
-                        1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย <br/>
-                        2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก) <br/>
-                        3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก) <br/>
-                        4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ) <br/>
-                        โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น
-                        </p>
+                        {this.getAnnouncement()}
+                     
                     <p className="feed-title">Company Lists</p>
                     Job Description: {tagList.map(tag => (
                         <CheckableTag
+                            color="#F06050"
                             key={tag}
                             checked={selectedTags.indexOf(tag) > -1}
-                            className={this.addTagClass(tag)}
+                            className={"tag-check"}
                             onChange={checked => this.handleChange(tag, checked)}
                         >
                             {tag}
                         </CheckableTag>
                         ))}
                         <br/>
-                        <div class="set-of-company">
-                            <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <span className="tag job-desc-tag">Data Science</span> <br/>
+                        <div className="set-of-company">
+                            <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <span className="tag job-desc-tag pink">Data Science</span> <br/>
                             <span className="content">บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด</span> <br/>
                             <span className="content">บริษัท อัฟวาแลนท์ จำกัด</span> <br/>
                         </div>

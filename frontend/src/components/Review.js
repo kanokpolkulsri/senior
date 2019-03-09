@@ -1,12 +1,13 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
 import { NavLink } from "react-router-dom";
-import { Tag, Row, Col, Menu, Dropdown, Icon, message, } from 'antd';
+import { Tag, Row, Col, Select, Icon, message, } from 'antd';
 
 // var Template = require('./Review.jsx')
 import '../css/Review.css';
 import "antd/dist/antd.css";
 
+const Option = Select.Option;
 
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = ['Bus', 'BTS', 'MRT'];
@@ -19,9 +20,14 @@ class Review extends React.Component {
         super(props)
         this.state = {
             selectedTags: [],
-            allreview: review
+            allreview: review,
+            paymentRange:  ["0-250","250-500","more than 500"]
         }
     }
+    handlePaymentChange = (value) => {
+        console.log(`selected ${value}`);
+      }
+      
 
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
@@ -36,13 +42,13 @@ class Review extends React.Component {
         message.info(`Click on item ${key}`);
     };
 
-    menu = () =>{
-        const menuList = ["0-250","250-500","more than 500"]
-        const menuItem = menuList.map((option,idx)=>
-            <Menu.Item key={idx}>{option}</Menu.Item>
-        );
-        return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
-    }
+    // menu = () =>{
+    //     const menuList = ["0-250","250-500","more than 500"]
+    //     const menuItem = menuList.map((option,idx)=>
+    //         <Menu.Item key={idx}>{option}</Menu.Item>
+    //     );
+    //     return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
+    // }
     genJobDesc = (j) => {
         let jobDesc = this.state.allreview[j].jobDescriptionTitle[0];
         for(var i = 1;i < this.state.allreview[j].jobDescriptionTitle.length;i++){
@@ -112,11 +118,12 @@ class Review extends React.Component {
                             </label>
                         </div>
                         <span className="filter-topic">Payment Range</span>
-                        <Dropdown overlay={this.menu}>
-                            <a className="ant-dropdown-link" href="#">
-                            Hover me, Click menu item <Icon type="down" />
-                            </a>
-                        </Dropdown>
+                        <Select    
+                        placeholder="Select a payment range"
+                        style={{ width: 200 }} onChange={this.handlePaymentChange()}>
+                            {this.state.paymentRange.map(range => <Option key={range}>{range}</Option>)}
+
+                        </Select>
                         <span className="filter-topic">Transportation options</span>
                         {tagsFromServer.map(tag => (
                         <CheckableTag

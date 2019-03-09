@@ -25,12 +25,16 @@
     position: absolute;
     top:360px;
 }
+.announce-content{
+    white-space: pre-wrap;
+}
 .feed-logo{
     font-weight: bold;
     font-size: 30px;
 } 
 .feed-title{
     font-size: 20px;
+    margin: 10px 0px;
 }
 .announce-topic{
     font-weight: bold;
@@ -49,6 +53,82 @@ div.tag-check{
     background-color: #bebebe;
     color:white;
 }
-div.tag-check.job-desc-checked{
+div.tag-check.ant-tag-checkable-checked{
     background-color: #F06050;
+}
+div.tag-check.ant-tag-checkable:hover{
+    color: #F06050;
+}
+div.ant-tag-checkable:not(.ant-tag-checkable-checked):hover{
+    background-color: #bebebe;
+}
+div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked{
+    color:white;
+}
+/* div.tag-check.ant-tag-checkable.ant-tag-checkable-checked::selection{
+    background: #F06050;
+} */
+/* event */
+.event-block{
+    display: inline-block;
+    position: relative;
+    height: 280px;
+    width: 300px;
+    border:1px solid #d9d9d9;
+    border-radius: 10px;
+    padding: 10px 25px;
+}
+.event-color-tab{
+    position: absolute;
+    width:9px;
+    height: 50px;
+    top:25px;
+    left:0px;
+}
+
+.event-date{
+    font-size: 70px;
+    font-weight: bold;
+    line-height: 85px;
+}
+.event-month{
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top:10px;    
+    display: block;
+}
+.event-name{
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 18px;
+}
+Button.event-btn{
+    text-transform: uppercase;
+    color:white;
+    border:none;
+}
+.event-btn i{
+    vertical-align: baseline;
+}
+.event-place{
+    display: block;
+    /* margin-bottom:5px; */
+}
+.people-event-interest{
+    padding:5px 0px;
+    display: block;
+    margin-bottom:8px;
+}
+
+/* color zone */
+.job-desc-tag.pink{
+    background-color: #F06050;
+}
+.pink .event-color-tab, .pink .event-btn{
+    background-color: #F06050;
+}
+.pink .event-btn:hover{
+    color:#F06050;
+    border: 1px solid #F06050;
 }
