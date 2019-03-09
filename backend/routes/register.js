@@ -24,4 +24,11 @@ router.post('/login', (req, res, next) => {
     }
 })
 
+router.post('/new', (req, res, next) => {
+    const DB_REGISTER = req.app.locals.DB_REGISTER
+    DB_REGISTER.insertOne(req.body)
+    .then(() => res.send({"newaccount": true}))
+    .catch(() => res.send({"newaccount": false}))
+})
+
 module.exports = router;

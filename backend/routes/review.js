@@ -13,9 +13,24 @@ router.get('/', (req, res, next) => {
 
 router.get('/:_id', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
-  DB_REVIEW.find({"_id" : mongo.ObjectID(req.params._id)}).toArray()
+  DB_REVIEW.find({_id: mongo.ObjectID(req.params._id)}).toArray()
   .then(response => res.send(response))
   .catch(error => res.send(error))
+});
+
+router.post('/new', (req, res, next) => {
+  const DB_REVIEW = req.app.locals.DB_REVIEW
+  DB_REVIEW.insertOne(req.body)
+  .then(() => res.send({"newreview": true}))
+  .catch(() => res.send({"newreview": false}))
+});
+
+router.post('/update', (req, res, next) => {
+  const DB_REVIEW = req.app.locals.DB_REVIEW
+  req.body._id = mongo.ObjectID(req.body._id)
+  DB_REVIEW.updateOne({_id: req.body._id}, {$set: req.body})
+  .then(() => res.send({"updatereview": true}))
+  .catch(() => res.send({"updatereview": false}))
 });
 
 module.exports = router;
