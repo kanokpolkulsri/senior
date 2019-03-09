@@ -90,9 +90,10 @@ class Feed extends React.Component {
         }
     }
 
-    addTagClass = (checked) =>{
-        alert(checked)
-        return checked? "tag-check job-desc-checked" : "tag-check";
+    addTagClass = (tag) =>{
+        console.log(tag)
+        // alert(checked)
+        // return checked? "tag-check job-desc-checked" : "tag-check";
     }
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
@@ -147,7 +148,7 @@ class Feed extends React.Component {
                         <CheckableTag
                             key={tag}
                             checked={selectedTags.indexOf(tag) > -1}
-                            className={checked => this.addTagClass(checked)}
+                            className={this.addTagClass(tag)}
                             onChange={checked => this.handleChange(tag, checked)}
                         >
                             {tag}
