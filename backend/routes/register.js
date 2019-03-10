@@ -31,4 +31,12 @@ router.post('/new', (req, res, next) => {
     .catch(() => res.send({"newaccount": false}))
 })
 
+router.post('/forget', (req, res, next) => {
+  const DB_REGISTER = req.app.locals.DB_REGISTER
+  let username = req.body.username
+  DB_REGISTER.find({username: username}).toArray()
+  .then(response => res.send({"forget": true, "password": response[0].password}))
+  .catch(() => res.send({"forget": false}))
+})
+
 module.exports = router;
