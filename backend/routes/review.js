@@ -33,4 +33,12 @@ router.post('/update', (req, res, next) => {
   .catch(() => res.send({"updatereview": false}))
 });
 
+router.post('/delete', (req, res, next) => {
+  const DB_REVIEW = req.app.locals.DB_REVIEW
+  req.body._id = mongo.ObjectID(req.body._id)
+  DB_REVIEW.remove({_id: req.body._id})
+  .then(() => res.send({"deletereview": true}))
+  .catch(() => res.send({"deletereview": false}))
+});
+
 module.exports = router;
