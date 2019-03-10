@@ -59,11 +59,17 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
 .then(client => {
   const db = client.db("Backend");
   const review = db.collection("Review");
-  const feed = db.collection("Feed");
+  // const feed = db.collection("Feed");
   const register = db.collection("Register");
-  app.locals.DB_REVIEW = review;
-  app.locals.DB_FEED = feed;
-  app.locals.DB_REGISTER = register;
+  const feed_event = db.collection("Feed_Event")
+  const feed_annoucement = db.collection("Feed_Annoucement")
+  const feed_company = db.collection("Feed_Company")
+  app.locals.DB_REVIEW = review
+  // app.locals.DB_FEED = feed
+  app.locals.DB_REGISTER = register
+  app.locals.DB_FEED_EVENT = feed_event
+  app.locals.DB_FEED_ANNOUCEMENT = feed_annoucement
+  app.locals.DB_FEED_COMPANY = feed_company
 })
 .catch(error => console.error(error));
 
