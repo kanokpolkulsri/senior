@@ -18,27 +18,27 @@ router.get('/:_id', (req, res, next) => {
   .catch(error => res.send(error))
 });
 
-router.post('/new', (req, res, next) => {
+router.post('/add', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.insertOne(req.body)
-  .then(() => res.send({"newreview": true}))
-  .catch(() => res.send({"newreview": false}))
+  .then(() => res.send({"add": true}))
+  .catch(() => res.send({"add": false}))
 });
 
 router.post('/update', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   req.body._id = mongo.ObjectID(req.body._id)
   DB_REVIEW.updateOne({_id: req.body._id}, {$set: req.body})
-  .then(() => res.send({"updatereview": true}))
-  .catch(() => res.send({"updatereview": false}))
+  .then(() => res.send({"update": true}))
+  .catch(() => res.send({"update": false}))
 });
 
 router.post('/delete', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   req.body._id = mongo.ObjectID(req.body._id)
   DB_REVIEW.remove({_id: req.body._id})
-  .then(() => res.send({"deletereview": true}))
-  .catch(() => res.send({"deletereview": false}))
+  .then(() => res.send({"delete": true}))
+  .catch(() => res.send({"delete": false}))
 });
 
 module.exports = router;
