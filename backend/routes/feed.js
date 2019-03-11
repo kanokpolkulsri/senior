@@ -5,7 +5,7 @@ let mongo = require('mongodb')
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-  res.send('/:path')
+  res.send('/:categorization/:function')
 });
 
 /* EVENT */
