@@ -29,6 +29,10 @@ i.fa{
 .filter-topic:first-child{
     margin:0px
 }
+.form-check-label{
+    font-size: 20px;
+    font-family: 'sarabun';
+}
 /* .company{
     padding: 20px;
 } */

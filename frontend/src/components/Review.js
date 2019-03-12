@@ -1,7 +1,7 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
 import { NavLink } from "react-router-dom";
-import { Tag, Row, Col, Select, Icon, message, } from 'antd';
+import { Tag, Row, Col, Select, message, } from 'antd';
 
 // var Template = require('./Review.jsx')
 import '../css/Review.css';

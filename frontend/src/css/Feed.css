@@ -16,8 +16,9 @@
 } 
 .feed-head-text{
     position: absolute;
-    top:35%;
-    left:38%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
     text-align: center;
 
 }
@@ -43,9 +44,12 @@
 .set-of-company{
     margin-top: 10px;
 }
+.feed-company-name{
+    margin-right: 5px;
+}
 .job-desc-tag{
-    background-color: #bebebe;
-    color:white;
+    color: #bebebe;
+    /* color:white; */
     text-transform: uppercase;
     font-size:12px;
 }
@@ -69,14 +73,24 @@ div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked{
     background: #F06050;
 } */
 /* event */
+.all-event{
+    height:auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    overflow: hidden;
+}
 .event-block{
     display: inline-block;
     position: relative;
-    height: 280px;
+    justify-content: flex-start;
+    /* height: 280px; */
     width: 300px;
     border:1px solid #d9d9d9;
     border-radius: 10px;
     padding: 10px 25px;
+    margin-right:10px;
+    vertical-align:top
 }
 .event-color-tab{
     position: absolute;
@@ -107,9 +121,12 @@ Button.event-btn{
     text-transform: uppercase;
     color:white;
     border:none;
+    position:absolute;
+    bottom: 20px;
+    width: 83%;
 }
-.event-btn i{
-    vertical-align: baseline;
+Button.event-btn.clicked{
+    background-color: transparent;
 }
 .event-place{
     display: block;
@@ -120,6 +137,10 @@ Button.event-btn{
     display: block;
     margin-bottom:8px;
 }
+.event-btn i.material-icons{
+    font-size: medium;
+    vertical-align: text-bottom;
+}
 
 /* color zone */
 .job-desc-tag.pink{
@@ -128,7 +149,28 @@ Button.event-btn{
 .pink .event-color-tab, .pink .event-btn{
     background-color: #F06050;
 }
-.pink .event-btn:hover{
+.pink .event-btn:hover,.pink .event-btn.clicked{
     color:#F06050;
     border: 1px solid #F06050;
+}
+.orange .event-color-tab, .orange .event-btn{
+    background-color: #EF9033;
+}
+.orange .event-btn:hover,.orange .event-btn.clicked , .orange .event-btn:focus{
+    color:#EF9033;
+    border: 1px solid #EF9033;
+}
+.green .event-color-tab, .green .event-btn{
+    background-color: #00C7AB;
+}
+.green .event-btn:hover,.green .event-btn.clicked , .green .event-btn:focus{
+    color:#00C7AB;
+    border: 1px solid #00C7AB;
+}
+.blue .event-color-tab, .blue .event-btn{
+    background-color: #415C71;
+}
+.blue .event-btn:hover, .blue .event-btn:focus{
+    color:#415C71;
+    border: 1px solid #415C71;
 }

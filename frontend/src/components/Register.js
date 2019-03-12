@@ -1,10 +1,17 @@
 import React from 'react'
 import {  Route, Switch, Link } from 'react-router-dom'
 
+import '../css/Register.css';
+
+
 class Register extends React.Component {
     render() {
         return (
-            <div>
+            <div class="regis-container">
+              <div class="login-block">
+                <div class="green-block">
+                </div>
+              </div>
                     <Link to="/signup">Sign Up</Link>
                     <Link to="/login">Log In</Link>
 

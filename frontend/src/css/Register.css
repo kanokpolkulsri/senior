@@ -1,0 +1,16 @@
+.regis-container{
+    position: relative;
+    height:100%;
+}
+.login-block{
+    width:850px;
+    height: 450px;
+    border: 1px solid #dedede;
+    border-radius:3px;
+    margin: 80px auto;
+}
+.green-block{
+    width: 425px;
+    height: 100%;
+    background-color: #048C8A;
+}

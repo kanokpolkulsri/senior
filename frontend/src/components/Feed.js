@@ -8,7 +8,7 @@ import "antd/dist/antd.css";
 const API = require('../api/Feed')
 const CheckableTag = Tag.CheckableTag;
 
-const tagList = ["Application Development","Network","Data Science","IoT","etc."]
+const tagList = ["application","network","data science","iot","etc"]
 
 const feed = {
     // "_id" : ObjectId("5c726ee7e440f7d89bb87217"),
@@ -43,7 +43,7 @@ const feed = {
             "category" : [ 
                 "application", 
                 "network", 
-                "datascience", 
+                "data science", 
                 "consulting", 
                 "iot", 
                 "etc"
@@ -64,7 +64,7 @@ const feed = {
             "url" : "github.com/ton2plam",
             "category" : [ 
                 "network", 
-                "datascience", 
+                "data science", 
                 "etc"
             ]
         }, 
@@ -72,7 +72,7 @@ const feed = {
             "name" : "บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด",
             "url" : "www.instagram.com/tonplamm",
             "category" : [ 
-                "datascience", 
+                "data science", 
                 "etc"
             ]
         }
@@ -86,23 +86,34 @@ class Feed extends React.Component {
         this.state = {
             name: "Feed",
             selectedTags: [],
-            feed: feed
+            feed: feed,
+            eventColor: ["pink","orange","green","blue"],
+            interest: "  interested"
         }
+        // this.eventInterest = this.eventInterest.bind(this)
+        // this.hadleChange = this.handleChange.bind(this)
+        // this.getAnnouncement = this.getAnnouncement.bind(this)
+        // this.getEvent = this.getEvent.bind(this)
+        // this.onClick = this.onClick.bind(this)
     }
 
 
-    handleChange = (tag, checked) => {
-        const { selectedTags } = this.state;
-        const nextSelectedTags = checked
-          ? [...selectedTags, tag]
-          : selectedTags.filter(t => t !== tag);
-        console.log('You are interested in: ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags });
-      }
+  
 
     onClick = ({ key }) => {
         message.info(`Click on item ${key}`);
+
     };
+
+    eventInterest = (e) => {
+        console.log(e.target)
+        e.target.classList.toggle("clicked")
+        e.target.blur();
+        var icon = '<i className="material-icons">star_border</i>'
+        if(e.target.classList.contains("clicked"))
+            var icon = '<i className="material-icons">check</i>'
+        e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
+    }
 
     getAnnouncement = () => {
         const announcement = this.state.feed.Announcement.map((option,idx)=>
@@ -112,6 +123,64 @@ class Feed extends React.Component {
             </div>
         );
         return (announcement);
+    }
+    getEvent = () => {
+        const event = this.state.feed.Event.map((option,idx)=>
+            <div className={`event-block ${this.state.eventColor[idx%4]}`}>
+                <div className="event-color-tab"></div>
+                <Row>
+                    <Col span={4}>
+                        <span className="event-date">4</span>
+                    </Col>
+                    <Col span={19} offset={1}>
+                        <span className="event-month">February</span>
+                        <span className="event-time">13:00-16:00</span>
+                    </Col>
+                </Row>
+                <span className="event-name">{option.name}</span><br/>
+                <span className="event-place">place: {option.location}</span>
+                <span className="people-event-interest">{option.register} people interested</span><br/>
+                <Button onClick={this.eventInterest} className="event-btn"><i className="material-icons">star_border</i> { this.state.interest }</Button><br/>
+            </div> 
+        );
+        return event;
+    }
+    genCompany = () =>{
+        const company = [];
+        for(var i = 0; i < this.state.feed.Company.length; i++){
+            var checkTag = false;
+            var cat = this.state.feed.Company[i].category;
+            var allTag = [];
+            for(var j = 0; j < cat.length; j++){
+                if(this.state.selectedTags.includes(cat[j]))
+                    checkTag = true;
+                allTag.push( <span className="tag job-desc-tag" key={j}>{cat[j]}</span> )
+            }
+               
+            if(checkTag || this.state.selectedTags.length === 0){
+                console.log("check")
+                company.push(   
+                    <div className="company">
+                    <span className="content feed-company-name">{this.state.feed.Company[i].name}</span> 
+                    {allTag}
+                    <br/>  
+                    </div>  
+                )
+            }
+                
+        }
+        return company
+    }
+
+    handleChange = (tag, checked) => {
+        const { selectedTags } = this.state;
+        const nextSelectedTags = checked
+          ? [...selectedTags, tag]
+          : selectedTags.filter(t => t !== tag);
+        console.log('You are interested in: ', nextSelectedTags);
+        this.setState({ selectedTags: nextSelectedTags });
+
+        this.genCompany();
     }
 
     render() {
@@ -130,23 +199,9 @@ class Feed extends React.Component {
                 </div>
                 <div className="feed-content container">
                     <p className="feed-title">Upcoming Events</p>
-                    <div className="event-block pink">
-                        <div className="event-color-tab"></div>
-                        <Row>
-                            <Col span={4}>
-                                <span className="event-date">4</span>
-                            </Col>
-                            <Col span={19} offset={1}>
-                                <span className="event-month">February</span>
-                                <span className="event-time">13:00-16:00</span>
-                            </Col>
-                        </Row>
-                        <span className="event-name">Getting to know More About Wongnai</span><br/>
-                        <span className="event-place">place: E203</span>
-                        <span className="people-event-interest">23 people interested</span><br/>
-
-                        <Button icon="star" className="event-btn" block>interested</Button><br/>
-                    </div> 
+                    <div className="all-event">
+                      {this.getEvent()}
+                    </div>
                     <p className="feed-title">Announcement</p>
                         {this.getAnnouncement()}
                      
@@ -164,9 +219,7 @@ class Feed extends React.Component {
                         ))}
                         <br/>
                         <div className="set-of-company">
-                            <span className="content">บริษัท เอ-โฮสต์ จำกัด</span> <span className="tag job-desc-tag pink">Data Science</span> <br/>
-                            <span className="content">บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด</span> <br/>
-                            <span className="content">บริษัท อัฟวาแลนท์ จำกัด</span> <br/>
+                            {this.genCompany()}
                         </div>
                   
                       
