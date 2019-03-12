@@ -10,6 +10,7 @@ let register = require('./routes/register');
 let feed = require('./routes/feed');
 let report = require('./routes/report');
 let review = require('./routes/review');
+let schedule = require('./routes/schedule');
 
 let app = express();
 
@@ -35,6 +36,7 @@ app.use('/register', register);
 app.use('/feed', feed);
 app.use('/report', report);
 app.use('/review', review);
+app.use('/schedule', schedule);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,11 +61,17 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
 .then(client => {
   const db = client.db("Backend");
   const review = db.collection("Review");
-  const feed = db.collection("Feed");
   const register = db.collection("Register");
-  app.locals.DB_REVIEW = review;
-  app.locals.DB_FEED = feed;
-  app.locals.DB_REGISTER = register;
+  const feed_event = db.collection("Feed_Event")
+  const feed_annoucement = db.collection("Feed_Annoucement")
+  const feed_company = db.collection("Feed_Company")
+  const schedule = db.collection("Schedule")
+  app.locals.DB_REVIEW = review
+  app.locals.DB_REGISTER = register
+  app.locals.DB_FEED_EVENT = feed_event
+  app.locals.DB_FEED_ANNOUCEMENT = feed_annoucement
+  app.locals.DB_FEED_COMPANY = feed_company
+  app.locals.DB_SCHEDULE = schedule
 })
 .catch(error => console.error(error));
 

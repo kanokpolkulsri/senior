@@ -98,7 +98,6 @@ class Feed extends React.Component {
     }
 
 
-  
 
     onClick = ({ key }) => {
         message.info(`Click on item ${key}`);
@@ -182,6 +181,7 @@ class Feed extends React.Component {
 
         this.genCompany();
     }
+
 
     render() {
         const { selectedTags } = this.state;
