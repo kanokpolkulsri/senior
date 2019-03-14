@@ -49,7 +49,7 @@ class Navigation extends React.Component {
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
                         <Divider className="divider" type="vertical" />
-                        <NavLink className="nav-menu" to='/Report'>My Assignment</NavLink>
+                        <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
                         <NavLink className="login-btn" to='/Login'>Log in</NavLink>
                     </div> 
                 </Col> 
