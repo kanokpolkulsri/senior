@@ -12,8 +12,8 @@ router.get('/', (req, res, next) => {
 router.get('/event', (req, res, next) => {
   const DB_FEED_EVENT = req.app.locals.DB_FEED_EVENT
   DB_FEED_EVENT.find({}).toArray()
-  .then(response => res.send(response))
-  .catch(error => res.send(error))
+  .then(response => res.send({code: 1, data: response}))
+  .catch(() => res.send({code: 0, data: ""}))
 });
 
 router.post('/event/new', (req, res, next) => {
@@ -43,8 +43,8 @@ router.post('/event/delete', (req, res, next) => {
 router.get('/annoucement', (req, res, next) => {
   const DB_FEED_ANNOUCEMENT = req.app.locals.DB_FEED_ANNOUCEMENT
   DB_FEED_ANNOUCEMENT.find({}).toArray()
-  .then(response => res.send(response))
-  .catch(error => res.send(error))
+  .then(response => res.send({code: 1, data: response}))
+  .catch(() => res.send({code: 0, data: ""}))
 });
 
 router.post('/annoucement/new', (req, res, next) => {
@@ -74,8 +74,8 @@ router.post('/annoucement/delete', (req, res, next) => {
 router.get('/company', (req, res, next) => {
   const DB_FEED_COMPANY = req.app.locals.DB_FEED_COMPANY
   DB_FEED_COMPANY.find({}).toArray()
-  .then(response => res.send(response))
-  .catch(error => res.send(error))
+  .then(response => res.send({code: 1, data: response}))
+  .catch(() => res.send({code: 0, data: ""}))
 });
 
 router.post('/company/new', (req, res, next) => {

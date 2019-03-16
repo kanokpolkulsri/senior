@@ -57,15 +57,20 @@ class LogInForm extends React.Component {
         console.log('Received values of form: ', values);
         
         /* PLAM IS HERE */
-        API_REGISTER.LOGIN(values)
+        API_REGISTER.POST_LOGIN(values)
         .then(response => {
           if(response.code === 1){
-            // successfully login
-            // response.data.username
-            // response.data.firstname
-            // response.data.lastname
-          }else{
-            // not successfully login
+            // request successfully
+
+            // response.data
+
+            /*
+            data = {
+              username: "5810504361",
+              firstname: "kanokpol",
+              lastname: "kulsri"
+            }
+            */
           }
         })
 
@@ -147,13 +152,19 @@ class SignUpForm extends React.Component {
         console.log('Received values of form: ', values);
         
         /* PLAM IS HERE */
-        API_REGISTER.ADD(values)
+        API_REGISTER.POST_ADD(values)
         .then(response => {
           if(response.code === 1){
-            // successfully add account
-            // response.data.username
-          }else{
-            // not successfully add account
+            console.log(response.data)
+            // request successfully
+
+            // response.data
+
+            /*
+            data = {
+              username: "5810504361"
+            }
+            */
           }
         })
       }
