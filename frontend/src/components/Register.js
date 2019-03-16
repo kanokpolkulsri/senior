@@ -6,6 +6,7 @@ import {
 
 import '../css/Register.css';
 
+const API_REGISTER = require('../api/Register')
 
 class Register extends React.Component {
   constructor(props) {
@@ -54,6 +55,21 @@ class LogInForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        
+        
+        API_REGISTER.LOGIN(values)
+        .then(response => {
+          if(response.code === 1){
+            // successfully login
+            // response.data.username
+            // response.data.firstname
+            // response.data.lastname
+          }else{
+            // not successfully login
+          }
+        })
+
+        
       }
     });
   }
@@ -63,7 +79,7 @@ class LogInForm extends React.Component {
     <div className="white-block login">
         <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />

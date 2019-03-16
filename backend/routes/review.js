@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-
 let mongo = require('mongodb')
 
 /* GET users listing. */

@@ -4,7 +4,6 @@ import { Tag,message,Row,Col,Button } from 'antd';
 
 import "antd/dist/antd.css";
 
-
 const API = require('../api/Feed')
 const CheckableTag = Tag.CheckableTag;
 
