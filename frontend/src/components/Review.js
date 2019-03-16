@@ -3,6 +3,7 @@ import StarRatings from 'react-star-ratings';
 import { NavLink } from "react-router-dom";
 import { Tag, Row, Col, Select, message, } from 'antd';
 
+
 // var Template = require('./Review.jsx')
 import '../css/Review.css';
 import "antd/dist/antd.css";
@@ -14,6 +15,7 @@ const tagsFromServer = ['Bus', 'BTS', 'MRT'];
 
 const review = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","jobDescriptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"]}];
 
+const API_REVIEW = require('../api/Review')
 
 class Review extends React.Component {
     constructor(props) {
@@ -96,6 +98,41 @@ class Review extends React.Component {
             )
             
         return result
+    }
+
+    componentDidMount = () => {
+        API_REVIEW.GET_DATA()
+        .then(response => {
+            console.log(response)
+            if(response.code === 1){
+                // request successfully
+
+                // response.data
+
+                /*
+                data = [
+                    {
+                        companyName: "ExxonMobil Limited",
+                        jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
+                        logo: "logo.png",
+                        payment: 500,
+                        star: 3,
+                        transportationTitle: (3) ["bts", "mrt", "bus"],
+                        _id: "5c6ba5a8e440f7d89bb8619f"
+                    },
+                    {
+                        companyName: "ExxonMobil Limited",
+                        jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
+                        logo: "logo.png",
+                        payment: 500,
+                        star: 3,
+                        transportationTitle: (3) ["bts", "mrt", "bus"],
+                        _id: "5c6ba5a8e440f7d89bb8619f"
+                    }
+                ]
+                */
+            }
+        })
     }
 
     render() {

@@ -203,7 +203,6 @@ class Feed extends React.Component {
         })
         API_FEED.GET_ANNOUCEMENT()
         .then(response => {
-            console.log(response)
             if(response.code === 1){
                 //request successfully
 
