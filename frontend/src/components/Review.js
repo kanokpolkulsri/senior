@@ -72,7 +72,7 @@ class Review extends React.Component {
             <Row>
             <div className="company-detail">
                 <Col span={20}>
-                    <NavLink to={`${this.props.match.url}/exxon mobil`} component="">{option.companyName}</NavLink>
+                    <NavLink to={`${this.props.match.url}/5c6ba5a8e440f7d89bb8619f`} component="">{option.companyName}</NavLink>
                     <p> Job description: {this.genJobDesc(idx)} <br/>
                         Payment: {option.payment} Baht <br/>
                         Transportation option: {this.getTransTag(idx)}

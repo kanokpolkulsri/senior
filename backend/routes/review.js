@@ -18,11 +18,12 @@ router.get('/search', (req, res, next) => {
   .catch(() => res.send({code: 0, data: ""}))
 });
 
-router.get('/:_id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
-  DB_REVIEW.find({_id: mongo.ObjectID(req.params._id)}).toArray()
-  .then(response => res.send({code: 1, data: response}))
+  DB_REVIEW.find({_id: mongo.ObjectID(req.params.id)}).toArray()
+  .then(response => res.send({code: 1, data: response[0]}))
   .catch(() => res.send({code: 0, data: ""}))
+  return "hi"
 });
 
 router.post('/add', (req, res, next) => {

@@ -25,13 +25,13 @@ class App extends Component {
           <Navigation></Navigation>
           <Switch>
             <Route path='/' component={Feed} exact />
-            <Route path='/Login' component={Register} />
-            <Route path='/Signup' component={Register} />
-            <Route path='/Schedule' component={Report} />
+            <Route path='/login' component={Register} />
+            <Route path='/signup' component={Register} />
+            <Route path='/schedule' component={Report} />
             <Route path='/assignment' component={Report} />
-            <Route path='/Review/:company' component={ReviewCompany}/>
-            <Route path='/Review' component={Review} />
-            <Route path='/FAQ' component={FAQ} />
+            <Route path='/review/:company' component={ReviewCompany}/>
+            <Route path='/review' component={Review} />
+            <Route path='/faq' component={FAQ} />
             <Route component={Error} />
           </Switch>
         </div>

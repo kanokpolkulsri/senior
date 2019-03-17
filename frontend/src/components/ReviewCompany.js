@@ -7,6 +7,8 @@ import '../css/ReviewCompany.css';
 import '../css/Review.css';
 import "antd/dist/antd.css";
 
+const API_REVIEW = require('../api/Review')
+
 const Panel = Collapse.Panel;
 
 const rvcpn = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","companyBackground":"Exxon Mobil Corporation, doing business as ExxonMobil, is an American multinational oil and gas corporation headquartered in Irving, Texas. It is the largest direct descendant of John D. Rockefeller's Standard Oil Company, and was formed on November 30, 1999 by the merger of Exxon (formerly the Standard Oil Company of New Jersey) and Mobil (formerly the Standard Oil Company of New York). ExxonMobil's primary brands are Exxon, Mobil, Esso, and ExxonMobil Chemical.","jobDescriptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"jobDescriptionContent":{"Chatbot":"Chatbot content","Frontend Development":"Frontend Development content","Backend Development":"Backend Development content","Business Process Improvement":"Business Process Improvement content","SAP":"SAP content"},"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"],"transportation":{"bts":"BTS Saladang แล้วเดินผ่านลานจอดรถไปด้านหลังสีลมคอมเพล็กซ์ เดินตรงไปในซอย...","mrt":"MRT Silom จะไกลกว่าเดินจาก BTS เล็กน้อย เปิดกูเกิ้ลแมปเอานะ...","bus":"Bus..."},"activities":"กิจกรรมมีให้ทำเยอะมากๆๆๆ toastmaster อันนี้ช่วยฝึก public speaking ได้ดีมากๆ ให้ออกไปพูดตามหัวข้อข้างหน้าภาษาอังกฤษ UCD101 อันนี้สอนเกี่ยวกับ user centered design bootcamp อันนี้เค้าจะจำลอง startup ในบริษัท ให้เสนอไอเดีย รวมทีมละก็ตีๆๆไอเดียให้มันเวิร์กแล้ว pitch ขอทุนจากบริษัท เหมือนแข่งสตาร์ทอัพเลยย","previousIntern":[{"year":"2018","cpe":["Thanjira Sukkree"],"ske":["Piromsurang Rungserichai"]},{"year":"2017","cpe":["Thanjira Sukkree"],"ske":["Piromsurang Rungserichai"]}],"comments":[{"star":3,"content":"อยู่สีลมเลยมีที่ให้เลือกกินเยอะ ร้านอาหารแถวบอเยอะมากๆ แล้วก็ได้กินฟรีบ่อยมาก มีโอกาสได้รู้จักเพื่อนอินเทิร์นเยอะ เพราะมีกิจกรรมร่วมกันตลอด"},{"star":2,"content":"เพื่อนดี แต่งานชิวเกิน  ถ้าอยากได้ความรู้โปรแกรมมิ่งมากๆอาจจะไม่ชอบ"}]}];
@@ -97,6 +99,36 @@ class ReviewCompany extends React.Component {
 
     callback = (key) => {
         console.log(key);
+    }
+
+    componentDidMount(){
+        API_REVIEW.GET_DATA_ID_COMPANY(this.props.match.params.company)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                // request successfully
+
+                // response.data
+
+                /*
+                data = {
+                    activities: "กิจกรรมมีให้ทำเยอะมากๆๆๆ toastmaster อันนี้ช่วยฝึก public speaking ได้ดีมากๆ ให้ออกไปพูดตามหัวข้อข้างหน้าภาษาอังกฤษ UCD101 อันนี้สอนเกี่ยวกับ user centered design bootcamp อันนี้เค้าจะจำลอง startup ในบริษัท ให้เสนอไอเดีย รวมทีมละก็ตีๆๆไอเดียให้มันเวิร์กแล้ว pitch ขอทุนจากบริษัท เหมือนแข่งสตาร์ทอัพเลยย",
+                    comments: (2) [{…}, {…}],
+                    companyBackground: "Exxon Mobil Corporation, doing business as ExxonMobil, is an American multinational oil and gas corporation headquartered in Irving, Texas. It is the largest direct descendant of John D. Rockefeller's Standard Oil Company, and was formed on November 30, 1999 by the merger of Exxon (formerly the Standard Oil Company of New Jersey) and Mobil (formerly the Standard Oil Company of New York). ExxonMobil's primary brands are Exxon, Mobil, Esso, and ExxonMobil Chemical.",
+                    companyName: "ExxonMobil Limited",
+                    jobDescriptionContent: {Chatbot: "Chatbot content", Frontend Development: "Frontend Development content", Backend Development: "Backend Development content", Business Process Improvement: "Business Process Improvement content", SAP: "SAP content"},
+                    jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
+                    logo: "logo.png",
+                    payment: 500
+                    previousIntern: (2) [{…}, {…}],,
+                    star: 3,
+                    transportation: {bts: "BTS Saladang แล้วเดินผ่านลานจอดรถไปด้านหลังสีลมคอมเพล็กซ์ เดินตรงไปในซอย...", mrt: "MRT Silom จะไกลกว่าเดินจาก BTS เล็กน้อย เปิดกูเกิ้ลแมปเอานะ...", bus: "Bus..."},
+                    transportationTitle: (3) ["bts", "mrt", "bus"],
+                    _id: "5c6ba5a8e440f7d89bb8619f"
+                }
+                */
+            }
+        })
     }
 
     render() {
