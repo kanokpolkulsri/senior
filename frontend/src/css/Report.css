@@ -13,6 +13,8 @@ span.ant-avatar.report-avatar{
     font-weight: bold;
 }
 .report-name{
+    padding-left: 10px;
+    font-weight: bold;
     font-family: 'cs_prajadregular';
 }
 ul.report-type{
@@ -23,13 +25,50 @@ ul.report-type{
 ul.report-type li{
     padding: 15px;
     padding-left: 24px;
+    color:#555;
 }
+
 ul.report-type li.active{
     background-color: #F5F5F5;
+    border-left: 6px solid #008E7E;
 }
 .report-topic{
     padding: 24px 0px 0px 24px;
+    font-weight: bold;
 }
 .ant-card-body{
     padding:0px;
+}
+.ant-steps-item-finish .ant-steps-item-icon span.ant-steps-icon{
+    vertical-align: text-top;
+    color:#008E7E;
+
+}
+.ant-steps-item-process .ant-steps-item-icon{
+    background-color: #008E7E;
+    border-color: #008E7E;
+}
+.ant-steps-item-finish .ant-steps-item-icon{
+    border-color: #008E7E;
+}
+.ant-steps-item-finish > .ant-steps-item-tail::after{
+    background-color: #008E7E;
+}
+.ant-steps{
+    font-family: 'sarabun';
+}
+.ant-steps div.ant-steps-item-content .ant-steps-item-title{
+    font-size:20px;
+    color:black;
+}
+.ant-steps div.ant-steps-item-content .ant-steps-item-description{
+    font-size: 18px;
+    color:rgb(39, 39, 39);
+}
+thead.ant-table-thead th {
+    background: transparent;
+    color:#555;
+}
+tbody.ant-table-tbody {
+    border: 1px solid #e8e8e8;
 }
