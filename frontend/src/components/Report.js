@@ -113,6 +113,7 @@ class Schedule extends React.Component {
                         _id: "5c86765ff6da09a1aabd6951",
                     }
                 ]
+
                 */
             }
         })
@@ -180,7 +181,7 @@ class Assignment extends React.Component {
     genData = () => {
         console.log(this.props.match.params.filter)
         var tmp = this.props.match.params.filter
-        if(this.props.match.params.filter != 'all'){
+        if(this.props.match.params.filter !== 'all'){
             var filtered = this.state.data.filter(function(item) {
                 return item['status'].replace(/\s+/g, '').toLowerCase() === tmp;
               });

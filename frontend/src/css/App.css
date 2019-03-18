@@ -69,3 +69,36 @@ span,p,a,h5{
   margin-right: 5px;
   line-height: 20px;
 }
+
+/* menu */
+.col-menu{
+  border-right: 1px solid #ADADAD;
+  height: 100%;
+  padding-right: 0;
+}
+
+.menu-header{
+  display:block;
+  color:white;
+  background-color: #048C8A;
+  height:50px;
+  width:100%;
+  padding: 10px;
+}
+.menu-content{
+  padding: 15px;
+}
+.menu-ul{
+  list-style: none;
+  padding: 0px;
+  margin:0px;
+}
+.menu-ul li{
+  padding: 12px 20px;
+}
+.menu-ul a,a:hover{
+  color:black;
+}
+.menu-ul li.active{
+  background-color: #8DDDD4;
+}

@@ -5,6 +5,7 @@ import { Tag, Row, Col, Select, message, } from 'antd';
 
 
 // var Template = require('./Review.jsx')
+import '../css/App.css';
 import '../css/Review.css';
 import "antd/dist/antd.css";
 
@@ -142,11 +143,11 @@ class Review extends React.Component {
         
             <Row>
                 <Col span={6}>
-                <div className="col-search-filter">
-                    <span className="search-filter-header"><i className="fa fa-search"></i>  Search</span>
-                    <div className="search-filter-content"><input type="keyword" className="col-11 form-control" id="exampleInputKeyword1" aria-describedby="keywordHelp" placeholder="Enter any keyword"/></div>
-                    <span className="search-filter-header"><i className="material-icons">tune</i>  Filter</span>
-                    <div className="search-filter-content">
+                <div className="col-menu">
+                    <span className="menu-header"><i className="fa fa-search"></i>  Search</span>
+                    <div className="menu-content"><input type="keyword" className="col-11 form-control" id="exampleInputKeyword1" aria-describedby="keywordHelp" placeholder="Enter any keyword"/></div>
+                    <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
+                    <div className="menu-content">
                         <span className="filter-topic">Job Description</span>
                         <div className="form-check">
                             <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>

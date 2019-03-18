@@ -54,3 +54,6 @@
     color:white;
     border: 1px solid white;
 }
+.ant-col-15.ant-col-offset-3{
+    text-align: right;
+}

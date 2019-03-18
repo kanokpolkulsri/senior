@@ -41,7 +41,7 @@ class Navigation extends React.Component {
                 <Col span={6}>
                     <span className="web-logo">Internship Program  </span>
                 </Col>
-                <Col span={13} offset={5}>
+                <Col span={15} offset={3}>
                     <div className="nav"> 
                         <NavLink className="nav-menu" to='/'>Annoucement</NavLink>
                         <Divider className="divider" type="vertical" />
@@ -50,6 +50,8 @@ class Navigation extends React.Component {
                         <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
+                        <Divider className="divider" type="vertical" />
+                        <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
                         <NavLink className="login-btn" to='/Login'>Log in</NavLink>
                     </div> 
                 </Col> 

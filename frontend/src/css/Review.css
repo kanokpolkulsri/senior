@@ -1,20 +1,4 @@
-.col-search-filter{
-    border-right: 1px solid #707070;
-    height: 100%;
-    padding-right: 0;
-}
 
-.search-filter-header{
-    display:block;
-    color:white;
-    background-color: #048C8A;
-    height:50px;
-    width:100%;
-    padding: 10px;
-}
-.search-filter-content{
-    padding: 15px
-}
 i.material-icons {
     vertical-align: bottom;
 }
