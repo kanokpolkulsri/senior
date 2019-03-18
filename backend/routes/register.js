@@ -12,23 +12,24 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  if(req.body.username !== undefined && req.body.password !== undefined){
-    let username = req.body.username
-    let password = req.body.password
-    const DB_REGISTER = req.app.locals.DB_REGISTER
-    DB_REGISTER.find({username: username, password: password}).toArray()
-    .then(() => res.send({"login": true}))
-    .catch(() => res.send({"login": false}))
-  }else{
-    res.send({"login": false})
-  }
+  const DB_REGISTER = req.app.locals.DB_REGISTER
+  DB_REGISTER.find(req.body, {projection: {username: 1, firstname: 1, lastname: 1}}).toArray()
+  .then(response => {
+    if(response != []){
+      let data = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
+      res.send({code: 1, data: data})
+    }else{
+      res.send({code: 0, data: ""})
+    }
+  })
+  .catch(() => res.send({code: 0, response: ""}))
 })
 
 router.post('/add', (req, res, next) => {
   const DB_REGISTER = req.app.locals.DB_REGISTER
   DB_REGISTER.insertOne(req.body)
-  .then(() => res.send({"add": true}))
-  .catch(() => res.send({"add": false}))
+  .then(() => res.send({code: 1, data: {username: req.body.username}}))
+  .catch(() => res.send({code: 0, data: ""}))
 })
 
 router.post('/forget', (req, res, next) => {

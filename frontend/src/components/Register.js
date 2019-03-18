@@ -6,6 +6,7 @@ import {
 
 import '../css/Register.css';
 
+const API_REGISTER = require('../api/Register')
 
 class Register extends React.Component {
   constructor(props) {
@@ -54,6 +55,26 @@ class LogInForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        
+        /* PLAM IS HERE */
+        API_REGISTER.POST_LOGIN(values)
+        .then(response => {
+          if(response.code === 1){
+            // request successfully
+
+            // response.data
+
+            /*
+            data = {
+              username: "5810504361",
+              firstname: "kanokpol",
+              lastname: "kulsri"
+            }
+            */
+          }
+        })
+
+        
       }
     });
   }
@@ -63,7 +84,7 @@ class LogInForm extends React.Component {
     <div className="white-block login">
         <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
@@ -97,125 +118,152 @@ class SignUpForm extends React.Component {
   };
 
   handleConfirmBlur = (e) => {
-      const value = e.target.value;
-      this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    }
-  
-    compareToFirstPassword = (rule, value, callback) => {
-      const form = this.props.form;
-      if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
-      } else {
-        callback();
-      }
-    }
-  
-    validateToNextPassword = (rule, value, callback) => {
-      const form = this.props.form;
-      if (value && this.state.confirmDirty) {
-        form.validateFields(['confirm'], { force: true });
-      }
+    const value = e.target.value;
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+  }
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!');
+    } else {
       callback();
     }
-  
-    signupBackNext = () => {
-      console.log("A")
-      document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
-      document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+  }
+
+  validateToNextPassword = (rule, value, callback) => {
+    const form = this.props.form;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
     }
-    render(){
-      const { getFieldDecorator } = this.props.form;
-      const formItemLayout = {
-        labelCol: { span: 0 },
-        wrapperCol: { span: 24 },
-      };
-      const tailFormItemLayout = {
-        labelCol: { span: 0 },
-        wrapperCol: { span: 24,offset: 8 },
-      };
-      return (
-        <div className="white-block signup">
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <div className="first-page"> 
-          <Form.Item  {...formItemLayout} >
-              {getFieldDecorator('firstname', {
-                rules: [{ required: true, message: 'Please input your First name!' }],
-              })(
-                <Input placeholder="First Name" />
-              )}
-          </Form.Item>
-          <Form.Item  {...formItemLayout} >
-              {getFieldDecorator('lastname', {
-                rules: [{ required: true, message: 'Please input your Last name!' }],
-              })(
-                <Input placeholder="Last Name" />
-              )}
-          </Form.Item>
-          <Form.Item  {...formItemLayout} >
-              {getFieldDecorator('studentid', {
-                rules: [{ required: true, message: 'Please input your Student ID!' }],
-              })(
-                <Input placeholder="Student ID" />
-              )}
-          </Form.Item>
-          <Button onClick={this.signupBackNext} className="signup-next-button login-form-button">
-            Next <i className="material-icons">arrow_right_alt</i>
-          </Button>
-     
-        </div>
-      <div className="second-page hidden">
-      <Form.Item {...formItemLayout} >
-        {getFieldDecorator('email', {
-          rules: [{
-            type: 'email', message: 'The input is not valid E-mail!',
-          }, {
-            required: true, message: 'Please input your E-mail!',
-          }],
-        })(
-          <Input placeholder="E-mail"/>
-        )}
-      </Form.Item>
-      <Form.Item {...formItemLayout}
-       
-      >
-        {getFieldDecorator('password', {
-          rules: [{
-            required: true, message: 'Please input your password!',
-          }, {
-            validator: this.validateToNextPassword,
-          }],
-        })(
-          <Input type="password" placeholder="Password" />
-        )}
-      </Form.Item>
-      <Form.Item {...formItemLayout}
-      >
-        {getFieldDecorator('confirm', {
-          rules: [{
-            required: true, message: 'Please confirm your password!',
-          }, {
-            validator: this.compareToFirstPassword,
-          }],
-        })(
-          <Input type="password" placeholder="Confirm Password" onBlur={this.handleConfirmBlur} />
-        )}
-      </Form.Item>
-      <Row>
-        <Col span={10}>
-        <Button className="login-form-button" onClick={this.signupBackNext}><i className="material-icons arrow-left">
-        arrow_right_alt</i>Back</Button>
-        </Col>
-        <Col span={13} offset={1}>
-        <Form.Item  span={16} className="form-button">
-            <Button type="primary" htmlType="submit" className="regis-form-button" block>Sign Up</Button>
+    callback();
+  }
+
+  signupBackNext = () => {
+    console.log("A")
+    document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+    document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        
+        /* PLAM IS HERE */
+        API_REGISTER.POST_ADD(values)
+        .then(response => {
+          if(response.code === 1){
+            console.log(response.data)
+            // request successfully
+
+            // response.data
+
+            /*
+            data = {
+              username: "5810504361"
+            }
+            */
+          }
+        })
+      }
+    });
+  }
+
+  render(){
+    const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: { span: 0 },
+      wrapperCol: { span: 24 },
+    };
+    const tailFormItemLayout = {
+      labelCol: { span: 0 },
+      wrapperCol: { span: 24,offset: 8 },
+    };
+    return (
+      <div className="white-block signup">
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <div className="first-page"> 
+        <Form.Item  {...formItemLayout} >
+            {getFieldDecorator('firstname', {
+              rules: [{ required: true, message: 'Please input your First name!' }],
+            })(
+              <Input placeholder="First Name" />
+            )}
         </Form.Item>
-      </Col>
-      </Row>
-     
+        <Form.Item  {...formItemLayout} >
+            {getFieldDecorator('lastname', {
+              rules: [{ required: true, message: 'Please input your Last name!' }],
+            })(
+              <Input placeholder="Last Name" />
+            )}
+        </Form.Item>
+        <Form.Item  {...formItemLayout} >
+            {getFieldDecorator('username', {
+              rules: [{ required: true, message: 'Please input your Student ID!' }],
+            })(
+              <Input placeholder="Student ID" />
+            )}
+        </Form.Item>
+        <Button onClick={this.signupBackNext} className="signup-next-button login-form-button">
+          Next <i className="material-icons">arrow_right_alt</i>
+        </Button>
+    
       </div>
-      </Form>        
-          </div>
-      )
+    <div className="second-page hidden">
+    <Form.Item {...formItemLayout} >
+      {getFieldDecorator('email', {
+        rules: [{
+          type: 'email', message: 'The input is not valid E-mail!',
+        }, {
+          required: true, message: 'Please input your E-mail!',
+        }],
+      })(
+        <Input placeholder="E-mail"/>
+      )}
+    </Form.Item>
+    <Form.Item {...formItemLayout}
+      
+    >
+      {getFieldDecorator('password', {
+        rules: [{
+          required: true, message: 'Please input your password!',
+        }, {
+          validator: this.validateToNextPassword,
+        }],
+      })(
+        <Input type="password" placeholder="Password" />
+      )}
+    </Form.Item>
+    <Form.Item {...formItemLayout}
+    >
+      {getFieldDecorator('confirm', {
+        rules: [{
+          required: true, message: 'Please confirm your password!',
+        }, {
+          validator: this.compareToFirstPassword,
+        }],
+      })(
+        <Input type="password" placeholder="Confirm Password" onBlur={this.handleConfirmBlur} />
+      )}
+    </Form.Item>
+    <Row>
+      <Col span={10}>
+      <Button className="login-form-button" onClick={this.signupBackNext}><i className="material-icons arrow-left">
+      arrow_right_alt</i>Back</Button>
+      </Col>
+      <Col span={13} offset={1}>
+      <Form.Item  span={16} className="form-button">
+          <Button type="primary" htmlType="submit" className="regis-form-button" block>Sign Up</Button>
+      </Form.Item>
+    </Col>
+    </Row>
+    
+    </div>
+    </Form>        
+        </div>
+    )
     
 
   }

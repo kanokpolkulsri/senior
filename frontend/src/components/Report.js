@@ -4,6 +4,8 @@ import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 
 import '../css/Report.css';
 
+const API_REPORT = require('../api/Report')
+
 const Step = Steps.Step;
 
 
@@ -82,6 +84,39 @@ class Report extends React.Component {
 }
 
 class Schedule extends React.Component {  
+
+    constructor(props) {
+        super(props)
+        this.state = {"name":"plam"}
+    }
+
+    componentDidMount = () => {
+        API_REPORT.GET_SCHEDULE()
+        .then(response => {
+            if(response.code === 1){
+                // request success fully
+
+                // response.data
+
+                /*
+                data = [
+                    {
+                        deadline: "2019-04-30T23:59:59.000Z",
+                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
+                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
+                        _id: "5c86765ff6da09a1aabd6951",
+                    },
+                    {
+                        deadline: "2019-04-30T23:59:59.000Z",
+                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
+                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
+                        _id: "5c86765ff6da09a1aabd6951",
+                    }
+                ]
+                */
+            }
+        })
+    }
 
     render(){
         return (

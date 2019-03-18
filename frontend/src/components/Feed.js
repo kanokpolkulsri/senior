@@ -4,8 +4,7 @@ import { Tag,message,Row,Col,Button } from 'antd';
 
 import "antd/dist/antd.css";
 
-
-const API = require('../api/Feed')
+const API_FEED = require('../api/Feed')
 const CheckableTag = Tag.CheckableTag;
 
 const tagList = ["application","network","data science","iot","etc"]
@@ -90,18 +89,10 @@ class Feed extends React.Component {
             eventColor: ["pink","orange","green","blue"],
             interest: "  interested"
         }
-        // this.eventInterest = this.eventInterest.bind(this)
-        // this.hadleChange = this.handleChange.bind(this)
-        // this.getAnnouncement = this.getAnnouncement.bind(this)
-        // this.getEvent = this.getEvent.bind(this)
-        // this.onClick = this.onClick.bind(this)
     }
-
-
 
     onClick = ({ key }) => {
         message.info(`Click on item ${key}`);
-
     };
 
     eventInterest = (e) => {
@@ -180,6 +171,84 @@ class Feed extends React.Component {
         this.setState({ selectedTags: nextSelectedTags });
 
         this.genCompany();
+    }
+
+    componentDidMount = () => {
+        API_FEED.GET_EVENT()
+        .then(response => {
+            if(response.code === 1){
+                // request successfully
+
+                // response.data
+
+                /* 
+                data = [
+                    {
+                        date: "2019-02-02T16:00:00.000Z"
+                        location: "1st floor"
+                        name: "CPSK Job Fair"
+                        register: 178
+                        _id: "5c852a4fa7cd113ae7508727"
+                    },
+                    {
+                        date: "2019-02-02T16:00:00.000Z"
+                        location: "1st floor"
+                        name: "CPSK Job Fair"
+                        register: 178
+                        _id: "5c852a4fa7cd113ae7508727"
+                    }
+                ]
+                */
+            }
+        })
+        API_FEED.GET_ANNOUCEMENT()
+        .then(response => {
+            if(response.code === 1){
+                //request successfully
+
+                //response.data
+
+                /*
+                data = [
+                    {
+                        description: "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)↵1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย↵2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)↵3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)↵4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)↵โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น",
+                        title: "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+                        _id: "5c852a6aa7cd113ae7508736"
+                    },
+                    {
+                        description: "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)↵1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย↵2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)↵3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)↵4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)↵โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น",
+                        title: "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+                        _id: "5c852a6aa7cd113ae7508736"
+                    }
+                ]
+                */
+            }
+        })
+        API_FEED.GET_COMPANY()
+        .then(response => {
+            if(response.code === 1){
+                //request successfully
+
+                //response.data
+
+                /*
+                data = [
+                    {
+                        category: (6) ["application", "network", "datascience", "consulting", "iot", "etc"],
+                        name: "บริษัท เอ-โอสต์ จำกัด",
+                        url: "kanokpolkulsri.netlify.com",
+                        _id: "5c852a90a7cd113ae7508746"
+                    },
+                    {
+                        category: (2) ["datascience", "etc"],
+                        name: "บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด",
+                        url: "www.instagram.com/tonplamm",
+                        _id: "5c852aaba7cd113ae7508751"
+                    }
+                ]
+                */
+            }
+        })
     }
 
 
