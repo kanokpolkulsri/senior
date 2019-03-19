@@ -177,10 +177,10 @@ class SignUpForm extends React.Component {
       labelCol: { span: 0 },
       wrapperCol: { span: 24 },
     };
-    const tailFormItemLayout = {
-      labelCol: { span: 0 },
-      wrapperCol: { span: 24,offset: 8 },
-    };
+    // const tailFormItemLayout = {
+    //   labelCol: { span: 0 },
+    //   wrapperCol: { span: 24,offset: 8 },
+    // };
     return (
       <div className="white-block signup">
       <Form {...formItemLayout} onSubmit={this.handleSubmit}>

@@ -50,13 +50,13 @@ class Admin extends React.Component {
         return (
             <div>      
                 <Row>
-                    <Col span={6}>
+                    <Col span={5}>
                         <div className="col-menu">
                             <span className="menu-header"><i className="material-icons">assignment</i>  Announcement</span>
                             <ul className="menu-ul">
                                 <Link style={{ textDecoration: 'none' }} to="/admin/announcement/event" ><li ref="event" className="menu-li" >Upcoming Events</li></Link>
                                 <Link style={{ textDecoration: 'none' }} to="/admin/announcement/announcement" ><li ref="announcement" className="menu-li" >Announcement</li></Link>
-                                <Link style={{ textDecoration: 'none' }} to="/admin/announcement/companylist" ><li ref="company" className="menu-li">Company Lists</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to="/admin/announcement/companylist" ><li ref="companylist" className="menu-li">Company Lists</li></Link>
 
                             </ul>
                             <span className="menu-header"><i className="material-icons">assignment</i>  FAQs</span>
@@ -74,7 +74,7 @@ class Admin extends React.Component {
                             </div>
                         </div>
                     </Col>
-                    <Col>
+                    <Col span={18} className="admin-workarea" >
 
                         <Switch>
                             <Route path="/admin/announcement/:topic" component={Announcement}/>
@@ -91,7 +91,7 @@ class Admin extends React.Component {
 
 }
 
-class Announcement extends React.Component {  
+class AnnouncementForm extends React.Component {  
     
     constructor(props) {
         super(props)
@@ -118,28 +118,22 @@ class Announcement extends React.Component {
         // this.setState({"cate":this.props.match.params.cate})
     }
     render () {
+        const { getFieldDecorator } = this.props.form;
+
         const formItemLayout = {
-            labelCol: { span: 0 },
-            wrapperCol: { span: 24 },
+            labelCol: { span: 8 },
+            wrapperCol: { span: 10 },
           };
         return (
             <div> 
-                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                    {/* <Form.Item  {...formItemLayout} >
-                        {getFieldDecorator('firstname', {
-                        rules: [{ required: true, message: 'Please input your First name!' }],
-                        })(
-                        <Input placeholder="First Name" />
-                        )}
-                    </Form.Item> */}
-                    <Form.Item className="form-button">
-                        <Button type="primary" htmlType="submit" className="regis-form-button" block>Sign Up</Button>
-                    </Form.Item>
-                </Form>
+                
             </div>
         )
     }
 }
+
+const Announcement = Form.create({ name: 'normal_announcement' })(AnnouncementForm);
+
 class Process extends React.Component {  
     render () {
         return (
