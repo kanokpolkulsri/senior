@@ -94,7 +94,7 @@ class Schedule extends React.Component {
         API_REPORT.GET_SCHEDULE()
         .then(response => {
             if(response.code === 1){
-                console.log("GET_SCHEDULE : " + response.data)
+                console.log(response)
                 // request success fully
 
                 // response.data

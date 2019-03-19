@@ -60,7 +60,7 @@ class LogInForm extends React.Component {
         API_REGISTER.POST_LOGIN(values)
         .then(response => {
           if(response.code === 1){
-            console.log("POST_LOGIN : " + response.data)
+            console.log(response)
             // request successfully
 
             // response.data
@@ -156,7 +156,7 @@ class SignUpForm extends React.Component {
         API_REGISTER.POST_ADD(values)
         .then(response => {
           if(response.code === 1){
-            console.log("POST_ADD : " + response.data)
+            console.log(response)
             // request successfully
 
             // response.data

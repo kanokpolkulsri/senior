@@ -106,7 +106,7 @@ class Review extends React.Component {
         .then(response => {
             console.log(response)
             if(response.code === 1){
-                console.log("GET_DATA : " + response.data)
+                console.log(response)
                 // request successfully
 
                 // response.data
