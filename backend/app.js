@@ -64,13 +64,13 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
   const review = db.collection("Review");
   const register = db.collection("Register");
   const feed_event = db.collection("Feed_Event")
-  const feed_annoucement = db.collection("Feed_Annoucement")
+  const feed_announcement = db.collection("Feed_Announcement")
   const feed_company = db.collection("Feed_Company")
   const schedule = db.collection("Schedule")
   app.locals.DB_REVIEW = review
   app.locals.DB_REGISTER = register
   app.locals.DB_FEED_EVENT = feed_event
-  app.locals.DB_FEED_ANNOUCEMENT = feed_annoucement
+  app.locals.DB_FEED_ANNOUNCEMENT = feed_announcement
   app.locals.DB_FEED_COMPANY = feed_company
   app.locals.DB_SCHEDULE = schedule
 })
