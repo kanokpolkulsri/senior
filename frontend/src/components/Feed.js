@@ -177,7 +177,7 @@ class Feed extends React.Component {
         API_FEED.GET_EVENT()
         .then(response => {
             if(response.code === 1){
-                console.log("GET_EVENT : " + response.data)
+                console.log(response)
                 // request successfully
 
                 // response.data
@@ -205,7 +205,7 @@ class Feed extends React.Component {
         API_FEED.GET_ANNOUCEMENT()
         .then(response => {
             if(response.code === 1){
-                console.log("GET_ANNOUCEMENT : " + response.data)
+                console.log(response)
                 //request successfully
 
                 //response.data
@@ -229,7 +229,7 @@ class Feed extends React.Component {
         API_FEED.GET_COMPANY()
         .then(response => {
             if(response.code === 1){
-                console.log("GET_COMPANY : " + response.data)
+                console.log(response)
                 //request successfully
 
                 //response.data
