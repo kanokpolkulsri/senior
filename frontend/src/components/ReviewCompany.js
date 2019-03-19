@@ -105,7 +105,7 @@ class ReviewCompany extends React.Component {
         API_REVIEW.GET_DATA_ID_COMPANY(this.props.match.params.company)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
+                console.log("GET_DATA_ID_COMPANY : " + response.data)
                 // request successfully
 
                 // response.data
