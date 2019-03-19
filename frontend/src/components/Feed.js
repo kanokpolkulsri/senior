@@ -101,7 +101,7 @@ class Feed extends React.Component {
         e.target.blur();
         var icon = '<i className="material-icons">star_border</i>'
         if(e.target.classList.contains("clicked"))
-            var icon = '<i className="material-icons">check</i>'
+            var icon = "<i className='material-icons'>check</i>"
         e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
     }
 
