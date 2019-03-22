@@ -1,11 +1,15 @@
 import React from 'react'
-import {Row,Col, Form, Icon, Input, Button  } from 'antd';
+import {Row,Col, Form, Icon, Input, Button, DatePicker,TimePicker   } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
+import moment from 'moment';
 
 import '../css/Admin.css';
 import '../css/App.css';
 
+const { TextArea } = Input;
+const format = 'HH:mm';
 
+// const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 
 class Admin extends React.Component {
@@ -21,7 +25,7 @@ class Admin extends React.Component {
         var elems = document.querySelectorAll(".menu-li.active");
 
         [].forEach.call(elems, function(el) {
-            el.classList.remove("hover");
+            el.classList.remove("active");
         });
 
         if(this.props.match.params.cate === "faq"){
@@ -77,7 +81,9 @@ class Admin extends React.Component {
                     <Col span={18} className="admin-workarea" >
 
                         <Switch>
-                            <Route path="/admin/announcement/:topic" component={Announcement}/>
+                            <Route path="/admin/announcement/event" component={Event}/>
+                            <Route path="/admin/announcement/announcement" component={Announcement}/>
+                            <Route path="/admin/announcement/companylist" component={CompanyList}/>
                             <Route path="/admin/faq" component={Announcement}/>
                             <Route path="/admin/process" component={Process}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
@@ -91,48 +97,82 @@ class Admin extends React.Component {
 
 }
 
-class AnnouncementForm extends React.Component {  
+class Event extends React.Component {  
     
     constructor(props) {
         super(props)
         this.state = {"cate":"",
             "topic":"",
             // form: this.props.form
-
         }
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-          if (!err) {
-            console.log('Received values of form: ', values);
-            
-
-              
-          }
-        });
-      }
+    onChange = (date, dateString) => {
+        console.log(date, dateString);
+    }
 
     componentDidMount= () =>{
         // this.setState({"cate":this.props.match.params.cate})
     }
     render () {
-        const { getFieldDecorator } = this.props.form;
-
-        const formItemLayout = {
-            labelCol: { span: 8 },
-            wrapperCol: { span: 10 },
-          };
         return (
-            <div> 
-                
+            <div>
+            <Row>
+                <Col span={12}> 
+                    <Row>
+                        <span>Event Name: </span>
+                            <Input className="event-input" placeholder="Event name" onBlur={this.handleConfirmBlur} />
+                    </Row> <br/>
+                    <Row>
+                        <span>Date: </span><DatePicker onChange={this.onChange} />
+                        <span className="time-input-label">Time: </span><TimePicker defaultValue={moment('00:00', format)} format={format} />
+                    </Row> <br/>
+                    <Row>
+                        <span>Place: </span>
+                        <Input className="event-input" placeholder="Place" onBlur={this.handleConfirmBlur} />
+                    </Row>
+                    <br/>
+                    <Row className="row-submit-btn">
+                        <Button className="submit-btn">Submit</Button>
+                    </Row>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                All upcoming events <i className="material-icons delete-btn">delete</i>
+            </Row>
+            <br/>
+            <div>
+                <span>Company: </span><br/>
+                <span>Description: </span><br/>
+                <span>Date: </span><br/>
+                <span>Interested people: </span><br/>
+                <span>status: </span><br/>
             </div>
+
+            </div>
+            
+
+           
+        )
+    }
+}
+class Announcement extends React.Component {  
+    render() {
+        return(
+            <div></div>
         )
     }
 }
 
-const Announcement = Form.create({ name: 'normal_announcement' })(AnnouncementForm);
+class CompanyList extends React.Component{
+    render(){
+        return(
+            <div></div>
+        )
+
+    }
+}
 
 class Process extends React.Component {  
     render () {

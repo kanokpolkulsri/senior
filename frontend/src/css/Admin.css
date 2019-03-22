@@ -5,3 +5,20 @@
 .admin-workarea{
     padding:2%;
 }
+.time-input-label{
+    padding-left:10px;
+}
+.event-input{
+    width:70%;
+}
+.row-submit-btn{
+    /* margin-top:10px; */
+    text-align: center;
+}
+.submit-btn{
+    margin: 0 auto;
+    width:40%;
+}
+.delete-btn{
+    color: #048C8A;
+}

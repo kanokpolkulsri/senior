@@ -128,6 +128,12 @@ Button.event-btn{
 Button.event-btn.clicked{
     background-color: transparent;
 }
+Button.event-btn i.material-icons::after{
+    content: "star_border"
+}
+Button.event-btn.clicked i.material-icons::after{
+    content: "check"
+}
 .event-place{
     display: block;
     /* margin-bottom:5px; */

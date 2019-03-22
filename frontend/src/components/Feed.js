@@ -99,10 +99,11 @@ class Feed extends React.Component {
         console.log(e.target)
         e.target.classList.toggle("clicked")
         e.target.blur();
-        var icon = '<i className="material-icons">star_border</i>'
-        if(e.target.classList.contains("clicked"))
-            var icon = "<i className='material-icons'>check</i>"
-        e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
+        
+        // var icon = '<i className="material-icons">star_border</i>'
+        // if(e.target.classList.contains("clicked"))
+        //     var icon = "<i className='material-icons'>check</i>"
+        // e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
     }
 
     getAnnouncement = () => {
@@ -130,7 +131,7 @@ class Feed extends React.Component {
                 <span className="event-name">{option.name}</span><br/>
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
-                <Button onClick={this.eventInterest} className="event-btn"><i className="material-icons">star_border</i> { this.state.interest }</Button><br/>
+                <Button onClick={this.eventInterest} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
             </div> 
         );
         return event;
@@ -202,7 +203,7 @@ class Feed extends React.Component {
                 */
             }
         })
-        API_FEED.GET_ANNOUCEMENT()
+        API_FEED.GET_ANNOUNCEMENT()
         .then(response => {
             if(response.code === 1){
                 console.log(response)

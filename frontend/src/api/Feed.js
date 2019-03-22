@@ -7,8 +7,8 @@ export const GET_EVENT = async () => {
     return await res.data
 }
 
-export const GET_ANNOUCEMENT = async () => {
-    const res = await axios.get(API_URL+'/annoucement')
+export const GET_ANNOUNCEMENT = async () => {
+    const res = await axios.get(API_URL+'/announcement')
     return await res.data
 }
 
