@@ -21,7 +21,6 @@ class Register extends React.Component {
         form: this.props.form
     }
   }
- 
 
     render() {
         return (
@@ -40,42 +39,40 @@ class Register extends React.Component {
                       <Route path="/login" component={Login}/>
                       <Route path="/signup" component={Signup}/>
                   </Switch>
-           
               </div>
-
             </div>
-           
         )
     }
 }
 
 class LogInForm extends React.Component {  
+
+  GET_POST_LOGIN = (values) => {
+    API_REGISTER.POST_LOGIN(values)
+    .then(response => {
+      if(response.code === 1){
+        console.log(response)
+        // request successfully
+
+        // response.data
+
+        /*
+        data = {
+          username: "5810504361",
+          firstname: "kanokpol",
+          lastname: "kulsri"
+        }
+        */
+      }
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        
-        /* PLAM IS HERE */
-        API_REGISTER.POST_LOGIN(values)
-        .then(response => {
-          if(response.code === 1){
-            console.log(response)
-            // request successfully
-
-            // response.data
-
-            /*
-            data = {
-              username: "5810504361",
-              firstname: "kanokpol",
-              lastname: "kulsri"
-            }
-            */
-          }
-        })
-
-        
+        this.GET_POST_LOGIN(values)
       }
     });
   }
@@ -146,28 +143,30 @@ class SignUpForm extends React.Component {
     document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
   }
 
+  GET_POST_ADD = (values) => {
+    API_REGISTER.POST_ADD(values)
+    .then(response => {
+      if(response.code === 1){
+        console.log(response)
+        // request successfully
+
+        // response.data
+
+        /*
+        data = {
+          username: "5810504361"
+        }
+        */
+      }
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        
-        /* PLAM IS HERE */
-        API_REGISTER.POST_ADD(values)
-        .then(response => {
-          if(response.code === 1){
-            console.log(response)
-            // request successfully
-
-            // response.data
-
-            /*
-            data = {
-              username: "5810504361"
-            }
-            */
-          }
-        })
+        this.GET_POST_ADD(values)  
       }
     });
   }
@@ -265,15 +264,8 @@ class SignUpForm extends React.Component {
     </Form>        
         </div>
     )
-    
-
   }
 }
 
-
-
-  
-  const Signup = Form.create({ name: 'normal_signup' })(SignUpForm);
-
-
+const Signup = Form.create({ name: 'normal_signup' })(SignUpForm);
 export default Register
