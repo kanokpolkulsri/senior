@@ -91,7 +91,7 @@ class Schedule extends React.Component {
         Schedule:[]}
     }
 
-    componentDidMount = () => {
+    API_GET_SCHEDULE = () => {
         API_REPORT.GET_SCHEDULE()
         .then(response => {
             if(response.code === 1){
@@ -122,8 +122,11 @@ class Schedule extends React.Component {
         })
     }
 
-    getSchedule = () => {
+    componentDidMount = () => {
+        this.API_GET_SCHEDULE()
+    }
 
+    getSchedule = () => {
         const tmp = this.state.Schedule.map((option) =>
             <Step title={<span className="step-title"><span className="step-date">{`ภายใน ${moment(option.deadline).format('l')}`}</span>{option.title}</span>} description={option.description} />        )
         return tmp
@@ -143,41 +146,43 @@ class Assignment extends React.Component {
         super(props)
         this.state = {
             columns : [
-            {title: 'Title',
+            {
+                title: 'Title',
                 dataIndex: 'title',
                 key: 'title',
                 render: text => <a href="javascript:;" className="assignment-title">{text}</a>,
-              }, {
+            }, {
                 title: 'Due',
                 dataIndex: 'due',
                 key: 'due',
-              }, {
+            }, {
                 title: 'Status',
                 dataIndex: 'status',
                 key: 'status',
-              }],
+            }
+            ],
               
-              data : [{
-                key: '1',
-                title: 'John Brown',
-                due: 32,
-                status: 'Turned In',
-              }, {
-                key: '2',
-                title: 'Jim Green',
-                due: 42,
-                status: 'Turned In',
-              }, {
-                key: '3',
-                title: 'Joe Black',
-                due: 32,
-                status: 'Missing',
-              }, {
-                key: '4',
-                title: 'Jim Red',
-                due: 32,
-                status: 'Late',
-              }]
+            data : [{
+            key: '1',
+            title: 'John Brown',
+            due: 32,
+            status: 'Turned In',
+            }, {
+            key: '2',
+            title: 'Jim Green',
+            due: 42,
+            status: 'Turned In',
+            }, {
+            key: '3',
+            title: 'Joe Black',
+            due: 32,
+            status: 'Missing',
+            }, {
+            key: '4',
+            title: 'Jim Red',
+            due: 32,
+            status: 'Late',
+            }]
         }
     }
     
@@ -187,7 +192,7 @@ class Assignment extends React.Component {
         if(this.props.match.params.filter !== 'all'){
             var filtered = this.state.data.filter(function(item) {
                 return item['status'].replace(/\s+/g, '').toLowerCase() === tmp;
-              });
+            });
             return filtered
         }
         return this.state.data
