@@ -29,41 +29,7 @@ class FAQ extends React.Component {
         return <Collapse bordered={false} defaultActiveKey={['1']}>{faq}</Collapse>
     }
 
-    addFaq = () => {
-
-        let values = "" // {"question": "...", "answer": "..."}
-        API_FAQ.POST_ADD(values)
-        .then(response => {
-            if(response.code === 1){
-              console.log(response)
-              // request successfully
-            }
-        })
-    }
-
-    updateFaq = () => {
-        let values = "" // {"_id": "...", "question": "...", "answer": "..."}
-        API_FAQ.POST_UPDATE(values)
-        .then(response => {
-            if(response.code === 1){
-              console.log(response)
-              // request successfully
-            }
-        })
-    }
-
-    deleteFaq = () => {
-        let values = "" // {"_id": "..."}
-        API_FAQ.POST_DELETE(values)
-        .then(response => {
-            if(response.code === 1){
-              console.log(response)
-              // request successfully
-            }
-        })
-    }
-
-    componentDidMount = () => {
+    API_GET_FAQ = () => {
         API_FAQ.GET_FAQ()
         .then(response => {
             if(response.code === 1){
@@ -88,6 +54,10 @@ class FAQ extends React.Component {
 
             }
         })
+    }
+
+    componentDidMount = () => {
+        
     }
     
     render() {

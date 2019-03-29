@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 });
 
-router.post('/add', (req, res, next) => {
+router.post('/new', (req, res, next) => {
     const DB_FAQ = req.app.locals.DB_FAQ
     DB_FAQ.insertOne(req.body)
     .then(() => res.send({code: 1}))

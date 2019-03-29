@@ -8,7 +8,7 @@ export const GET_FAQ = async () => {
 }
 
 export const POST_ADD= async (params) => {
-    const res = await axios.post(API_URL+'/add', params)
+    const res = await axios.post(API_URL+'/new', params)
     return await res.data
 }
 

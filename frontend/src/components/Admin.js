@@ -9,6 +9,8 @@ import '../css/App.css';
 const { TextArea } = Input;
 const format = 'HH:mm';
 const Option = Select.Option;
+const API_FEED = require('../api/Feed')
+const API_FAQ = require('../api/Faq')
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -45,7 +47,6 @@ class Admin extends React.Component {
     componentDidUpdate = () =>{  
         this.setActive();
     }
-
 
     render() {
         return (
@@ -139,12 +140,13 @@ class Event extends React.Component {
     }
 
     submitItem = () => {
-
+    
     }
 
     deleteItem = () => {
-
+        
     }
+
     getEvent = () => {
         const event = this.state.data.map((option,idx)=>
         <div className="div-item">
@@ -168,6 +170,69 @@ class Event extends React.Component {
         )
         return event;
     }
+
+    API_ADD_EVENT = () => {
+        let values = "" // {"name":"..", "location":"..", "date":ISODate("2019-02-04T16:00:00.000Z"), "register": 0}
+        API_FEED.POST_ADD_EVENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_UPDATE_EVENT = () => {
+        let values = "" // {"_id":"...", "name":"..", "location":"..", "date":ISODate("2019-02-04T16:00:00.000Z"), "register": 0}
+        API_FEED.POST_UPDATE_EVENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_DELETE_EVENT = () => {
+        let values = "" // {"_id":"..."}
+        API_FEED.POST_DELETE_EVENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_GET_EVENT = () => {
+        API_FEED.GET_EVENT()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+                //response.data
+                /*
+                    data = [
+                        {
+                            "_id": "5c852a4aa7cd113ae7508724",
+                            "name": "Getting to know more about Wongnai",
+                            "location": "E203",
+                            "date": "2019-02-04T16:00:00.000Z",
+                            "register": 21
+                        },
+                        {
+                            "_id": "5c852a4fa7cd113ae7508727",
+                            "name": "CPSK Job Fair",
+                            "location": "1st floor",
+                            "date": "2019-02-02T16:00:00.000Z",
+                            "register": 178
+                        }
+                    ]
+                */
+            }
+        })
+    }
+
     render () {
         return (
             <div>
@@ -259,6 +324,65 @@ class Announcement extends React.Component {
         )
         return event;
     }
+
+    API_ADD_ANNOUNCEMENT = () => {
+        let values = "" // {"title":"..", "description":".."}
+        API_FEED.POST_ADD_ANNOUNCEMENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_UPDATE_ANNOUNCEMENT = () => {
+        let values = "" // {"_id":"...", "title":"..", "description":".."}
+        API_FEED.POST_UPDATE_ANNOUNCEMENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_DELETE_ANNOUNCEMENT = () => {
+        let values = "" // {"_id":"..."}
+        API_FEED.POST_DELETE_ANNOUNCEMENT(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_GET_ANNOUNCEMENT = () => {
+        API_FEED.GET_ANNOUNCEMENT()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+                //response.data
+                /*
+                    data = "data": [
+                        {
+                            "_id": "5c852a6aa7cd113ae7508736",
+                            "title": "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+                            "description": "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"
+                        },
+                        {
+                            "_id": "5c852a6ea7cd113ae7508739",
+                            "title": "2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
+                            "description": "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"
+                        }
+                    ]
+                */
+            }
+        })
+    }
+
     render () {
         return (
             <div>
@@ -332,6 +456,7 @@ class CompanyList extends React.Component{
     deleteItem = () => {
 
     }
+
     getComCat = (cat) =>{
         console.log("test");
         var catString = cat[0];
@@ -342,6 +467,7 @@ class CompanyList extends React.Component{
         // let catSpan = <span>{catString}</span>
         return catString
     }
+
     getCompany = () => {
         const event = this.state.data.map((option,idx)=>
         <div className="div-item">
@@ -371,6 +497,79 @@ class CompanyList extends React.Component{
         )
         return cat
     }
+
+    API_ADD_COMPANY = () => {
+        let values = "" // {"name":"..", "url":"..", "category":["application", "network",...]}
+        API_FEED.POST_ADD_COMPANY(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_UPDATE_COMPANY= () => {
+        let values = "" // {"_id":"...", "name":"..", "url":"..", "category":["application", "network",...]}
+        API_FEED.POST_UPDATE_COMPANY(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully 
+            }
+        })
+    }
+
+    API_DELETE_COMPANY = () => {
+        let values = "" // {"_id":"..."}
+        API_FEED.POST_DELETE_COMPANY(values)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+            }
+        })
+    }
+
+    API_GET_COMPANY = () => {
+        API_FEED.GET_COMPANY()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+                //response.data
+                /*
+                    data = [
+                        {
+                            "_id": "5c852a90a7cd113ae7508746",
+                            "name": "บริษัท เอ-โอสต์ จำกัด",
+                            "url": "kanokpolkulsri.netlify.com",
+                            "category": [
+                                "application",
+                                "network",
+                                "datascience",
+                                "consulting",
+                                "iot",
+                                "etc"
+                            ]
+                        },
+                        {
+                            "_id": "5c852a9ba7cd113ae750874a",
+                            "name": "บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด",
+                            "url": "www.facebook.com/ton2plam",
+                            "category": [
+                                "application",
+                                "consulting",
+                                "iot",
+                                "etc"
+                            ]
+                        }
+                    ]
+                */
+            }
+        })
+    }
+
     render () {
         return (
             <div>
@@ -430,7 +629,6 @@ class Faq extends React.Component {
         }
     }
 
-
     onCheckChange = (e) => {
         console.log(`checked = ${e.target.checked}`);
     }
@@ -448,6 +646,7 @@ class Faq extends React.Component {
     deleteItem = () => {
 
     }
+
     getFAQ = () => {
         const event = this.state.data.map((option,idx)=>
         <div className="div-item">
@@ -468,6 +667,67 @@ class Faq extends React.Component {
         )
         return event;
     }
+
+    API_POST_ADD = () => {
+        let values = "" // {"question": "...", "answer": "..."}
+        API_FAQ.POST_ADD(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    API_POST_UPDATE = () => {
+        let values = "" // {"_id": "...", "question": "...", "answer": "..."}
+        API_FAQ.POST_UPDATE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    API_POST_DELETE = () => {
+        let values = "" // {"_id": "..."}
+        API_FAQ.POST_DELETE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    API_GET_FAQ = () => {
+        API_FAQ.GET_FAQ()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+
+                //response.data
+                /*
+                data = [
+                    {
+                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
+                        question: "สามารถฝึกงานในตำแหน่งที่ไม่เกี่ยวข้องกับโปรแกรมมิ่งได้หรือไม่",
+                        _id: "5c9e15341a28591c19fb41f4"
+                    },
+                    {
+                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
+                        question: "หากมีการลาขณะฝึกงานเกิดจำนวนวันที่กำหนด สามารถทำงานเพิ่มเติมชดเชยวันที่ลาได้หรือไม่",
+                        _id: "5c9e15881a28591c19fb41fc"
+                    }
+                ]
+                */
+
+            }
+        })
+    }
+
     render () {
         return (
             <div>
