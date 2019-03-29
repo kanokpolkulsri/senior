@@ -2,6 +2,7 @@ import React from 'react'
 import { Collapse } from 'antd';
 import '../css/Faq.css';
 
+const API_FAQ = require('../api/Faq')
 const Panel = Collapse.Panel;
 
 
@@ -27,8 +28,68 @@ class FAQ extends React.Component {
         )
         return <Collapse bordered={false} defaultActiveKey={['1']}>{faq}</Collapse>
     }
-      
 
+    addFaq = () => {
+
+        let values = "" // {"question": "...", "answer": "..."}
+        API_FAQ.POST_ADD(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    updateFaq = () => {
+        let values = "" // {"_id": "...", "question": "...", "answer": "..."}
+        API_FAQ.POST_UPDATE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    deleteFaq = () => {
+        let values = "" // {"_id": "..."}
+        API_FAQ.POST_DELETE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              // request successfully
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        API_FAQ.GET_FAQ()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                //request successfully
+
+                //response.data
+                /*
+                data = [
+                    {
+                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
+                        question: "สามารถฝึกงานในตำแหน่งที่ไม่เกี่ยวข้องกับโปรแกรมมิ่งได้หรือไม่",
+                        _id: "5c9e15341a28591c19fb41f4"
+                    },
+                    {
+                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
+                        question: "หากมีการลาขณะฝึกงานเกิดจำนวนวันที่กำหนด สามารถทำงานเพิ่มเติมชดเชยวันที่ลาได้หรือไม่",
+                        _id: "5c9e15881a28591c19fb41fc"
+                    }
+                ]
+                */
+
+            }
+        })
+    }
+    
     render() {
         return (
             <div className="container">
