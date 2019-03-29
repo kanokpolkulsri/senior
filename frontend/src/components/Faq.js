@@ -57,7 +57,7 @@ class FAQ extends React.Component {
     }
 
     componentDidMount = () => {
-        
+        this.API_GET_FAQ()
     }
     
     render() {
