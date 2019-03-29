@@ -9,74 +9,6 @@ const CheckableTag = Tag.CheckableTag;
 
 const tagList = ["application","network","data science","iot","etc"]
 
-const feed = {
-    // "_id" : ObjectId("5c726ee7e440f7d89bb87217"),
-    "Event" : [ 
-        {
-            "name" : "Getting to know more about Wongnai",
-            "location" : "E203",
-            "date" : "04/Feb/2019",
-            "register" : 20
-        }, 
-        {
-            "name" : "CPSK Job Fair",
-            "location" : "1st floor",
-            "date" : "04/Feb/2019",
-            "register" : 178
-        }
-    ],
-    "Announcement" : [ 
-        {
-            "title" : "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-            "description" : "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"
-        },
-        {
-            "title" : "2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-            "description" : "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"
-        }
-    ],
-    "Company" : [ 
-        {
-            "name" : "บริษัท เอ-โอสต์ จำกัด",
-            "url" : "kanokpolkulsri.netlify.com",
-            "category" : [ 
-                "application", 
-                "network", 
-                "data science", 
-                "consulting", 
-                "iot", 
-                "etc"
-            ]
-        }, 
-        {
-            "name" : "บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด",
-            "url" : "www.facebook.com/ton2plam",
-            "category" : [ 
-                "application", 
-                "consulting", 
-                "iot", 
-                "etc"
-            ]
-        }, 
-        {
-            "name" : "บริษัท อัฟวาแลนท์ จำกัด",
-            "url" : "github.com/ton2plam",
-            "category" : [ 
-                "network", 
-                "data science", 
-                "etc"
-            ]
-        }, 
-        {
-            "name" : "บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด",
-            "url" : "www.instagram.com/tonplamm",
-            "category" : [ 
-                "data science", 
-                "etc"
-            ]
-        }
-    ]
-}
 
 class Feed extends React.Component {
 
@@ -85,7 +17,9 @@ class Feed extends React.Component {
         this.state = {
             name: "Feed",
             selectedTags: [],
-            feed: feed,
+            Event: [],
+            Announcement: [],
+            Company: [],
             eventColor: ["pink","orange","green","blue"],
             interest: "  interested"
         }
@@ -107,7 +41,7 @@ class Feed extends React.Component {
     }
 
     getAnnouncement = () => {
-        const announcement = this.state.feed.Announcement.map((option,idx)=>
+        const announcement = this.state.Announcement.map((option,idx)=>
             <div>
                 <p className="announce-topic content">{option.title}</p>
                 <p className="content announce-content">{option.description}</p>
@@ -116,7 +50,7 @@ class Feed extends React.Component {
         return (announcement);
     }
     getEvent = () => {
-        const event = this.state.feed.Event.map((option,idx)=>
+        const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
                 <div className="event-color-tab"></div>
                 <Row>
@@ -138,9 +72,9 @@ class Feed extends React.Component {
     }
     genCompany = () =>{
         const company = [];
-        for(var i = 0; i < this.state.feed.Company.length; i++){
+        for(var i = 0; i < this.state.Company.length; i++){
             var checkTag = false;
-            var cat = this.state.feed.Company[i].category;
+            var cat = this.state.Company[i].category;
             var allTag = [];
             for(var j = 0; j < cat.length; j++){
                 if(this.state.selectedTags.includes(cat[j]))
@@ -152,7 +86,7 @@ class Feed extends React.Component {
                 console.log("check")
                 company.push(   
                     <div className="company">
-                    <span className="content feed-company-name">{this.state.feed.Company[i].name}</span> 
+                    <span className="content feed-company-name">{this.state.Company[i].name}</span> 
                     {allTag}
                     <br/>  
                     </div>  
@@ -179,78 +113,34 @@ class Feed extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({Event : response.data})
                 // request successfully
 
                 // response.data
 
-                /* 
-                data = [
-                    {
-                        date: "2019-02-02T16:00:00.000Z"
-                        location: "1st floor"
-                        name: "CPSK Job Fair"
-                        register: 178
-                        _id: "5c852a4fa7cd113ae7508727"
-                    },
-                    {
-                        date: "2019-02-02T16:00:00.000Z"
-                        location: "1st floor"
-                        name: "CPSK Job Fair"
-                        register: 178
-                        _id: "5c852a4fa7cd113ae7508727"
-                    }
-                ]
-                */
             }
         })
         API_FEED.GET_ANNOUNCEMENT()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({Announcement : response.data})
                 //request successfully
 
                 //response.data
 
-                /*
-                data = [
-                    {
-                        description: "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)↵1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย↵2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)↵3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)↵4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)↵โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น",
-                        title: "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-                        _id: "5c852a6aa7cd113ae7508736"
-                    },
-                    {
-                        description: "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)↵1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย↵2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)↵3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)↵4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)↵โดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น",
-                        title: "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-                        _id: "5c852a6aa7cd113ae7508736"
-                    }
-                ]
-                */
             }
         })
         API_FEED.GET_COMPANY()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({Company : response.data})
+
                 //request successfully
 
                 //response.data
 
-                /*
-                data = [
-                    {
-                        category: (6) ["application", "network", "datascience", "consulting", "iot", "etc"],
-                        name: "บริษัท เอ-โอสต์ จำกัด",
-                        url: "kanokpolkulsri.netlify.com",
-                        _id: "5c852a90a7cd113ae7508746"
-                    },
-                    {
-                        category: (2) ["datascience", "etc"],
-                        name: "บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด",
-                        url: "www.instagram.com/tonplamm",
-                        _id: "5c852aaba7cd113ae7508751"
-                    }
-                ]
-                */
             }
         })
     }

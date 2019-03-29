@@ -5,7 +5,7 @@
 .admin-workarea{
     padding:2%;
 }
-.time-input-label{
+.time-input-label.pad-left{
     padding-left:10px;
 }
 .event-input{
@@ -21,4 +21,26 @@
 }
 .delete-btn{
     color: #048C8A;
+}
+.breadcrumb-admin{
+    font-weight:bold;
+    font-size:14px;
+    display: flex;
+    margin-bottom:10px;
+}
+.div-item{
+    margin-bottom: 10px;
+}
+.item-group{
+    cursor:pointer;
+}
+.item-span{
+    font-family: 'sarabun';
+    font-size:18px;
+    white-space: pre-wrap;
+}
+.input-label{
+    vertical-align: top;
+    padding: 7px 5px;
+    display:inline-block;
 }

@@ -3,7 +3,7 @@ import {Steps, Avatar,Row,Col,Card,Table  } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 
 import '../css/Report.css';
-
+import moment from 'moment';
 const API_REPORT = require('../api/Report')
 
 const Step = Steps.Step;
@@ -87,7 +87,8 @@ class Schedule extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {"name":"plam"}
+        this.state = {"name":"plam",
+        Schedule:[]}
     }
 
     componentDidMount = () => {
@@ -95,6 +96,7 @@ class Schedule extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({Schedule:response.data})
                 // request success fully
 
                 // response.data
@@ -120,17 +122,17 @@ class Schedule extends React.Component {
         })
     }
 
+    getSchedule = () => {
+
+        const tmp = this.state.Schedule.map((option) =>
+            <Step title={<span className="step-title"><span className="step-date">{`ภายใน ${moment(option.deadline).format('l')}`}</span>{option.title}</span>} description={option.description} />        )
+        return tmp
+    }
+
     render(){
         return (
             <Steps direction="vertical" current={1}>
-                <Step title="(ภายใน 30 เมษายน 2561) จัดหาสถานที่ประกอบการสำหรับสหกิจศึกษาเวลารวมไม่น้อยกว่า 6 เดือน" description="- สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้น กล่าวคือ สหกิจศึกษาต่างประเทศ ณ ต่างประเทศ
-และในประเทศ โดยห้ามเว้นระยะห่างนานเกินไป" />
-                <Step title="(ภายใน 5 พฤษภาคม 2561) กรอกข้อมูลรายละเอียดสถานประกอบการลงในแบบฟอร์มออนไลน์" description="- หากมีการแก้ไขเปลี่ยนแปลงให้ดำเนินการกรอกซ้ำ โดยจะถือว่าข้อมูลที่กรอกครั้งล่าสุดเป็นข้อมูลที่ถูกต้อง" />
-                <Step title="(ภายใน 1 สิงหาคม 2561) สมัครเข้าร่วมโครงการสหกิจศึกษา โดยเตรียมเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ) ส่งที่ห้องธุรการภาควิชาฯ" description="- แบบฟอร์มใบสมัครพร้อมติดรูปถ่าย (ฉบับภาษาอังกฤษ สำหรับสหกิจศึกษา ณ ต่างประเทศ และฉบับภาษาไทย 
-สำหรับสหกิจศึกษาในประเทศ)
-- (ถ้ามี) สำเนาหนังสือตอบรับ (หรือเอกสารอื่นใด) ที่มีใจความตอบรับนิสิต พร้อมระบุวันเริ่มต้นและสิ้นสุดการทำสหกิจศึกษา
-- ใบรับรองผลการเรียน (transcript) ฉบับจริงจากสำนักทะเบียน
-- สำเนาบัตรประชาชนผู้ปกครองที่ลงนามรับทราบ" />
+                {this.getSchedule()}
             </Steps>
         )
     }

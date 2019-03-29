@@ -106,6 +106,7 @@ class ReviewCompany extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({company:response.data})
                 // request successfully
 
                 // response.data

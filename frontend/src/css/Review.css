@@ -17,9 +17,12 @@ i.fa{
     font-size: 20px;
     font-family: 'sarabun';
 }
-/* .company{
-    padding: 20px;
-} */
+.company-logo{
+    display: inline-block;
+}
+.company{
+    padding-top: 20px;
+} 
 .star-ratings{
     display:inline-block;
     text-align: right;

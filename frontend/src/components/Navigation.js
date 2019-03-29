@@ -43,7 +43,7 @@ class Navigation extends React.Component {
                 </Col>
                 <Col span={15} offset={3}>
                     <div className="nav"> 
-                        <NavLink className="nav-menu" to='/'>Annoucement</NavLink>
+                        <NavLink className="nav-menu" to='/'>Announcement</NavLink>
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/Review'>Review</NavLink>
                         <Divider className="divider" type="vertical" />

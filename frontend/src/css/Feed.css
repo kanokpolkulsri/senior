@@ -22,9 +22,10 @@
     text-align: center;
 
 }
-.feed-content{
+.feed-content.container{
     position: absolute;
     top:360px;
+    padding:40px;
 }
 .announce-content{
     white-space: pre-wrap;

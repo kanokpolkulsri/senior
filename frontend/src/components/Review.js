@@ -23,7 +23,7 @@ class Review extends React.Component {
         super(props)
         this.state = {
             selectedTags: [],
-            allreview: review,
+            allreview: [],
             paymentRange:  ["0-250","250-500","more than 500"]
         }
     }
@@ -69,30 +69,35 @@ class Review extends React.Component {
     genResult = () => {
         let result = this.state.allreview.map((option,idx) => 
             <div className="company">
-            <div className="company-logo"></div>
             <Row>
-            <div className="company-detail">
-                <Col span={20}>
-                    <NavLink to={`${this.props.match.url}/5c6ba5a8e440f7d89bb8619f`} component="">{option.companyName}</NavLink>
-                    <p> Job description: {this.genJobDesc(idx)} <br/>
-                        Payment: {option.payment} Baht <br/>
-                        Transportation option: {this.getTransTag(idx)}
-                    </p>
+                <Col span={6}> 
+                    <div className="company-logo"></div>
                 </Col>
-                <Col span={4}>
-                    <div className="star-ratings">  <StarRatings
-                        rating={3}
-                        starRatedColor={"#F7CD1F"}
-                        numberOfStars={3}
-                        name='rating'
-                        isSelectable='false'
-                        starDimension="15px"
-                        starSpacing="0px"
-                        />
-                    </div>
-                </Col>
-            
+                <Col span={18}> 
+                    <div className="company-detail">
+                    <Col span={20}>
+                        <NavLink to={`${this.props.match.url}/5c6ba5a8e440f7d89bb8619f`} component="">{option.companyName}</NavLink>
+                        <p> Job description: {this.genJobDesc(idx)} <br/>
+                            Payment: {option.payment} Baht <br/>
+                            Transportation option: {this.getTransTag(idx)}
+                        </p>
+                    </Col>
+                    <Col span={4}>
+                        <div className="star-ratings">  <StarRatings
+                            rating={3}
+                            starRatedColor={"#F7CD1F"}
+                            numberOfStars={3}
+                            name='rating'
+                            isSelectable='false'
+                            starDimension="15px"
+                            starSpacing="0px"
+                            />
+                        </div>
+                    </Col>
+                
                 </div>
+                </Col>
+          
             </Row>
             </div>
         
@@ -107,6 +112,7 @@ class Review extends React.Component {
             console.log(response)
             if(response.code === 1){
                 console.log(response)
+                this.setState({allreview:response.data})
                 // request successfully
 
                 // response.data

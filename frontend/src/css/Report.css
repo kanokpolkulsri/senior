@@ -72,3 +72,11 @@ thead.ant-table-thead th {
 tbody.ant-table-tbody {
     border: 1px solid #e8e8e8;
 }
+.step-title{
+    font-family: 'sarabun'
+}
+.step-date{
+    color: #F06050;
+    padding-right:5px;
+    font-family: 'sarabun';
+}
