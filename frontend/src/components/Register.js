@@ -28,11 +28,11 @@ class Register extends React.Component {
               <div className="login-block">
                 <div className="green-block">
                   <div className="green-circle"><i className="material-icons">keyboard_arrow_right</i></div>
-                  <p className="green-block-topic">{this.props.match.path === "/Login" ? this.state.login:this.state.signup}</p>
+                  <p className="green-block-topic">{this.props.match.path === "/login" ? this.state.login:this.state.signup}</p>
                   <div className="underlined"></div>
                  
-                  <p>{this.props.match.path === "/Login" ? this.state.loginQ: this.state.signupQ} <br/>
-                  <Link to={this.props.match.path === "/Login" ? "/signup" : "/login"}>{this.props.match.path === "/Login" ? this.state.loginLink: this.state.signupLink}</Link> 
+                  <p>{this.props.match.path === "/login" ? this.state.loginQ: this.state.signupQ} <br/>
+                  <Link to={this.props.match.path === "/login" ? "/signup" : "/login"}>{this.props.match.path === "/login" ? this.state.loginLink: this.state.signupLink}</Link> 
                   </p>
                 </div>
                   <Switch>
@@ -76,6 +76,7 @@ class LogInForm extends React.Component {
       }
     });
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return(
@@ -144,6 +145,7 @@ class SignUpForm extends React.Component {
   }
 
   GET_POST_ADD = (values) => {
+    values["year"] = (new Date()).getYear() + 1900
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){

@@ -12,6 +12,8 @@ let report = require('./routes/report')
 let review = require('./routes/review')
 let schedule = require('./routes/schedule')
 let faq = require('./routes/faq')
+let assignment_admin = require('./routes/assignment_admin')
+let assignment_student = require('./routes/assignment_student')
 
 let app = express()
 
@@ -41,6 +43,8 @@ app.use('/report', report)
 app.use('/review', review)
 app.use('/schedule', schedule)
 app.use('/faq', faq)
+app.use('/assignment_student', assignment_student)
+app.use('/assignment_admin', assignment_admin)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -70,6 +74,8 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
   const feed_company = db.collection("Feed_Company")
   const schedule = db.collection("Schedule")
   const faq = db.collection("Faq")
+  const assignment_student = db.collection("Assignment_Student")
+  const assignment_admin = db.collection("Assignment_Admin")
   app.locals.DB_REVIEW = review
   app.locals.DB_REGISTER = register
   app.locals.DB_FEED_EVENT = feed_event
@@ -77,6 +83,8 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
   app.locals.DB_FEED_COMPANY = feed_company
   app.locals.DB_SCHEDULE = schedule
   app.locals.DB_FAQ = faq
+  app.locals.DB_ASSIGNMENT_STUDENT = assignment_student
+  app.locals.DB_ASSIGNMENT_ADMIN = assignment_admin
 })
 .catch(error => console.error(error))
 
