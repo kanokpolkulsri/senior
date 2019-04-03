@@ -44,3 +44,17 @@
     padding: 7px 5px;
     display:inline-block;
 }
+span.outdate{
+    color: #F06050;
+}
+span.upcoming{
+    color: #00C7AB;
+}
+
+.ant-select-selection-selected-value{
+    font-family: 'sarabun';
+    font-size:18px;
+}
+.radio-set{
+    margin-bottom:10px;
+}
