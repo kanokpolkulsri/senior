@@ -108,41 +108,46 @@ class Feed extends React.Component {
         this.genCompany();
     }
 
-    componentDidMount = () => {
+    API_GET_EVENT = () => {
         API_FEED.GET_EVENT()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Event : response.data})
                 // request successfully
-
                 // response.data
-
             }
         })
+    }
+
+    API_GET_ANNOUNCEMENT = () => {
         API_FEED.GET_ANNOUNCEMENT()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Announcement : response.data})
                 //request successfully
-
                 //response.data
-
             }
         })
+    }
+
+    API_GET_COMPANY = () => {
         API_FEED.GET_COMPANY()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Company : response.data})
-
                 //request successfully
-
                 //response.data
-
             }
         })
+    }
+
+    componentDidMount = () => {
+        this.API_GET_EVENT()
+        this.API_GET_ANNOUNCEMENT()
+        this.API_GET_COMPANY()
     }
 
 

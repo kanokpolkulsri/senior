@@ -101,7 +101,7 @@ class ReviewCompany extends React.Component {
         console.log(key);
     }
 
-    componentDidMount(){
+    API_GET_DATA_ID_COMPANY = () => {
         API_REVIEW.GET_DATA_ID_COMPANY(this.props.match.params.company)
         .then(response => {
             if(response.code === 1){
@@ -130,6 +130,10 @@ class ReviewCompany extends React.Component {
                 */
             }
         })
+    }
+
+    componentDidMount(){
+        this.API_GET_DATA_ID_COMPANY()
     }
 
     render() {

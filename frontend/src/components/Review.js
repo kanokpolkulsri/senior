@@ -106,7 +106,7 @@ class Review extends React.Component {
         return result
     }
 
-    componentDidMount = () => {
+    API_GET_DATA = () => {
         API_REVIEW.GET_DATA()
         .then(response => {
             console.log(response)
@@ -141,6 +141,10 @@ class Review extends React.Component {
                 */
             }
         })
+    }
+
+    componentDidMount = () => {
+        this.API_GET_DATA()
     }
 
     render() {
