@@ -1,10 +1,12 @@
 import React from 'react'
-import {Row, Col, Select, Icon, Input, Button, DatePicker,TimePicker,Checkbox   } from 'antd';
+import {Row, Col, Select,Radio, Table , Input, Button, DatePicker,TimePicker,Checkbox   } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment';
 
 import '../css/Admin.css';
 import '../css/App.css';
+
+const RadioGroup = Radio.Group;
 
 const { TextArea } = Input;
 const format = 'HH:mm';
@@ -20,7 +22,8 @@ class Admin extends React.Component {
     constructor(props) {
         super(props)
         this.state = {"cate":"",
-        "topic":""
+        "topic":"",
+        process:["test"]
         }
     }
 
@@ -39,7 +42,15 @@ class Admin extends React.Component {
             this.refs[tmp].classList.add("active")
             console.log(this.refs[tmp].innerHTML) 
         }
-        
+        else if(this.props.match.params.cate === "process"){
+            var tmp = this.props.match.params.topic
+            console.log(tmp);
+            
+            if(tmp === null || tmp === undefined)
+                this.refs["report"].classList.add("active")
+            else
+                this.refs[tmp].classList.add("active")
+        }   
     }
     componentDidMount = () =>{
         this.setActive();
@@ -47,6 +58,8 @@ class Admin extends React.Component {
     componentDidUpdate = () =>{  
         this.setActive();
     }
+ 
+
 
     render() {
         return (
@@ -66,14 +79,12 @@ class Admin extends React.Component {
                                 <Link style={{ textDecoration: 'none' }} to="/admin/faq" ><li ref="faq" className="menu-li">FAQs Lists</li></Link>
                             </ul>
                             <span className="menu-header"><i className="material-icons">assignment</i>  Process 
-                            <span className="group-icon">
-                                <i className="material-icons">add_circle</i>
-                                <i className="material-icons">delete</i>
+                         
                             </span>
-                            </span>
-                            <div className="menu-content">
-
-                            </div>
+                            <ul className="menu-ul">
+                                <Link style={{ textDecoration: 'none' }} to="/admin/process/report" ><li ref="report" className="menu-li">Report</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to="/admin/process/assignment" ><li ref="assignment" className="menu-li">Assignment</li></Link>
+                            </ul>
                         </div>
                     </Col>
                     <Col span={18} className="admin-workarea" >
@@ -83,9 +94,12 @@ class Admin extends React.Component {
                             <Route path="/admin/announcement/announcement" component={Announcement}/>
                             <Route path="/admin/announcement/companylist" component={CompanyList}/>
                             <Route path="/admin/faq" component={Faq}/>
-                            <Route path="/admin/process" component={Process}/>
+                            <Route path="/admin/process/report" component={StudentReport}/>
+                            <Route exact path="/admin/process/assignment" component={Process}/>
+                            <Route path="/admin/process/assignment/add" component={AddProcess}/>
+                            <Route path="/admin/process/assignment/:asname" component={EachProcess}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
-                            <Redirect from="/admin" to="/admin/process/all"/>
+                            <Redirect from="/admin" to="/admin/process/report"/>
                         </Switch>
                     </Col>
                 </Row>
@@ -139,6 +153,17 @@ class Event extends React.Component {
         console.log(document.getElementById("event-name"))
     }
 
+    calStatus = (date) => {
+        var tmpRes = "";
+        if(moment(date).isBefore(moment()))
+            tmpRes = <span className="upcoming">Upcoming</span>
+        else if(moment(date).isAfter(moment()))
+            tmpRes = <span className="outdate">Outdate</span>
+        else
+            tmpRes = <span>-</span>
+        return tmpRes
+    }
+
     submitItem = () => {
     
     }
@@ -159,9 +184,9 @@ class Event extends React.Component {
             <span onClick={() => this.chooseItem(option)}>
                 <span className="item-span">Company: {option.name} </span><br/>
                 <span className="item-span">Place: {option.location} </span><br/>
-                <span className="item-span">Date: {option.date}</span><br/>
+                <span className="item-span">Date: {moment(option.date).format('l')}</span><br/>
                 <span className="item-span">Interested people: {option.register} people</span><br/>
-                <span className="item-span">status: </span><br/>
+                <span className="item-span">status: {() => this.calStatus(option.date)}</span><br/>
             </span>
             </Col>
           
@@ -761,9 +786,177 @@ class Faq extends React.Component {
 }
 
 class Process extends React.Component {  
+    constructor(props) {
+        super(props)
+        this.state = {columns : [{
+            title: 'Assignment',
+            dataIndex: 'assignment',
+            render: text =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${text}`}>{text}</Link>
+          },  {
+            title: 'Deadline',
+            dataIndex: 'deadline',
+          }],
+          data : [{
+            key: '1',
+            assignment:'aaaaaaaaaaaaa',
+            deadline: moment(),
+          }]
+
+        }
+    }
+
+    
+    rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+          disabled: record.name === 'Disabled User', // Column configuration not to be checked
+          name: record.name,
+        }),
+      };
+
     render () {
         return (
-            <div> b </div>
+            <div>  
+                <span className="breadcrumb-admin">Process > Assignments </span><br/>
+                <Button className="btn-newas"><Link to="/admin/process/assignment/add">Add new assignment</Link></Button>
+                <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+            </div>
+        )
+    }
+}
+
+class EachProcess extends React.Component {
+    
+    render() {
+        return (
+            <div>  
+                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > {this.props.match.params.asname}</span><br/>
+            </div>
+        )
+    }
+}
+class AddProcess extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            value: 1,
+            questionSet:[1]
+        }
+    }
+    // onChange = (e) => {
+    //     console.log('radio checked', e.target.value);
+    //     this.setState({
+    //       value: e.target.value,
+    //     });
+    //     if(e.target.value === 1){
+    //         this.refs['form-show'].classList.remove('hidden')
+    //         this.refs['file-show'].classList.add('hidden')
+    //     }
+    //     else{
+    //         this.refs['form-show'].classList.add('hidden')
+    //         this.refs['file-show'].classList.remove('hidden')
+    //     }
+           
+    //   }
+    
+    moreQuestion = () => {
+        let tmpArr = this.state.questionSet.concat(this.state.questionSet.length+1)
+        this.setState({questionSet:tmpArr})
+    }
+    render() {
+        return (
+            <div>  
+                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > New Assignment</span><br/>
+                <Row>
+                <Col span={12}> 
+                    <Row>
+                        <span className="input-label">Assignment Name: </span>
+                        <Input className="assignment-name" placeholder="Assignment Name" onBlur={this.handleConfirmBlur}  />
+                    </Row> <br/>
+                    <Row>
+                        <span className="input-label">Assignment Description: </span>
+                        <TextArea className="assignment-desc" placeholder="Description" onBlur={this.handleConfirmBlur} autosize />
+                    </Row> <br/> 
+                    {/* <RadioGroup className="radio-set" onChange={this.onChange} value={this.state.value}>
+                        <Radio value={1}>Form</Radio>
+                        <Radio value={2}>File Upload</Radio>
+                    </RadioGroup> <br/> */}
+                    {/* <div ref="form-show" className=""> */}
+                        {/* {this.genQuestion()} */}
+                        {
+                            this.state.questionSet.map((option)=>{ 
+                                return <div>
+                                    <Row>
+                                        <Row>
+                                            <span className="input-label">Question {option}: </span>
+                                            <Input className="question event-input" placeholder="Question" onBlur={this.handleConfirmBlur}  />
+                                        </Row>
+                                        <br/>
+                                        <span className="input-label">Answer Type: </span>
+                                        <Select defaultValue="short" style={{ width: 200 }}>
+                                            <Option value="short">Short Answer</Option>
+                                            <Option value="multiple">Multiple Line</Option>
+                                            <Option value="multiple">File Upload</Option>
+                                        </Select>
+                                    </Row><br/>
+                                    </div>
+                            })
+                            
+                            
+                        }
+                        <Button onClick={this.moreQuestion}>Add more question</Button>
+
+                    {/* </div>
+                    <div ref="file-show" className="hidden">
+                        <span>You select type of assignment to be file upload</span>
+
+                    </div> */}
+
+                </Col>
+                </Row>
+            </div>
+        )
+    }
+}
+
+class StudentReport extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {columns : [{
+            title: 'Name',
+            dataIndex: 'name',
+          },  {
+            title: 'Assignment',
+            dataIndex: 'assignment',
+          }],
+          data : [{
+            key: '1',
+            assignment:'aaaaaaaaaaaaa',
+            name: 'Thanjira Sukkree',
+          }]
+
+        }
+    }
+
+    
+    rowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        },
+        getCheckboxProps: record => ({
+          disabled: record.name === 'Disabled User', // Column configuration not to be checked
+          name: record.name,
+        }),
+      };
+
+    render () {
+        return (
+            <div>  
+                <span className="breadcrumb-admin">Process > Student Report </span><br/>
+                 <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+            </div>
         )
     }
 }

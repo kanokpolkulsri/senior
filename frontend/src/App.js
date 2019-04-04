@@ -35,6 +35,7 @@ class App extends Component {
             <Route path='/review' component={Review} />
             <Route path='/faq' component={FAQ} />
             <Route path='/admin/:cate/:topic' component={Admin} />
+            <Route path='/admin/:cate/:topic/:asname' component={Admin} />
             <Route path='/admin/:cate' component={Admin} />
             <Route path='/admin' component={Admin} />
        
