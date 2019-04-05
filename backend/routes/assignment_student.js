@@ -18,6 +18,13 @@ router.post('/student', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 });
 
+router.post('/new', (req, res, next) => {
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+    DB_ASSIGNMENT_STUDENT.insertOne(req.body)
+    .then(() => res.send({code: 1}))
+    .catch(() => res.send({code: 0}))
+});
+
 router.post('/update', (req, res, next) => {
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
     req.body._id = mongo.ObjectID(req.body._id)
