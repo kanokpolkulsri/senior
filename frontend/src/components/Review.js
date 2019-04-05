@@ -109,7 +109,6 @@ class Review extends React.Component {
     API_GET_DATA = () => {
         API_REVIEW.GET_DATA()
         .then(response => {
-            console.log(response)
             if(response.code === 1){
                 console.log(response)
                 this.setState({allreview:response.data})
@@ -143,8 +142,27 @@ class Review extends React.Component {
         })
     }
 
+    API_GET_SEARCH_NAME_COMPANY = () => {
+        API_REVIEW.GET_SEARCH_NAME_COMPANY()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+
+                /*
+                data = [
+                    {
+                        companyName: "ExxonMobil Limited",
+                        _id: "5c6ba5a8e440f7d89bb8619f"
+                    }
+                ]
+                */
+            }
+        })
+    }
+
     componentDidMount = () => {
         this.API_GET_DATA()
+        this.API_GET_SEARCH_NAME_COMPANY()
     }
 
     render() {
