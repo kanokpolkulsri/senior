@@ -1,6 +1,7 @@
 import React from 'react'
 import '../css/Feed.css';
 import { Tag,message,Row,Col,Button } from 'antd';
+import Slider from "react-slick";
 
 import "antd/dist/antd.css";
 
@@ -57,7 +58,7 @@ class Feed extends React.Component {
                     <Col span={4}>
                         <span className="event-date">4</span>
                     </Col>
-                    <Col span={19} offset={1}>
+                    <Col span={15} offset={1}>
                         <span className="event-month">February</span>
                         <span className="event-time">13:00-16:00</span>
                     </Col>
@@ -153,6 +154,41 @@ class Feed extends React.Component {
 
     render() {
         const { selectedTags } = this.state;
+        var settings = {
+            dots: true,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            // slidesPerRow: 4,
+            initialSlide: 0,
+            responsive: [
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  infinite: true,
+                  dots: true
+                }
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 2,
+                  initialSlide: 2
+                }
+              },
+              {
+                breakpoint: 480,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1
+                }
+              }
+            ]
+          };
 
         return (
             <div>
@@ -167,9 +203,11 @@ class Feed extends React.Component {
                 </div>
                 <div className="feed-content container">
                     <p className="feed-title">Upcoming Events</p>
-                    <div className="all-event">
-                      {this.getEvent()}
-                    </div>
+                    {/* <div className="all-event"> */}
+                    <Slider {...settings}>
+                        {this.getEvent()}
+                    </Slider>
+                    {/* </div> */}
                     <p className="feed-title">Announcement</p>
                         {this.getAnnouncement()}
                      

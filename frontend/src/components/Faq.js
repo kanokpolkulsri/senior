@@ -10,7 +10,7 @@ class FAQ extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            faq : [{id:1,question:"aquestion",answer:"aaaaa"},{id:2,question:"bquestion",answer:"bbbbb"}]
+            faq : []
         }
       }
 
@@ -33,7 +33,9 @@ class FAQ extends React.Component {
         API_FAQ.GET_FAQ()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
+                // console.log(response)
+                this.setState({faq:response.data})
+
                 //request successfully
 
                 //response.data

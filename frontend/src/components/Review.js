@@ -24,7 +24,8 @@ class Review extends React.Component {
         this.state = {
             selectedTags: [],
             allreview: [],
-            paymentRange:  ["0-250","250-500","more than 500"]
+            paymentRange:  ["0-250","250-500","more than 500"],
+            currentReview: []
         }
     }
     handlePaymentChange = (value) => {
@@ -45,13 +46,6 @@ class Review extends React.Component {
         message.info(`Click on item ${key}`);
     };
 
-    // menu = () =>{
-    //     const menuList = ["0-250","250-500","more than 500"]
-    //     const menuItem = menuList.map((option,idx)=>
-    //         <Menu.Item key={idx}>{option}</Menu.Item>
-    //     );
-    //     return (<Menu onClick={this.onClick}>{menuItem}</Menu>);
-    // }
     genJobDesc = (j) => {
         let jobDesc = this.state.allreview[j].jobDescriptionTitle[0];
         for(var i = 1;i < this.state.allreview[j].jobDescriptionTitle.length;i++){
@@ -66,8 +60,15 @@ class Review extends React.Component {
         }
         return transShortTag
     }
+
+    // sortCompany = () => {
+    //     if()
+    //     var tmp = this.state.allreview.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+    // }
+
     genResult = () => {
-        let result = this.state.allreview.map((option,idx) => 
+        let result = this.state.currentReview.map((option,idx) => 
             <div className="company">
             <Row>
                 <Col span={6}> 
@@ -112,11 +113,8 @@ class Review extends React.Component {
             console.log(response)
             if(response.code === 1){
                 console.log(response)
-                this.setState({allreview:response.data})
-                // request successfully
-
-                // response.data
-
+                this.setState({allreview:response.data, currentReview:response.data})
+           
                 /*
                 data = [
                     {

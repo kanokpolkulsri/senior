@@ -26,6 +26,7 @@
     position: absolute;
     top:360px;
     padding:40px;
+    padding-right:0px;
 }
 .announce-content{
     white-space: pre-wrap;
@@ -75,18 +76,40 @@ div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked{
 } */
 /* event */
 .all-event{
+    /* display: flexbox;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center; */
     height:auto;
+    width:100%;
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    overflow: hidden;
+    overflow: hidden;  
+}
+
+.slick-slide
+{
+    height: inherit !important;
+
+}
+.slick-track{
+    display:flex !important;
+    width:100%;
+
+}
+.slick-slide div:first-of-type{
+    margin-right:10px;
+    height:100%;
+    /* height: inherit !important; */
 }
 .event-block{
-    display: inline-block;
-    position: relative;
+    /* display: inline-block; */
+    height: inherit !important; 
     justify-content: flex-start;
-    /* height: 280px; */
-    width: 300px;
+
+    position: relative;
+    width: 260px;
     border:1px solid #d9d9d9;
     border-radius: 10px;
     padding: 10px 25px;
@@ -96,7 +119,7 @@ div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked{
 .event-color-tab{
     position: absolute;
     width:9px;
-    height: 50px;
+    height: 50px !important;
     top:25px;
     left:0px;
 }
