@@ -47,7 +47,6 @@ class Review extends React.Component {
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
 
-    // text = "exxon"
     API_REVIEW.POST_SEARCH_NAME_COMPANY(value)
     .then(response => {
         if(response.code === 1){
@@ -80,7 +79,6 @@ class Review extends React.Component {
     handlePaymentChange = (value) => {
         console.log(`selected ${value}`);
     }
-      
 
     handleChange = (tag, checked) => {
         const { selectedTags } = this.state;
@@ -195,20 +193,8 @@ class Review extends React.Component {
         })
     }
 
-    API_POST_SEARCH_NAME_COMPANY = (text) => {
-        // text = "exxon"
-        API_REVIEW.POST_SEARCH_NAME_COMPANY(text)
-        .then(response => {
-            if(response.code === 1){
-                console.log(response.data)
-            }
-        })
-    }
-
     componentDidMount = () => {
         this.API_GET_DATA()
-        this.API_GET_SEARCH_NAME_COMPANY()
-        // this.API_POST_SEARCH_NAME_COMPANY("exxo")
     }
 
     render() {
