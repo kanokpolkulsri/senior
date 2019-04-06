@@ -25,12 +25,16 @@ class Review extends React.Component {
             selectedTags: [],
             allreview: [],
             paymentRange:  ["0-250","250-500","more than 500"],
-            currentReview: []
+            currentReview: [],
+            allComName:[],
+            currentComName:[],
+            sortProp:'',
+            sortOrder:''
         }
     }
     handlePaymentChange = (value) => {
         console.log(`selected ${value}`);
-      }
+    }
       
 
     handleChange = (tag, checked) => {
@@ -61,11 +65,23 @@ class Review extends React.Component {
         return transShortTag
     }
 
-    // sortCompany = () => {
-    //     if()
-    //     var tmp = this.state.allreview.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    
+   
+    sortCompany = (change,value) => {
+        var order = this.state.sortOrder;
+        var prop = this.state.sortProp;
 
-    // }
+        if(change === "order")
+            order = value;
+        else 
+            prop = value;
+        var tmp;
+        tmp = this.state.allreview.sort((a,b) => order * ((a > b) - (b > a)))
+        console.log(this.state.sortProp,this.state.sortOrder,tmp);
+        this.setState({currentReview:tmp})
+        
+
+    }
 
     genResult = () => {
         let result = this.state.currentReview.map((option,idx) => 
@@ -107,6 +123,18 @@ class Review extends React.Component {
         return result
     }
 
+    handleOrderChange = (value) =>{
+        console.log(value);
+        this.setState({sortOrder: value})
+        this.sortCompany("order",value);
+    }
+    handlePropChange = (value) =>{
+        console.log(value);
+        
+        this.setState({sortProp: value})
+        this.sortCompany("prop",value);
+    }
+
     API_GET_DATA = () => {
         API_REVIEW.GET_DATA()
         .then(response => {
@@ -145,6 +173,7 @@ class Review extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response.data)
+                this.setState({allComName:response.data, currentComName:response.data})
 
                 /*
                 data = [
@@ -213,16 +242,25 @@ class Review extends React.Component {
                         <Col span={8} offset={16}>
                         <div className="sort">
                             <span>Sort By: </span>
-                            <select className="sort-select sort-name"> 
-                                <option>
+                            <Select defaultValue="companyName" className="sort-select sort-name" onChange={this.handlePropChange}> 
+                                <Option value="companyName">
                                     Name
-                                </option>
-                            </select>
-                            <select className="sort-select sort-asending">
-                                <option>
+                                </Option>
+                                <Option value="payment">
+                                    Payment
+                                </Option>
+                                <Option value="star">
+                                    Rating
+                                </Option>
+                            </Select>
+                            <Select defaultValue="ascending" className="sort-select sort-asending" onChange={this.handleOrderChange}>
+                                <Option value={1}>
                                     Ascending
-                                </option>
-                            </select>
+                                </Option>
+                                <Option value={-1}>
+                                    Descending
+                                </Option>
+                            </Select>
                         </div>
             
                         </Col>

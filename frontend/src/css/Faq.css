@@ -1,6 +1,12 @@
 .container{
     padding:50px;
+    font-family: 'sarabun'
 }
 .container h3{
     color:#048C8A;
+    font-family: 'cs_prajadregular';
+    font-weight: bold;
+}
+.ant-collapse{
+    font-size:20px;
 }
