@@ -70,14 +70,19 @@ class Review extends React.Component {
     sortCompany = (change,value) => {
         var order = this.state.sortOrder;
         var prop = this.state.sortProp;
-
+        console.log('prop',prop);
+        
         if(change === "order")
             order = value;
         else 
             prop = value;
         var tmp;
-        tmp = this.state.allreview.sort((a,b) => order * ((a > b) - (b > a)))
-        console.log(this.state.sortProp,this.state.sortOrder,tmp);
+        // if(prop === 'companyName')
+        //     tmp = this.state.allreview.sort((a,b) => order * ((a[prop] > b[prop]) - (b[prop] > a[prop])))
+        // else
+        //     tmp = this.state.allreview.sort((a,b)=> order * parseInt(a[prop]) - parseInt(b[prop]))
+        tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
+            console.log(this.state.sortProp,this.state.sortOrder,tmp);
         this.setState({currentReview:tmp})
         
 
