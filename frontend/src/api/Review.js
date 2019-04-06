@@ -16,3 +16,10 @@ export const GET_SEARCH_NAME_COMPANY = async (id) => {
     const res = await axios.get(API_URL+"/search")
     return await res.data
 }
+
+export const POST_SEARCH_NAME_COMPANY = async (text) => {
+    let params = {}
+    params['text'] = text
+    const res = await axios.get(API_URL+"/search", params)
+    return await res.data
+}

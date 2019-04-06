@@ -160,6 +160,16 @@ class Review extends React.Component {
         })
     }
 
+    API_POST_SEARCH_NAME_COMPANY = (text) => {
+        // text = "exxon"
+        API_REVIEW.POST_SEARCH_NAME_COMPANY(text)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
+    }
+
     componentDidMount = () => {
         this.API_GET_DATA()
         this.API_GET_SEARCH_NAME_COMPANY()

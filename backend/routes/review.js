@@ -18,6 +18,13 @@ router.get('/search', (req, res, next) => {
   .catch(() => res.send({code: 0, data: ""}))
 });
 
+router.post('/search', (req, res, next) => {
+  const DB_REVIEW = req.app.locals.DB_REVIEW
+  DB_REVIEW.find({companyName: {$regex: req.body.text, $options: "$i"}}, {projection: {companyName: 1}}).toArray()
+  .then(response => res.send({code: 1, data: response}))
+  .catch(() => res.send({code: 0, data: ""}))
+});
+
 router.get('/:id', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.find({_id: mongo.ObjectID(req.params.id)}).toArray()
