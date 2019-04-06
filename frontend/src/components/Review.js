@@ -37,7 +37,7 @@ class Review extends React.Component {
             fetching: false,
         }
         this.lastFetchId = 0;
-        this.fetchUser = debounce(this.fetchUser, 800);
+        this.fetchCompany = debounce(this.fetchCompany, 800);
   }
 
 
