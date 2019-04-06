@@ -28,8 +28,6 @@ class Review extends React.Component {
             allreview: [],
             paymentRange:  ["0-250","250-500","more than 500"],
             currentReview: [],
-            allComName:[],
-            currentComName:[],
             sortProp:'',
             sortOrder:'',
             data: [],
@@ -258,7 +256,7 @@ class Review extends React.Component {
                     <span className="menu-header"><i className="fa fa-search"></i>  Search</span>
                     <div className="menu-content">  
                     <Select
-                        className="col-11 form-control"
+                        className="col-11"
                         mode="multiple"
                         labelInValue
                         value={value}
