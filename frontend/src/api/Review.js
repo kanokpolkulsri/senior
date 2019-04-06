@@ -23,3 +23,5 @@ export const POST_SEARCH_NAME_COMPANY = async (text) => {
     const res = await axios.get(API_URL+"/search", params)
     return await res.data
 }
+
+export const API_SEARCH_NAME = API_URL+"/search";

@@ -1,13 +1,15 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
 import { NavLink } from "react-router-dom";
-import { Tag, Row, Col, Select, message, } from 'antd';
+import { Tag, Row, Col, Select, message, Spin } from 'antd';
+import debounce from 'lodash/debounce';
 
 
 // var Template = require('./Review.jsx')
 import '../css/App.css';
 import '../css/Review.css';
 import "antd/dist/antd.css";
+import { API_SEARCH_NAME } from '../api/Review';
 
 const Option = Select.Option;
 
@@ -29,9 +31,47 @@ class Review extends React.Component {
             allComName:[],
             currentComName:[],
             sortProp:'',
-            sortOrder:''
+            sortOrder:'',
+            data: [],
+            value: [],
+            fetching: false,
         }
-    }
+        this.lastFetchId = 0;
+        this.fetchUser = debounce(this.fetchUser, 800);
+  }
+
+
+  fetchUser = (value) => {
+    console.log('fetching user', value);
+    this.lastFetchId += 1;
+    const fetchId = this.lastFetchId;
+    this.setState({ data: [], fetching: true });
+    fetch(`${API_SEARCH_NAME}/${value}`)
+      .then(response => response.json())
+      .then((body) => {
+        if (fetchId !== this.lastFetchId) { // for fetch callback order
+          return;
+        }
+        const data = body.results.map(user => ({
+          text: `${user.name.first} ${user.name.last}`,
+          value: user.login.username,
+        }));
+        this.setState({ data, fetching: false });
+      });
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      value,
+      data: [],
+      fetching: false,
+    });
+  }
+
+
+
+
+
     handlePaymentChange = (value) => {
         console.log(`selected ${value}`);
     }
@@ -191,7 +231,6 @@ class Review extends React.Component {
             }
         })
     }
-
     API_POST_SEARCH_NAME_COMPANY = (text) => {
         // text = "exxon"
         API_REVIEW.POST_SEARCH_NAME_COMPANY(text)
@@ -201,7 +240,6 @@ class Review extends React.Component {
             }
         })
     }
-
     componentDidMount = () => {
         this.API_GET_DATA()
         this.API_GET_SEARCH_NAME_COMPANY()
@@ -209,6 +247,7 @@ class Review extends React.Component {
 
     render() {
         const { selectedTags } = this.state;
+        const { fetching, data, value } = this.state;
 
         return (
         
@@ -216,7 +255,21 @@ class Review extends React.Component {
                 <Col span={6}>
                 <div className="col-menu">
                     <span className="menu-header"><i className="fa fa-search"></i>  Search</span>
-                    <div className="menu-content"><input type="keyword" className="col-11 form-control" id="exampleInputKeyword1" aria-describedby="keywordHelp" placeholder="Enter any keyword"/></div>
+                    <div className="menu-content">  
+                    <Select
+                        className="col-11 form-control"
+                        mode="multiple"
+                        labelInValue
+                        value={value}
+                        placeholder="Enter any keyword"
+                        notFoundContent={fetching ? <Spin size="small" /> : null}
+                        filterOption={false}
+                        onSearch={this.fetchUser}
+                        onChange={this.handleChange}
+                        style={{ width: '100%' }}
+                    >
+                        {data.map(d => <Option key={d.value}>{d.text}</Option>)}
+                    </Select></div>
                     <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
                     <div className="menu-content">
                         <span className="filter-topic">Job Description</span>
