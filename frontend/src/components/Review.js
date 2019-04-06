@@ -41,8 +41,8 @@ class Review extends React.Component {
   }
 
 
-  fetchUser = (value) => {
-    console.log('fetching user', value);
+  fetchCompany = (value) => {
+    console.log('fetching company', value);
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
@@ -243,6 +243,7 @@ class Review extends React.Component {
     componentDidMount = () => {
         this.API_GET_DATA()
         this.API_GET_SEARCH_NAME_COMPANY()
+        this.API_POST_SEARCH_NAME_COMPANY("exxo")
     }
 
     render() {
@@ -264,7 +265,7 @@ class Review extends React.Component {
                         placeholder="Enter any keyword"
                         notFoundContent={fetching ? <Spin size="small" /> : null}
                         filterOption={false}
-                        onSearch={this.fetchUser}
+                        onSearch={this.fetchCompany}
                         onChange={this.handleChange}
                         style={{ width: '100%' }}
                     >
