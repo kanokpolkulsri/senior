@@ -46,31 +46,36 @@ class Review extends React.Component {
     this.lastFetchId += 1;
     const fetchId = this.lastFetchId;
     this.setState({ data: [], fetching: true });
-    fetch(`${API_SEARCH_NAME}/${value}`)
-      .then(response => response.json())
-      .then((body) => {
-        if (fetchId !== this.lastFetchId) { // for fetch callback order
-          return;
+
+    // text = "exxon"
+    API_REVIEW.POST_SEARCH_NAME_COMPANY(value)
+    .then(response => {
+        if(response.code === 1){
+            console.log(response.data)
         }
-        const data = body.results.map(user => ({
-          text: `${user.name.first} ${user.name.last}`,
-          value: user.login.username,
-        }));
-        this.setState({ data, fetching: false });
-      });
+    })
+
+    // fetch(`${API_SEARCH_NAME}/${value}`)
+    //   .then(response => response.json())
+    //   .then((body) => {
+    //     if (fetchId !== this.lastFetchId) { // for fetch callback order
+    //       return;
+    //     }
+    //     const data = body.results.map(user => ({
+    //       text: `${user.name.first} ${user.name.last}`,
+    //       value: user.login.username,
+    //     }));
+    //     this.setState({ data, fetching: false });
+    //   });
   }
 
-  handleChange = (value) => {
+    handleChange = (value) => {
     this.setState({
-      value,
-      data: [],
-      fetching: false,
+        value,
+        data: [],
+        fetching: false,
     });
-  }
-
-
-
-
+    }
 
     handlePaymentChange = (value) => {
         console.log(`selected ${value}`);
@@ -186,51 +191,10 @@ class Review extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({allreview:response.data, currentReview:response.data})
-           
-                /*
-                data = [
-                    {
-                        companyName: "ExxonMobil Limited",
-                        jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
-                        logo: "logo.png",
-                        payment: 500,
-                        star: 3,
-                        transportationTitle: (3) ["bts", "mrt", "bus"],
-                        _id: "5c6ba5a8e440f7d89bb8619f"
-                    },
-                    {
-                        companyName: "ExxonMobil Limited",
-                        jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
-                        logo: "logo.png",
-                        payment: 500,
-                        star: 3,
-                        transportationTitle: (3) ["bts", "mrt", "bus"],
-                        _id: "5c6ba5a8e440f7d89bb8619f"
-                    }
-                ]
-                */
             }
         })
     }
 
-    API_GET_SEARCH_NAME_COMPANY = () => {
-        API_REVIEW.GET_SEARCH_NAME_COMPANY()
-        .then(response => {
-            if(response.code === 1){
-                console.log(response.data)
-                this.setState({allComName:response.data, currentComName:response.data})
-
-                /*
-                data = [
-                    {
-                        companyName: "ExxonMobil Limited",
-                        _id: "5c6ba5a8e440f7d89bb8619f"
-                    }
-                ]
-                */
-            }
-        })
-    }
     API_POST_SEARCH_NAME_COMPANY = (text) => {
         // text = "exxon"
         API_REVIEW.POST_SEARCH_NAME_COMPANY(text)
@@ -240,10 +204,11 @@ class Review extends React.Component {
             }
         })
     }
+
     componentDidMount = () => {
         this.API_GET_DATA()
         this.API_GET_SEARCH_NAME_COMPANY()
-        this.API_POST_SEARCH_NAME_COMPANY("exxo")
+        // this.API_POST_SEARCH_NAME_COMPANY("exxo")
     }
 
     render() {

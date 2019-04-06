@@ -10,14 +10,6 @@ router.get('/', (req, res, next) => {
   .catch(() => res.send({code: 0, data: ""}))
 });
 
-router.get('/search', (req, res, next) => {
-  /* when adding new company's name */
-  const DB_REVIEW = req.app.locals.DB_REVIEW
-  DB_REVIEW.find({}, {projection: {companyName: 1}}).toArray()
-  .then(response => res.send({code: 1, data: response}))
-  .catch(() => res.send({code: 0, data: ""}))
-});
-
 router.post('/search', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.find({companyName: {$regex: req.body.text, $options: "$i"}}, {projection: {companyName: 1}}).toArray()
