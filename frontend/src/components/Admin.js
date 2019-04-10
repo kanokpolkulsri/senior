@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col, Select,Radio, Table , Input, Button, DatePicker,TimePicker,Checkbox   } from 'antd';
+import {Row, Col, Select,Radio, Table , Input, Button, DatePicker,TimePicker,Checkbox,Upload, Icon, message    } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment';
 
@@ -565,34 +565,6 @@ class CompanyList extends React.Component{
                 console.log(response)
                 //request successfully
                 //response.data
-                /*
-                    data = [
-                        {
-                            "_id": "5c852a90a7cd113ae7508746",
-                            "name": "บริษัท เอ-โอสต์ จำกัด",
-                            "url": "kanokpolkulsri.netlify.com",
-                            "category": [
-                                "application",
-                                "network",
-                                "datascience",
-                                "consulting",
-                                "iot",
-                                "etc"
-                            ]
-                        },
-                        {
-                            "_id": "5c852a9ba7cd113ae750874a",
-                            "name": "บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด",
-                            "url": "www.facebook.com/ton2plam",
-                            "category": [
-                                "application",
-                                "consulting",
-                                "iot",
-                                "etc"
-                            ]
-                        }
-                    ]
-                */
             }
         })
     }
@@ -855,6 +827,41 @@ class Process extends React.Component {
 }
 
 class EachProcess extends React.Component {
+    getBase64 = (img, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+      }
+      
+    beforeUpload = (file) => {
+        const isJPG = file.type === 'image/jpeg';
+        if (!isJPG) {
+          message.error('You can only upload JPG file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          message.error('Image must smaller than 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
+
+    state = {
+        loading: false,
+    };
+
+    handleChange = (info) => {
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            this.getBase64(info.file.originFileObj, imageUrl => this.setState({
+            imageUrl,
+            loading: false,
+            }));
+        }
+    }
     
     API_POST_ID_PROCESS = (id) => {
         API_ADMIN.POST_ID_PROCESS(id)
@@ -879,11 +886,29 @@ class EachProcess extends React.Component {
         let id = "20180408235902" /* id of each process */
         this.API_POST_ID_PROCESS(id)
     }
-
+    
     render() {
+        const uploadButton = (
+            <div>
+              <Icon type={this.state.loading ? 'loading' : 'plus'} />
+              <div className="ant-upload-text">Upload</div>
+            </div>
+          );
+          const imageUrl = this.state.imageUrl;
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > {this.props.match.params.asname}</span><br/>
+                <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="//jsonplaceholder.typicode.com/posts/"
+                    beforeUpload={this.beforeUpload}
+                    onChange={this.handleChange}
+                >
+                    {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
+                </Upload>
             </div>
         )
     }

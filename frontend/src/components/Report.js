@@ -8,18 +8,32 @@ const API_REPORT = require('../api/Report')
 const API_STUDENT = require('../api/Assignment_Student')
 
 const Step = Steps.Step;
+const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
 
 
 class Report extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            currentPage : "",
+        }
+    }
+
     componentDidMount= () =>{
         console.log(this.props)
         if(this.props.match.path === "/schedule"){
             this.refs.menuSchedule.classList.add("active")
         }
-        else if(this.props.match.path === "/assignment"){
+        else{
             this.refs.menuAssignment.classList.add("active")
             console.log(this.refs.cardAssFilter)
             this.refs.cardAssFilter.container.classList.remove("hidden")
+            var filter = this.props.match.params.filter;
+            // console.log(matchCheck[filter]);
+            
+            this.refs[matchCheck[filter]].classList.add("active")
+            if(this.state.currentPage !== filter)
+                this.setState({currentPage : filter});
         }
     }
     componentDidUpdate = () =>{  
@@ -28,13 +42,18 @@ class Report extends React.Component {
             this.refs.menuSchedule.classList.add("active")
             this.refs.menuAssignment.classList.remove("active")
             this.refs.cardAssFilter.container.classList.add("hidden")
+            this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
 
         }
-        else if(this.props.match.path === "/assignment"){
+        else{
             this.refs.menuAssignment.classList.add("active")
             this.refs.menuSchedule.classList.remove("active")
             this.refs.cardAssFilter.container.classList.remove("hidden")
-
+            this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+            var filter = this.props.match.params.filter;
+            this.refs[matchCheck[filter]].classList.add("active")
+            if(this.state.currentPage !== filter)
+                this.setState({currentPage : filter});
         }
     }
 
@@ -62,6 +81,7 @@ class Report extends React.Component {
                             <p className="report-topic">Filters</p>
                             <ul className="report-type">
                                 <Link style={{ textDecoration: 'none' }} to="/assignment/all"><li ref="menuAll">All</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to="/assignment/assigned"><li ref="menuAssign">Assigned</li></Link>
                                 <Link style={{ textDecoration: 'none' }} to="/assignment/turnedin"><li ref="menuTurnin">Turned In</li></Link>
                                 <Link style={{ textDecoration: 'none' }} to="/assignment/missing"><li ref="menuMissing">Missing</li></Link>
                                 <Link style={{ textDecoration: 'none' }} to="/assignment/late"><li ref="menuLate">Late</li></Link>
@@ -72,7 +92,7 @@ class Report extends React.Component {
                         <Switch>
                             <Route path="/schedule" component={Schedule}/>
                             <Route path="/assignment/:filter" component={Assignment}/>
-                            <Redirect from="/assignment" to="/assignment/all"/>
+                            <Redirect from="/assignment" to="/assignment/assigned"/>
                         </Switch>
                       
                     </Col>
@@ -187,6 +207,8 @@ class Assignment extends React.Component {
         }
     }
     
+    
+
     genData = () => {
         console.log(this.props.match.params.filter)
         var tmp = this.props.match.params.filter
