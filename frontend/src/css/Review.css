@@ -44,3 +44,13 @@ i.fa{
 .sort-select{
     font-size:16px;
 }
+.input-search{
+    width:100%;
+}
+
+div.tag-check.ant-tag-checkable-checked{
+    background-color: #048C8A;
+}
+div.tag-check.ant-tag-checkable:hover{
+    color: #048C8A;
+}

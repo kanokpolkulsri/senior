@@ -1,8 +1,9 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
 import { NavLink } from "react-router-dom";
-import { Tag, Row, Col, Select, message, Spin } from 'antd';
+import { Tag, Row, Col, Select, message, Checkbox } from 'antd';
 import debounce from 'lodash/debounce';
+import querystring from 'querystring';
 
 
 // var Template = require('./Review.jsx')
@@ -15,10 +16,15 @@ const Option = Select.Option;
 
 const CheckableTag = Tag.CheckableTag;
 const tagsFromServer = ['Bus', 'BTS', 'MRT'];
+const tagList = ["application","network","data science","iot","etc"]
 
-const review = [{"_id":"5c6ba5a8e440f7d89bb8619f","companyName":"ExxonMobil Limited","jobDescriptionTitle":["Chatbot","Frontend Development","Backend Development","Business Process Improvement","SAP"],"payment":500,"star":3,"logo":"logo.png","transportationTitle":["bts","mrt","bus"]}];
-
+const paymentRange =  ["0-250","251-500","501-1000","more than 1000"];
 const API_REVIEW = require('../api/Review')
+
+let timeout;
+let currentValue;
+
+
 
 class Review extends React.Component {
     constructor(props) {
@@ -26,18 +32,20 @@ class Review extends React.Component {
         this.state = {
             selectedTags: [],
             allreview: [],
-            paymentRange:  ["0-250","250-500","more than 500"],
             currentReview: [],
-            sortProp:'',
-            sortOrder:'',
+            sortProp:'name',
+            sortOrder:1,
             data: [],
-            value: [],
-            fetching: false,
+            searchValue: undefined,
+            paymentValue: undefined,
+            jobDescValue: undefined,
+            transValue: undefined
+           
         }
         this.lastFetchId = 0;
         this.fetchCompany = debounce(this.fetchCompany, 800);
   }
-
+ 
 
   fetchCompany = (value) => {
     console.log('fetching company', value);
@@ -50,32 +58,115 @@ class Review extends React.Component {
         if(response.code === 1){
             console.log(response.data)
         }
+        if (fetchId !== this.lastFetchId) { // for fetch callback order
+          return;
+        }
+        const data = response.data.map(company => (
+            {
+                text: `${company.companyName}`,
+                value: `${company.companyName}`,
+            }
+        ))
+        this.setState({ data, fetching: false });
     })
-
-    // fetch(`${API_SEARCH_NAME}/${value}`)
-    //   .then(response => response.json())
-    //   .then((body) => {
-    //     if (fetchId !== this.lastFetchId) { // for fetch callback order
-    //       return;
-    //     }
-    //     const data = body.results.map(user => ({
-    //       text: `${user.name.first} ${user.name.last}`,
-    //       value: user.login.username,
-    //     }));
-    //     this.setState({ data, fetching: false });
-    //   });
   }
+    fetchData = (value, callback) => {
+        console.log('fetchhh');
+        
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        currentValue = value;
+    
+        function fake() {
+        //   const str = querystring.encode({
+        //     code: 'utf-8',
+        //     q: value,
+        //   });
+          API_REVIEW.POST_SEARCH_NAME_COMPANY(value)
+          .then(response => {
+              console.log('responsee',response);
+              
+              if (currentValue === value) {
+                const result = response.data;
+                const data = [];
+                result.forEach((r) => {
+                  data.push({
+                    value: r.companyName,
+                    text: r.companyName,
+                  });
+                });
+                callback(data);
+              }
+            });
+        }
+      
+        timeout = setTimeout(fake, 300);
+      }
 
-    handleChange = (value) => {
-    this.setState({
-        value,
-        data: [],
-        fetching: false,
-    });
+
+      //sort search filter
+      searchFilter = () => {
+        let tmp = this.state.allreview
+        if(this.state.searchValue !== undefined)
+            tmp = tmp.filter(element => element.companyName === this.state.searchValue)
+        
+        var lowRange;
+        var highRange;
+        if(this.state.paymentValue !== undefined){
+            if(this.state.paymentValue !== "more than 1000"){
+                console.log("less thn");
+                lowRange = parseInt(this.state.paymentValue.Split('-')[0])
+                highRange = parseInt(this.state.paymentValue.Split('-')[1])
+                tmp = tmp.filter(element => (element.payment >= lowRange && element.payment <= highRange));
+            }
+            else{
+                console.log("more than");
+                tmp = tmp.filter(element => element.payment >= 1001);
+            }
+        }
+       
+
+//        tmp = tmp.filter(element => this.state.jobDescValue.includes(element.jobDesc));
+        if(this.state.selectedTags.length != 0){
+            var selectedTags = this.state.selectedTags;
+            tmp = tmp.filter(function(array_el){
+                return selectedTags.filter(function(tag){
+                    console.log(tag);
+                    
+                   return array_el.transportationTitle.includes(tag.toLowerCase());
+                }).length === selectedTags.length
+            })
+        }
+        
+        console.log(tmp);
+
+
+        this.setState({currentReview :tmp});
+      }
+
+
+
+  
+    onJobDescChange = (value) => {
+        this.setState({ jobDescValue : value },() => {this.searchFilter()});
+        
+    }
+
+    handleSearch = (value) => {
+        this.fetchData(value, data => this.setState({ data }));
+    }
+
+    
+    handleSearchChange = (value) => {
+        this.setState({ searchValue : value },() => {this.searchFilter()});
     }
 
     handlePaymentChange = (value) => {
-        console.log(`selected ${value}`);
+        console.log("selected" ,value);
+        this.setState({ paymentValue : value },() => {this.searchFilter()});
+
     }
 
     handleChange = (tag, checked) => {
@@ -84,8 +175,9 @@ class Review extends React.Component {
           ? [...selectedTags, tag]
           : selectedTags.filter(t => t !== tag);
         console.log('You are interested in: ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags });
-      }
+        this.setState({ selectedTags: nextSelectedTags },()=>{this.searchFilter()});
+
+    }
 
     onClick = ({ key }) => {
         message.info(`Click on item ${key}`);
@@ -106,23 +198,22 @@ class Review extends React.Component {
         return transShortTag
     }
 
-    
-   
     sortCompany = (change,value) => {
         var order = this.state.sortOrder;
         var prop = this.state.sortProp;
-        console.log('prop',prop);
         
         if(change === "order")
             order = value;
         else 
             prop = value;
+        console.log('prop',prop);
+
         var tmp;
-        // if(prop === 'companyName')
-        //     tmp = this.state.allreview.sort((a,b) => order * ((a[prop] > b[prop]) - (b[prop] > a[prop])))
-        // else
-        //     tmp = this.state.allreview.sort((a,b)=> order * parseInt(a[prop]) - parseInt(b[prop]))
-        tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
+        if(prop === 'companyName')
+            tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
+        else
+            tmp = this.state.allreview.sort((a,b)=> order * (parseInt(a[prop]) - parseInt(b[prop])))
+        // tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
             console.log(this.state.sortProp,this.state.sortOrder,tmp);
         this.setState({currentReview:tmp})
         
@@ -147,7 +238,7 @@ class Review extends React.Component {
                     </Col>
                     <Col span={4}>
                         <div className="star-ratings">  <StarRatings
-                            rating={3}
+                            rating={option.star}
                             starRatedColor={"#F7CD1F"}
                             numberOfStars={3}
                             name='rating'
@@ -181,12 +272,19 @@ class Review extends React.Component {
         this.sortCompany("prop",value);
     }
 
+    getJobDescChoice = () => {
+        const choice = tagList.map((option) => 
+        <Col span={24}><Checkbox value={option}>{option}</Checkbox></Col>
+        )
+        return choice
+    }
     API_GET_DATA = () => {
         API_REVIEW.GET_DATA()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                this.setState({allreview:response.data, currentReview:response.data})
+                this.setState({allreview:response.data})
+                this.sortCompany("prop","companyName")
             }
         })
     }
@@ -197,8 +295,7 @@ class Review extends React.Component {
 
     render() {
         const { selectedTags } = this.state;
-        const { fetching, data, value } = this.state;
-
+        const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>)
         return (
         
             <Row>
@@ -207,34 +304,37 @@ class Review extends React.Component {
                     <span className="menu-header"><i className="fa fa-search"></i>  Search</span>
                     <div className="menu-content">  
                     <Select
-                        className="col-11"
-                        mode="multiple"
-                        labelInValue
-                        value={value}
-                        placeholder="Enter any keyword"
-                        notFoundContent={fetching ? <Spin size="small" /> : null}
-                        filterOption={false}
-                        onSearch={this.fetchCompany}
-                        onChange={this.handleChange}
-                        style={{ width: '100%' }}
-                    >
-                        {data.map(d => <Option key={d.value}>{d.text}</Option>)}
-                    </Select></div>
+                            showSearch
+                            className="input-search"
+                            value={this.state.searchValue}
+                            placeholder="Enter Company Name"
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch}
+                            onChange={this.handleSearchChange}
+                            notFoundContent={null}
+                        >
+                        {options}
+                    </Select>
+                        {/* {data.map(d => <Option key={d.value}>{d.text}</Option>)} */}
+                    </div>
                     <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
                     <div className="menu-content">
                         <span className="filter-topic">Job Description</span>
                         <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="defaultCheck1"/>
-                            <label className="form-check-label" htmlFor="defaultCheck1">
-                                Frontend Development
-                            </label>
+                        <Checkbox.Group style={{ width: '100%' }} onChange={this.onJobDescChange}>
+                            <Row>    
+                                {this.getJobDescChoice()}                    
+                            </Row>
+                        </Checkbox.Group>
                         </div>
                         <span className="filter-topic">Payment Range</span>
                         <Select    
-                        placeholder="Select a payment range"
-                        style={{ width: 200 }} onChange={this.handlePaymentChange()}>
-                            {this.state.paymentRange.map(range => <Option key={range}>{range}</Option>)}
-
+                            placeholder="Select a payment range"
+                            style={{ width: 200 }} 
+                            onChange={this.handlePaymentChange}>
+                            {paymentRange.map(range => <Option key={range}>{range}</Option>)}
                         </Select>
                         <span className="filter-topic">Transportation options</span>
                         {tagsFromServer.map(tag => (
@@ -271,7 +371,7 @@ class Review extends React.Component {
                                     Rating
                                 </Option>
                             </Select>
-                            <Select defaultValue="ascending" className="sort-select sort-asending" onChange={this.handleOrderChange}>
+                            <Select defaultValue={1} className="sort-select sort-asending" onChange={this.handleOrderChange}>
                                 <Option value={1}>
                                     Ascending
                                 </Option>
