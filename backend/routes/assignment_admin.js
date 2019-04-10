@@ -10,6 +10,20 @@ router.get('/', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 });
 
+router.get('/year', (req, res, next) => {
+    let year = (new Date()).getYear() + 1900
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.find({year: year}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+});
+
+router.post('/year', (req, res, next) => {
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.find({year: req.body.year}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+});
 
 router.post('/new', (req, res, next) => {
     const DB_REGISTER = req.app.locals.DB_REGISTER
