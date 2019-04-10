@@ -7,6 +7,13 @@ export const GET_STUDENT = async () => {
     return await res.data
 }
 
+export const POST_STUDENT_YEAR = async (year) => {
+    let params = {}
+    params["year"] = year
+    const res = await axios.post(API_URL + "/year", params)
+    return await res.data
+}
+
 export const POST_STUDENT = async (params) => {
     const res = await axios.post(API_URL + "/student", params)
     return await res.data

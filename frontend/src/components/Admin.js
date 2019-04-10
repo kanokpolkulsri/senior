@@ -13,6 +13,8 @@ const format = 'HH:mm';
 const Option = Select.Option;
 const API_FEED = require('../api/Feed')
 const API_FAQ = require('../api/Faq')
+const API_ADMIN = require('../api/Assignment_Admin')
+const API_STUDENT = require('../api/Assignment_Student')
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -814,7 +816,32 @@ class Process extends React.Component {
           disabled: record.name === 'Disabled User', // Column configuration not to be checked
           name: record.name,
         }),
-      };
+    };
+
+    API_POST_YEAR = (year) => {
+        /* to get all assignment in that year */
+        API_ADMIN.POST_YEAR(year)
+        .then(response => {
+            if(response.code === 1){
+                /* get latest year */
+            }
+        })
+    }
+
+    API_POST_DELETE_ID_PROCESS = (id) => {
+        /* id = "20180408235902" */
+        API_ADMIN.API_POST_DELETE_ID_PROCESS(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        let currentYear = (new Date()).getYear() + 1900
+        this.API_POST_YEAR(currentYear)
+    }
 
     render () {
         return (
@@ -829,6 +856,30 @@ class Process extends React.Component {
 
 class EachProcess extends React.Component {
     
+    API_POST_ID_PROCESS = (id) => {
+        API_ADMIN.POST_ID_PROCESS(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    API_POST_DELETE_ID_PROCESS = (id) => {
+        API_ADMIN.POST_DELETE(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        /* PALM NEEDS BAIVARN's HELP HERE */
+        let id = "20180408235902" /* id of each process */
+        this.API_POST_ID_PROCESS(id)
+    }
+
     render() {
         return (
             <div>  
@@ -837,6 +888,7 @@ class EachProcess extends React.Component {
         )
     }
 }
+
 class AddProcess extends React.Component {
     constructor(props) {
         super(props)
@@ -865,6 +917,36 @@ class AddProcess extends React.Component {
         let tmpArr = this.state.questionSet.concat(this.state.questionSet.length+1)
         this.setState({questionSet:tmpArr})
     }
+
+    API_POST_NEW = (params) => {
+        /*
+            id = concate year month day hr min sec
+            status: 0 = missing, 1 = turned in, -1 = late
+            params = {
+                "id" : "20190408235901",
+                "assignmentName" : "ฟอร์ม 2019_2",
+                "assignmentDescription" : "",
+                "status" : 0,
+                "statusDescription" : "",
+                "submitDate" : "",
+                "deadline" : "2019-04-08T03:53:24.073Z",
+                "defaultForm" : 0,
+                "requireIdSubmit" : "",
+                "form" : 0,
+                "formData" : [],
+                "pdf" : 0,
+                "pdfData" : "",
+                "year" : 2019
+            }
+        */
+       API_ADMIN.POST_NEW(params)
+       .then(response => {
+           if(response.code === 1){
+
+           }
+       })
+    }
+
     render() {
         return (
             <div>  
@@ -936,20 +1018,32 @@ class StudentReport extends React.Component {
             assignment:'aaaaaaaaaaaaa',
             name: 'Thanjira Sukkree',
           }]
-
         }
     }
 
-    
     rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
         },
         getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
+            disabled: record.name === 'Disabled User', // Column configuration not to be checked
+            name: record.name,
         }),
-      };
+    };
+
+    API_POST_STUDENT_YEAR = (year) => {
+        API_STUDENT.POST_STUDENT_YEAR(year)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        let currentYear = (new Date()).getYear() + 1900
+        this.API_POST_STUDENT_YEAR(currentYear)
+    }
 
     render () {
         return (
