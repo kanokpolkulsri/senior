@@ -959,7 +959,7 @@ class AddProcess extends React.Component {
                 "requireIdSubmit" : [],
                 "formData" : [
                     {"title": "firstname", "option": "short", "data": "kanokpol"},
-                    {"title": "kulsri", "option": "multiple", "data": "kulsri"},
+                    {"title": "lastname", "option": "multiple", "data": "kulsri"},
                     {"title": "logo", "option": "upload", "data": {...pdf format...} },
                 ],
                 "year" : 59
