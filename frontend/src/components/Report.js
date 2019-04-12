@@ -5,6 +5,7 @@ import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import '../css/Report.css';
 import moment from 'moment';
 const API_REPORT = require('../api/Report')
+const API_STUDENT = require('../api/Assignment_Student')
 
 const Step = Steps.Step;
 const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
@@ -218,6 +219,45 @@ class Assignment extends React.Component {
             return filtered
         }
         return this.state.data
+    }
+
+    API_POST_STUDENT = (username) => {
+        /* username = 5810504361 */
+        API_STUDENT.POST_STUDENT(username)
+        .then(response => {
+            if(response.code === 1){
+                
+            }
+        })
+    }
+
+    API_POST_UPDATE = (params) => {
+        /*
+            params = {
+                "_id" : asdfsadfsdafsadfsdf,
+                "id" : "20190408235901",
+                "assignmentName" : "ฟอร์ม 2019_2",
+                "assignmentDescription" : "",
+                "status" : 0,
+                "statusDescription" : "",
+                "submitDate" : "",
+                "deadline" : "2019-04-08T03:53:24.073Z",
+                "defaultForm" : 0,
+                "requireIdSubmit" : "",
+                "form" : 0,
+                "formData" : [],
+                "pdf" : 0,
+                "pdfData" : "",
+                "year" : 2019
+            }
+            check _id carefully
+        */
+        API_STUDENT.POST_UPDATE(params)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
     }
 
     render(){

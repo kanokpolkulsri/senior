@@ -138,6 +138,33 @@ class SignUpForm extends React.Component {
     callback();
   }
 
+  validateEmailKu = (rule, value, callback) => {
+    if(value){
+      if(value.split('@')[1] !== "ku.th" && value.split('@')[1] !== "ku.ac.th")
+        callback('your email is not Kasetsart email!')
+    }
+  }
+
+  validateStudentID = (rule, value, callback) => {
+    if(value){
+      if(value.length === 10){
+        try{
+          var tmp = parseInt(value)
+          console.log("tmp" ,tmp);
+          
+          if(!tmp)
+            callback("input only number!")
+        }catch(err){
+          callback("input only number!")
+        }
+      }
+      else{
+        callback("your student ID should be 10 digit!")
+      }
+    }
+ 
+    
+  }
   signupBackNext = () => {
     console.log("A")
     document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
@@ -203,7 +230,10 @@ class SignUpForm extends React.Component {
         </Form.Item>
         <Form.Item  {...formItemLayout} >
             {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your Student ID!' }],
+              rules: [{ required: true, message: 'Please input your Student ID!' },
+              ,{
+                validator: this.validateStudentID,
+              }],
             })(
               <Input placeholder="Student ID" />
             )}
@@ -220,6 +250,8 @@ class SignUpForm extends React.Component {
           type: 'email', message: 'The input is not valid E-mail!',
         }, {
           required: true, message: 'Please input your E-mail!',
+        },{
+          validator: this.validateEmailKu,
         }],
       })(
         <Input placeholder="E-mail"/>
