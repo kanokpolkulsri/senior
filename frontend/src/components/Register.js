@@ -175,18 +175,22 @@ class SignUpForm extends React.Component {
   }
   signupBackNext = (e) => {
     console.log(e.currentTarget);
+    const form = this.props.form;
+
     if(e.currentTarget.id === "next-btn"){
-      this.props.form.validateFieldsAndScroll((err, values) => {
-        if(!err){
-          console.log("Test");
+      this.props.form.validateFields(['firstname','lastname','username'], { force: true }, (errors, values)  => {
+        if(!errors){
           document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
           document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
         }
-      })
-    } else {
+      });
+    } 
+    else{
       document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
       document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
     }
+      
+    
     
   }
 
