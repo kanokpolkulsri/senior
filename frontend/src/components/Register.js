@@ -165,10 +165,32 @@ class SignUpForm extends React.Component {
  
     
   }
+<<<<<<< HEAD
   signupBackNext = () => {
     console.log("A")
     document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
     document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+=======
+  signupBackNext = (e) => {
+    console.log(e.currentTarget);
+    const form = this.props.form;
+
+    if(e.currentTarget.id === "next-btn"){
+      this.props.form.validateFields(['firstname','lastname','username'], { force: true }, (errors, values)  => {
+        if(!errors){
+          document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+          document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+        }
+      });
+    } 
+    else{
+      document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+      document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+    }
+      
+    
+    
+>>>>>>> 2fe55cedc536bfad2fd4c4c12d322199aad435b5
   }
 
   POST_ADD = (values) => {
