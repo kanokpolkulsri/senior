@@ -131,7 +131,7 @@ class Review extends React.Component {
        
 
 //        tmp = tmp.filter(element => this.state.jobDescValue.includes(element.jobDesc));
-        if(this.state.selectedTags.length != 0){
+        if(this.state.selectedTags.length !== 0){
             var selectedTags = this.state.selectedTags;
             tmp = tmp.filter(function(array_el){
                 return selectedTags.filter(function(tag){

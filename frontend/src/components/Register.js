@@ -139,10 +139,17 @@ class SignUpForm extends React.Component {
   }
 
   validateEmailKu = (rule, value, callback) => {
+    const form = this.props.form
     if(value){
-      if(value.split('@')[1] !== "ku.th" && value.split('@')[1] !== "ku.ac.th")
+      var mail = value.split('@')
+      var firstname = form.getFieldValue('firstname').toLowerCase()
+      var lastname = form.getFieldValue('lastname')[0].toLowerCase()
+      var name = firstname+"."+lastname
+      if((!mail[0].includes(name)) || (mail[1] !== "ku.th" && mail[1] !== "ku.ac.th"))
         callback('your email is not Kasetsart email!')
     }
+    callback()
+
   }
 
   validateStudentID = (rule, value, callback) => {
@@ -162,13 +169,25 @@ class SignUpForm extends React.Component {
         callback("your student ID should be 10 digit!")
       }
     }
+    callback()
  
     
   }
-  signupBackNext = () => {
-    console.log("A")
-    document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
-    document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+  signupBackNext = (e) => {
+    console.log(e.currentTarget);
+    if(e.currentTarget.id === "next-btn"){
+      this.props.form.validateFieldsAndScroll((err, values) => {
+        if(!err){
+          console.log("Test");
+          document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+          document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+        }
+      })
+    } else {
+      document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+      document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+    }
+    
   }
 
   POST_ADD = (values) => {
@@ -179,9 +198,6 @@ class SignUpForm extends React.Component {
       if(response.code === 1){
         console.log(response)
         // request successfully
-
-        // response.data
-
         /*
         data = {
           username: "5810504361"
@@ -193,7 +209,7 @@ class SignUpForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of SignUp form: ', values);
         this.POST_ADD(values) 
@@ -239,7 +255,7 @@ class SignUpForm extends React.Component {
               <Input placeholder="Student ID" />
             )}
         </Form.Item>
-        <Button onClick={this.signupBackNext} className="signup-next-button login-form-button">
+        <Button id="next-btn" onClick={this.signupBackNext} className="signup-next-button login-form-button">
           Next <i className="material-icons">arrow_right_alt</i>
         </Button>
     
@@ -285,7 +301,7 @@ class SignUpForm extends React.Component {
     </Form.Item>
     <Row>
       <Col span={10}>
-      <Button className="login-form-button" onClick={this.signupBackNext}><i className="material-icons arrow-left">
+      <Button id="back-btn" className="login-form-button" onClick={this.signupBackNext}><i className="material-icons arrow-left">
       arrow_right_alt</i>Back</Button>
       </Col>
       <Col span={13} offset={1}>
