@@ -185,12 +185,7 @@ class SignUpForm extends React.Component {
         callback("your student ID should be 10 digit!")
       }
     }
-<<<<<<< HEAD
     callback()
-=======
- 
-    
->>>>>>> 4069a5e5bfda0a2a08a6c50e0a42b557a4104217
   }
   signupBackNext = (e) => {
     console.log(e.currentTarget);
