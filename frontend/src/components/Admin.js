@@ -811,7 +811,7 @@ class Process extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() + 1900
+        let currentYear = (new Date()).getYear() - 50
         this.API_POST_YEAR(currentYear)
     }
 
@@ -952,11 +952,11 @@ class AddProcess extends React.Component {
                 "assignmentName" : "ฟอร์ม 2019_2",
                 "assignmentDescription" : "",
                 "status" : 0,
-                "statusDescription" : "",
+                "statusDescription" : "missing",
                 "submitDate" : "",
                 "deadline" : "2019-04-08T03:53:24.073Z",
                 "defaultForm" : 0,
-                "requireIdSubmit" : "",
+                "requireIdSubmit" : [],
                 "formData" : [
                     {"title": "firstname", "option": "short", "data": "kanokpol"},
                     {"title": "kulsri", "option": "multiple", "data": "kulsri"},
@@ -1058,7 +1058,7 @@ class StudentReport extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() + 1900
+        let currentYear = (new Date()).getYear() - 50
         this.API_POST_STUDENT_YEAR(currentYear)
     }
 
