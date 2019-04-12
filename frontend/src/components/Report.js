@@ -235,6 +235,7 @@ class Assignment extends React.Component {
         /*
             params = {
                 "_id" : ObjectId(...),
+                "username" : "5810504361",
                 "id" : "20190408235901",
                 "assignmentName" : "ฟอร์ม 2019_2",
                 "assignmentDescription" : "",
