@@ -19,7 +19,7 @@ router.post('/login', (req, res, next) => {
       let data = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
       res.send({code: 1, data: data})
     }else{
-      res.send({code: 0, data: ""})
+      res.send({code: 0, data: "username or password is wrong"})
     }
   })
   .catch(() => res.send({code: 0, response: ""}))

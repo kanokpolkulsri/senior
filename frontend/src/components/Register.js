@@ -47,7 +47,7 @@ class Register extends React.Component {
 
 class LogInForm extends React.Component {  
 
-  GET_POST_LOGIN = (values) => {
+  POST_LOGIN = (values) => {
     API_REGISTER.POST_LOGIN(values)
     .then(response => {
       if(response.code === 1){
@@ -71,8 +71,8 @@ class LogInForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.GET_POST_LOGIN(values)
+        console.log('Received values of SignIn form: ', values);
+        this.POST_LOGIN(values)
       }
     });
   }
@@ -144,8 +144,9 @@ class SignUpForm extends React.Component {
     document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
   }
 
-  GET_POST_ADD = (values) => {
-    values["year"] = (new Date()).getYear() + 1900
+  POST_ADD = (values) => {
+    delete values["confirm"]
+    values["year"] = parseInt(values["username"][0] + values["username"][1])
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){
@@ -167,8 +168,8 @@ class SignUpForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        this.GET_POST_ADD(values)  
+        console.log('Received values of SignUp form: ', values);
+        this.POST_ADD(values) 
       }
     });
   }
