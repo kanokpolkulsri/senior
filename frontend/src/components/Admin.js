@@ -1005,7 +1005,7 @@ class AddProcess extends React.Component {
                                         <Select defaultValue="short" style={{ width: 200 }}>
                                             <Option value="short">Short Answer</Option>
                                             <Option value="multiple">Multiple Line</Option>
-                                            <Option value="multiple">File Upload</Option>
+                                            <Option value="upload">File Upload</Option>
                                         </Select>
                                     </Row><br/>
                                     </div>
