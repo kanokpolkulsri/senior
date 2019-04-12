@@ -6,8 +6,6 @@ import moment from 'moment';
 import '../css/Admin.css';
 import '../css/App.css';
 
-const RadioGroup = Radio.Group;
-
 const { TextArea } = Input;
 const format = 'HH:mm';
 const Option = Select.Option;
@@ -15,6 +13,8 @@ const API_FEED = require('../api/Feed')
 const API_FAQ = require('../api/Faq')
 const API_ADMIN = require('../api/Assignment_Admin')
 const API_STUDENT = require('../api/Assignment_Student')
+
+const VariableConfig = require('../api/VariableConfig')
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -120,20 +120,7 @@ class Event extends React.Component {
             "date":moment(),
             "name":"",
             "place":"",
-            "data":[ 
-                {
-                    "name" : "Getting to know more about Wongnai",
-                    "location" : "E203",
-                    "date" :"2019-02-02T16:00:00.000Z",
-                    "register" : 20
-                }, 
-                {
-                    "name" : "CPSK Job Fair",
-                    "location" : "1st floor",
-                    "date" : "2019-02-02T16:00:00.000Z",
-                    "register" : 178
-                }
-            ]
+            "data":[]
         }
     }
 
@@ -198,6 +185,10 @@ class Event extends React.Component {
         return event;
     }
 
+    componentDidMount = () => {
+        this.API_GET_EVENT();
+    }
+
     API_ADD_EVENT = () => {
         let values = "" // {"name":"..", "location":"..", "date":ISODate("2019-02-04T16:00:00.000Z"), "register": 0}
         API_FEED.POST_ADD_EVENT(values)
@@ -236,26 +227,7 @@ class Event extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                //request successfully
-                //response.data
-                /*
-                    data = [
-                        {
-                            "_id": "5c852a4aa7cd113ae7508724",
-                            "name": "Getting to know more about Wongnai",
-                            "location": "E203",
-                            "date": "2019-02-04T16:00:00.000Z",
-                            "register": 21
-                        },
-                        {
-                            "_id": "5c852a4fa7cd113ae7508727",
-                            "name": "CPSK Job Fair",
-                            "location": "1st floor",
-                            "date": "2019-02-02T16:00:00.000Z",
-                            "register": 178
-                        }
-                    ]
-                */
+               this.setState({data:response.data})
             }
         })
     }
@@ -293,7 +265,7 @@ class Event extends React.Component {
                 All upcoming events <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
             </Row>
             <br/>
-            {this.getEvent()}
+            {this.getEvent}
             </div>
            
         )
@@ -306,13 +278,13 @@ class Announcement extends React.Component {
             "topic":"",
             "title":"",
             "description":"",
-            "data":[ 
-                {"_id":{"$oid":"5c852a6aa7cd113ae7508736"},"title":"1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)","description":"หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"},
-                {"_id":{"$oid":"5c852a6ea7cd113ae7508739"},"title":"2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)","description":"หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"}
-            ]
+            "data":[]
         }
     }
 
+    componentDidMount = () => {
+        this.API_GET_ANNOUNCEMENT();
+    }
 
     onCheckChange = (e) => {
         console.log(`checked = ${e.target.checked}`);
@@ -390,22 +362,8 @@ class Announcement extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                //request successfully
-                //response.data
-                /*
-                    data = "data": [
-                        {
-                            "_id": "5c852a6aa7cd113ae7508736",
-                            "title": "1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-                            "description": "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"
-                        },
-                        {
-                            "_id": "5c852a6ea7cd113ae7508739",
-                            "title": "2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)",
-                            "description": "หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"
-                        }
-                    ]
-                */
+                
+                this.setState({data:response.data})
             }
         })
     }
@@ -450,15 +408,14 @@ class CompanyList extends React.Component{
             "name":"",
             "url":"",
             "category":[],
-            "data":[ 
-                {"_id":{"$oid":"5c852a90a7cd113ae7508746"},"name":"บริษัท เอ-โอสต์ จำกัด","url":"kanokpolkulsri.netlify.com","category":["application","network","datascience","consulting","iot","etc"]},
-                {"_id":{"$oid":"5c852a9ba7cd113ae750874a"},"name":"บริษัท พรีเมียร์ เอ็ดดูเคชั่น จำกัด","url":"www.facebook.com/ton2plam","category":["application","consulting","iot","etc"]},
-                {"_id":{"$oid":"5c852aa6a7cd113ae750874e"},"name":"บริษัท อัฟวาแลนท์ จำกัด","url":"github.com/ton2plam","category":["network","datascience","etc"]},
-                {"_id":{"$oid":"5c852aaba7cd113ae7508751"},"name":"บริษัท แม็กซิม อินทริเกรดเต็ด โปรดักส์ (ประเทศไทย) จำกัด","url":"www.instagram.com/tonplamm","category":["datascience","etc"]} 
-            ],
-            "allcat":["application","network","datascience","consulting","iot","etc"]
+            "data":[],
+            "allcat":VariableConfig.tagList
 
         }
+    }
+
+    componentDidMount = () => {
+        this.API_GET_COMPANY();
     }
 
     handleSelectChange = (value) => {
@@ -563,6 +520,7 @@ class CompanyList extends React.Component{
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+                this.setState({data:response.data})
                 //request successfully
                 //response.data
             }
@@ -621,11 +579,12 @@ class Faq extends React.Component {
             "topic":"",
             "question":"",
             "answer":"",
-            "data":[ 
-                {"_id":{"$oid":"5c852a6aa7cd113ae7508736"},"question":"1. แจ้งเตือนการจัดส่งเอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)","answer":"หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)\n1. ซองบรรจุชุดเอกสารต่างๆ (ที่ได้รับในวันปฐมนิเทศ) พร้อมกรอกข้อมูลให้เรียบร้อย\n2. แบบประเมินผลนิสิตจากสถานประกอบการ (ใส่ซองปิดผนึก)\n3. แบบประเมินรายงานจากสถานประกอบการ (ใส่ซองปิดผนึก)\n4. รูปเล่มรายงานการฝึกสหกิจศึกษา (ภาษาอังกฤษ)\nโดยเอกสารทั้งหมดให้จัดส่งที่ ** ห้องธุรการ ภาควิชาฯ ** ที่เดียวเท่านั้น"},
-                {"_id":{"$oid":"5c852a6ea7cd113ae7508739"},"question":"2. เอกสารสหกิจศึกษา (ภายในวันจันทร์ที่ 14 มกราคม 2562)","answer":"หลังเสร็จสิ้นสหกิจศึกษา นิสิตจะต้องส่งเอกสารดังต่อไปนี้ (แยกชุดตามจำนวนสถานประกอบการ)"}
-            ]
+            "data":[]
         }
+    }
+
+    componentDidMount = () => {
+        this.API_GET_FAQ();
     }
 
     onCheckChange = (e) => {
@@ -705,9 +664,7 @@ class Faq extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                //request successfully
-
-                //response.data
+                this.setState({data:response.data})
                 /*
                 data = [
                     {
