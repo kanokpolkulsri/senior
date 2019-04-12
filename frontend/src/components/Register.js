@@ -63,6 +63,8 @@ class LogInForm extends React.Component {
           lastname: "kulsri"
         }
         */
+      }else{
+        console.log("failed to login")
       }
     })
   }
@@ -165,12 +167,6 @@ class SignUpForm extends React.Component {
  
     
   }
-<<<<<<< HEAD
-  signupBackNext = () => {
-    console.log("A")
-    document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
-    document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
-=======
   signupBackNext = (e) => {
     console.log(e.currentTarget);
     const form = this.props.form;
@@ -190,7 +186,6 @@ class SignUpForm extends React.Component {
       
     
     
->>>>>>> 2fe55cedc536bfad2fd4c4c12d322199aad435b5
   }
 
   POST_ADD = (values) => {

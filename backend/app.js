@@ -4,6 +4,7 @@ let logger = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let cors = require('cors')
+let session = require('express-session')
 
 let index = require('./routes/index')
 let register = require('./routes/register')
