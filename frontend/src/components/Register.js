@@ -177,12 +177,17 @@ class SignUpForm extends React.Component {
     console.log(e.currentTarget);
     if(e.currentTarget.id === "next-btn"){
       this.props.form.validateFieldsAndScroll((err, values) => {
-        console.log("Test");
-        
+        if(!err){
+          console.log("Test");
+          document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+          document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+        }
       })
+    } else {
+      document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
+      document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
     }
-    document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
-    document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
+    
   }
 
   POST_ADD = (values) => {
