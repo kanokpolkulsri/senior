@@ -1,10 +1,10 @@
-let express = require('express')
+var express = require('express')
 let path = require('path')
 let logger = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let cors = require('cors')
-let session = require('express-session')
+var session = require('express-session')
 
 let index = require('./routes/index')
 let register = require('./routes/register')
@@ -16,7 +16,7 @@ let faq = require('./routes/faq')
 let assignment_admin = require('./routes/assignment_admin')
 let assignment_student = require('./routes/assignment_student')
 
-let app = express()
+var app = express()
 
 let MongoClient = require('mongodb').MongoClient
 let Config = require('./config.json')
@@ -28,13 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors())
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}))
-app.use((req, res, next) => {
-  if(!req.session.username){
-    req.session.username = {}
-  }
-  next()
-})
+app.use(session({ secret: 'kanokpol'}))
 
 app.use('/register', register)
 app.use('/', index)

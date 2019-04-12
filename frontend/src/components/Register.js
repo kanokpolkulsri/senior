@@ -7,6 +7,7 @@ import {
 import '../css/Register.css';
 
 const API_REGISTER = require('../api/Register')
+const API_ETC = require('../api/Etc')
 
 class Register extends React.Component {
   constructor(props) {
@@ -51,20 +52,11 @@ class LogInForm extends React.Component {
     API_REGISTER.POST_LOGIN(values)
     .then(response => {
       if(response.code === 1){
-        console.log(response)
-        API_REGISTER.GET_SESSION()
-        .then(response => {console.log(response)})
-        // request successfully
+        console.log("response from API_LOGIN : " + response)
 
-        // response.data
+        API_ETC.GET_SESSION()
+        .then(response => {console.log("response from API_SESSION : " + response)})
 
-        /*
-        data = {
-          username: "5810504361",
-          firstname: "kanokpol",
-          lastname: "kulsri"
-        }
-        */
       }else{
         console.log("failed to login")
       }

@@ -17,9 +17,7 @@ router.post('/login', (req, res, next) => {
   .then(response => {
     if(response != []){
       let data = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
-      let sess = req.session
-      sess.username = response[0].username
-      console.log(sess)
+      req.session.username = response[0].username
       res.send({code: 1, data: data})
     }else{
       res.send({code: 0, data: "username or password is wrong"})
