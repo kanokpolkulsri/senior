@@ -6,9 +6,9 @@ import Slider from "react-slick";
 import "antd/dist/antd.css";
 
 const API_FEED = require('../api/Feed')
+const VariableConfig = require('../api/VariableConfig')
 const CheckableTag = Tag.CheckableTag;
-
-const tagList = ["application","network","data science","iot","etc"]
+const tagList = VariableConfig.tagList;
 
 
 class Feed extends React.Component {
@@ -22,7 +22,7 @@ class Feed extends React.Component {
             Announcement: [],
             Company: [],
             eventColor: ["pink","orange","green","blue"],
-            interest: "  interested"
+            interest: "  interested",
         }
     }
 
@@ -212,7 +212,8 @@ class Feed extends React.Component {
                         {this.getAnnouncement()}
                      
                     <p className="feed-title">Company Lists</p>
-                    Job Description: {tagList.map(tag => (
+                    {/* {console.log("variaable",tagList)} */}
+                    <span className="job-desc-text">Job Description:</span> {tagList.map(tag => (
                         <CheckableTag
                             color="#F06050"
                             key={tag}

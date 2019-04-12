@@ -12,13 +12,15 @@ import '../css/Review.css';
 import "antd/dist/antd.css";
 import { API_SEARCH_NAME } from '../api/Review';
 
+const VariableConfig = require('../api/VariableConfig')
+
 const Option = Select.Option;
 
 const CheckableTag = Tag.CheckableTag;
-const tagsFromServer = ['Bus', 'BTS', 'MRT'];
-const tagList = ["application","network","data science","iot","etc"]
+const transTag = VariableConfig.transTag;
+const tagList = VariableConfig.tagList
+const paymentRange =  VariableConfig.paymentRange;
 
-const paymentRange =  ["0-250","251-500","501-1000","more than 1000"];
 const API_REVIEW = require('../api/Review')
 
 let timeout;
@@ -337,7 +339,7 @@ class Review extends React.Component {
                             {paymentRange.map(range => <Option key={range}>{range}</Option>)}
                         </Select>
                         <span className="filter-topic">Transportation options</span>
-                        {tagsFromServer.map(tag => (
+                        {transTag.map(tag => (
                         <CheckableTag
                             className="tag-check"
                             key={tag}

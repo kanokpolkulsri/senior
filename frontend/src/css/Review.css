@@ -54,3 +54,6 @@ div.tag-check.ant-tag-checkable-checked{
 div.tag-check.ant-tag-checkable:hover{
     color: #048C8A;
 }
+div.tag-check.ant-tag-checkable{
+    font-size:16px;
+}

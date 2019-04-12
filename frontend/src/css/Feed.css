@@ -171,6 +171,10 @@ Button.event-btn.clicked i.material-icons::after{
     font-size: medium;
     vertical-align: text-bottom;
 }
+.job-desc-text{
+    font-size: 18px;
+    font-family: 'sarabun';
+}
 
 /* color zone */
 .job-desc-tag.pink{
