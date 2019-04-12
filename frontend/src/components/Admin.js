@@ -97,7 +97,7 @@ class Admin extends React.Component {
                             <Route path="/admin/process/report" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment" component={Process}/>
                             <Route path="/admin/process/assignment/add" component={AddProcess}/>
-                            <Route path="/admin/process/assignment/:asname" component={EachProcess}/>
+                            <Route path="/admin/process/assignment/:idProcess" component={EachProcess}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
                             <Redirect from="/admin" to="/admin/process/report"/>
                         </Switch>
@@ -763,7 +763,7 @@ class Process extends React.Component {
         this.state = {columns : [{
             title: 'Assignment',
             dataIndex: 'assignment',
-            render: text =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${text}`}>{text}</Link>
+            render: (text,data) =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${data.key}`}>{text}</Link>
           },  {
             title: 'Deadline',
             dataIndex: 'deadline',
@@ -846,7 +846,7 @@ class EachProcess extends React.Component {
           const imageUrl = this.state.imageUrl;
         return (
             <div>  
-                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > {this.props.match.params.asname}</span><br/>
+                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > {this.props.match.params.idProcess}</span><br/>
                 <Upload
                     name="avatar"
                     listType="picture-card"
@@ -932,7 +932,7 @@ class AddProcess extends React.Component {
                             
                         }
                         <Button onClick={this.moreQuestion}>Add more question</Button>
-
+                        <Button>Create assignment</Button>
                     {/* </div>
                     <div ref="file-show" className="hidden">
                         <span>You select type of assignment to be file upload</span>
@@ -966,21 +966,13 @@ class StudentReport extends React.Component {
     }
 
     
-    rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        }),
-      };
+ 
 
     render () {
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > Student Report </span><br/>
-                 <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+                 <Table columns={this.state.columns} dataSource={this.state.data} />,
             </div>
         )
     }
