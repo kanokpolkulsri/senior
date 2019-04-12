@@ -234,22 +234,24 @@ class Assignment extends React.Component {
     API_POST_UPDATE = (params) => {
         /*
             params = {
-                "_id" : asdfsadfsdafsadfsdf,
+                "_id" : ObjectId(...),
                 "id" : "20190408235901",
                 "assignmentName" : "ฟอร์ม 2019_2",
                 "assignmentDescription" : "",
-                "status" : 0,
-                "statusDescription" : "",
-                "submitDate" : "",
+                "status" : 1,
+                "statusDescription" : "turned in",
+                "submitDate" : "2019-04-06T03:53:24.073Z",
                 "deadline" : "2019-04-08T03:53:24.073Z",
                 "defaultForm" : 0,
-                "requireIdSubmit" : "",
-                "form" : 0,
-                "formData" : [],
-                "pdf" : 0,
-                "pdfData" : "",
-                "year" : 2019
+                "requireIdSubmit" : [],
+                "formData" : [
+                    {"title": "firstname", "option": "short", "data": "kanokpol"},
+                    {"title": "kulsri", "option": "multiple", "data": "kulsri"},
+                    {"title": "logo", "option": "upload", "data": {...pdf format...} },
+                ],
+                "year" : 59
             }
+
             check _id carefully
         */
         API_STUDENT.POST_UPDATE(params)
