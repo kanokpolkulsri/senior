@@ -957,11 +957,12 @@ class AddProcess extends React.Component {
                 "deadline" : "2019-04-08T03:53:24.073Z",
                 "defaultForm" : 0,
                 "requireIdSubmit" : "",
-                "form" : 0,
-                "formData" : [],
-                "pdf" : 0,
-                "pdfData" : "",
-                "year" : 2019
+                "formData" : [
+                    {"title": "firstname", "option": "short", "data": "kanokpol"},
+                    {"title": "kulsri", "option": "multiple", "data": "kulsri"},
+                    {"title": "logo", "option": "upload", "data": {...pdf format...} },
+                ],
+                "year" : 59
             }
         */
        API_ADMIN.POST_NEW(params)
