@@ -16,3 +16,8 @@ export const POST_ADD = async (params) => {
     const res = await axios.post(API_URL+'/add', params)
     return await res.data
 }
+
+export const GET_SESSION = async () => {
+    const res = await axios.get(Config.API_URL)
+    return await res.data
+}

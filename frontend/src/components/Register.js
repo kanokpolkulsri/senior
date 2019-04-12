@@ -52,6 +52,8 @@ class LogInForm extends React.Component {
     .then(response => {
       if(response.code === 1){
         console.log(response)
+        API_REGISTER.GET_SESSION()
+        .then(response => {console.log(response)})
         // request successfully
 
         // response.data
