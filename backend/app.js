@@ -1,10 +1,9 @@
-let express = require('express')
+var express = require('express')
 let path = require('path')
 let logger = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let cors = require('cors')
-let session = require('express-session')
 
 let index = require('./routes/index')
 let register = require('./routes/register')
@@ -15,6 +14,7 @@ let schedule = require('./routes/schedule')
 let faq = require('./routes/faq')
 let assignment_admin = require('./routes/assignment_admin')
 let assignment_student = require('./routes/assignment_student')
+let token = require('./routes/token')
 
 let app = express()
 
@@ -28,13 +28,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors())
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}))
-app.use((req, res, next) => {
-  if(!req.session.username){
-    req.session.username = {}
-  }
-  next()
-})
 
 app.use('/register', register)
 app.use('/', index)
@@ -45,6 +38,7 @@ app.use('/schedule', schedule)
 app.use('/faq', faq)
 app.use('/assignment_student', assignment_student)
 app.use('/assignment_admin', assignment_admin)
+app.use('/token', token)
 
 app.use((req, res, next) => {
   let err = new Error('Not Found')

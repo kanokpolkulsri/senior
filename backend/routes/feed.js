@@ -1,5 +1,6 @@
-let express = require('express');
-let router = express.Router();
+let express = require('express')
+let router = express.Router()
+let withAuth = require('./middleware')
 
 let mongo = require('mongodb')
 
@@ -16,7 +17,15 @@ router.get('/event', (req, res, next) => {
   .catch(() => res.send({code: 0, data: ""}))
 });
 
-router.post('/event/new', (req, res, next) => {
+router.post('/event', (req, res, next) => {
+  let username = req.body.username
+  const DB_FEED_EVENT = req.app.locals.DB_FEED_EVENT
+  DB_FEED_EVENT.find( {members: {$in: [username]}} ).toArray()
+  .then(response => {res.send({code: 1, data: response})})
+  .catch(() => res.send({code: 0, data: ""}))
+});
+
+router.post('/event/new', withAuth, (req, res, next) => {
   const DB_FEED_EVENT = req.app.locals.DB_FEED_EVENT
   DB_FEED_EVENT.insertOne(req.body)
   .then(() => res.send({code: 1}))

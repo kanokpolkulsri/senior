@@ -10,6 +10,8 @@ const VariableConfig = require('../api/VariableConfig')
 const CheckableTag = Tag.CheckableTag;
 const tagList = VariableConfig.tagList;
 
+const API_TOKEN = require('../api/Token')
+
 
 class Feed extends React.Component {
 
@@ -23,6 +25,7 @@ class Feed extends React.Component {
             Company: [],
             eventColor: ["pink","orange","green","blue"],
             interest: "  interested",
+            token_username: ""
         }
     }
 
@@ -33,12 +36,25 @@ class Feed extends React.Component {
     eventInterest = (e) => {
         console.log(e.target)
         e.target.classList.toggle("clicked")
-        e.target.blur();
-        
-        // var icon = '<i className="material-icons">star_border</i>'
-        // if(e.target.classList.contains("clicked"))
-        //     var icon = "<i className='material-icons'>check</i>"
-        // e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
+        e.target.blur()
+    }
+
+    eventInterestData = (option) => {
+        let values = option
+        if(values["members"].includes(this.state.token_username)){
+            values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
+            values["register"] -= 1
+        }else{
+            values["members"].push(this.state.token_username)
+            values["register"] += 1
+        }
+        API_FEED.POST_UPDATE_EVENT(values)
+        .then(response => {
+            if(response.code === 1){
+                //update successfully
+                // may call this.API_GET_EVENT() , this.API_POST_EVENT(this.state.token_username)
+            }
+        })
     }
 
     getAnnouncement = () => {
@@ -50,6 +66,7 @@ class Feed extends React.Component {
         );
         return (announcement);
     }
+
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
@@ -66,11 +83,12 @@ class Feed extends React.Component {
                 <span className="event-name">{option.name}</span><br/>
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
-                <Button onClick={this.eventInterest} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
+                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
             </div> 
         );
         return event;
     }
+    
     genCompany = () =>{
         const company = [];
         for(var i = 0; i < this.state.Company.length; i++){
@@ -93,7 +111,6 @@ class Feed extends React.Component {
                     </div>  
                 )
             }
-                
         }
         return company
     }
@@ -115,10 +132,41 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Event : response.data})
-                // request successfully
-                // response.data
             }
         })
+    }
+
+    API_POST_EVENT = (username) => {
+        // request events for that username
+        API_FEED.POST_EVENT(username)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                // response for interested events
+                /* BAIVARN */
+            }
+        })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            this.setState({token_username: username})
+        })
+    }
+
+    POST_CHECK_TOKEN_AND_GET_EVENT = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            this.setState({token_username: username})
+            this.API_GET_EVENT()
+            this.API_POST_EVENT(username)
+        })
+        
     }
 
     API_GET_ANNOUNCEMENT = () => {
@@ -127,8 +175,6 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Announcement : response.data})
-                //request successfully
-                //response.data
             }
         })
     }
@@ -139,14 +185,15 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Company : response.data})
-                //request successfully
-                //response.data
             }
         })
     }
 
+    componentWillMount = () => {
+        this.POST_CHECK_TOKEN_AND_GET_EVENT()
+    }
+
     componentDidMount = () => {
-        this.API_GET_EVENT()
         this.API_GET_ANNOUNCEMENT()
         this.API_GET_COMPANY()
     }

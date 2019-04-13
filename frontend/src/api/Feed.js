@@ -5,7 +5,14 @@ const API_URL = Config.API_URL+'/feed'
 /* feed/event */
 export const GET_EVENT = async () => {
     const res = await axios.get(API_URL+'/event')
-    return await res.data
+    return await res.data    
+}
+
+export const POST_EVENT = async (username) => {
+    let params = {}
+    params["username"] = username
+    const res = await axios.post(API_URL+'/event', params)
+    return await res.data    
 }
 
 export const POST_ADD_EVENT = async (params) => {

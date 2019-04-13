@@ -51,22 +51,9 @@ class LogInForm extends React.Component {
     API_REGISTER.POST_LOGIN(values)
     .then(response => {
       if(response.code === 1){
-        console.log(response)
-        API_REGISTER.GET_SESSION()
-        .then(response => {console.log(response)})
-        // request successfully
-
-        // response.data
-
-        /*
-        data = {
-          username: "5810504361",
-          firstname: "kanokpol",
-          lastname: "kulsri"
-        }
-        */
+        window.localStorage.setItem('token', response.token)
       }else{
-        console.log("failed to login")
+        console.log(response)
       }
     })
   }

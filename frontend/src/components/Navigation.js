@@ -2,9 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Row, Col,Divider } from 'antd';
 
-
 import '../css/Navigation.css';
 import "antd/dist/antd.css";
+
+const API_TOKEN = require('../api/Token')
 
 class Navigation extends React.Component {
 
@@ -12,6 +13,9 @@ class Navigation extends React.Component {
         super(props)
         this.state = {
             checkFeed: true,
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
         }
     }
 
@@ -24,6 +28,29 @@ class Navigation extends React.Component {
             if(prevState == null || prevState.checkFeed)
                 this.setState({checkFeed: false});
         }
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            // setstate here
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    REMOVE_TOKEN_LOCAL_STORAGE = () => {
+        window.localStorage.removeItem('token')
+        this.setState({token_username: "", token_firstname: "", token_lastname: ""})
+    }
+
+    componentWillMount = () => {
+        // to detect which button it should have
+        let shouldHaveLoginButton = this.POST_CHECK_TOKEN()
     }
 
     componentDidMount = () => {
