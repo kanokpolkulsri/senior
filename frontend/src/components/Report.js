@@ -6,10 +6,10 @@ import '../css/Report.css';
 import moment from 'moment';
 const API_REPORT = require('../api/Report')
 const API_STUDENT = require('../api/Assignment_Student')
+const API_TOKEN = require('../api/Token')
 
 const Step = Steps.Step;
 const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
-
 
 class Report extends React.Component {
     constructor(props) {
@@ -166,6 +166,9 @@ class Assignment extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            token_username: "",
+            token_firstname: "",
+            token_lastname: "",
             columns : [
             {
                 title: 'Title',
@@ -206,8 +209,6 @@ class Assignment extends React.Component {
             }]
         }
     }
-    
-    
 
     genData = () => {
         console.log(this.props.match.params.filter)
@@ -222,11 +223,10 @@ class Assignment extends React.Component {
     }
 
     API_POST_STUDENT = (username) => {
-        /* username = 5810504361 */
         API_STUDENT.POST_STUDENT(username)
         .then(response => {
             if(response.code === 1){
-                
+                console.log(response)
             }
         })
     }
@@ -252,7 +252,6 @@ class Assignment extends React.Component {
                 ],
                 "year" : 59
             }
-
             check _id carefully
         */
         API_STUDENT.POST_UPDATE(params)
@@ -261,6 +260,25 @@ class Assignment extends React.Component {
 
             }
         })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            this.API_POST_STUDENT(this.state.token_username)
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }
     }
 
     render(){

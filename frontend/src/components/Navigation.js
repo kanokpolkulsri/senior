@@ -38,7 +38,6 @@ class Navigation extends React.Component {
             let firstname = response.token_firstname
             let lastname = response.token_lastname
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
-            // setstate here
             return (username !== "" && firstname !== "" && lastname !== "")
         })   
     }

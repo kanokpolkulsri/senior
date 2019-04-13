@@ -5,9 +5,6 @@ let withAuth = require('./middleware')
 
 /* GET users listing. */
 router.get('/', withAuth, (req, res, next) => {
-  if(req.token_username === ""){
-    res.send({code: 0, data: "this service needs authorization."})
-  }
   const DB_REGISTER = req.app.locals.DB_REGISTER
   DB_REGISTER.find({}).toArray()
   .then(response => res.send(response))
@@ -23,7 +20,7 @@ router.post('/login', (req, res, next) => {
       
       const payload = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
       const secret = "thisiskanokpol"
-      const token = jwt.sign(payload, secret, {expiresIn: '24h'})
+      const token = jwt.sign(payload, secret)
       res.send({code: 1, data: data, token: token})
 
     }else{
