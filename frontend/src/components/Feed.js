@@ -51,8 +51,9 @@ class Feed extends React.Component {
         API_FEED.POST_UPDATE_EVENT(values)
         .then(response => {
             if(response.code === 1){
+                this.API_GET_EVENT()
                 //update successfully
-                // may call this.API_GET_EVENT() , this.API_POST_EVENT(this.state.token_username)
+                // may call this.API_POST_EVENT(this.state.token_username)
             }
         })
     }
