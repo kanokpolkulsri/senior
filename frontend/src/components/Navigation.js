@@ -13,6 +13,9 @@ class Navigation extends React.Component {
         super(props)
         this.state = {
             checkFeed: true,
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
         }
     }
 
@@ -34,9 +37,15 @@ class Navigation extends React.Component {
             let username = response.token_username
             let firstname = response.token_firstname
             let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
             // setstate here
             return (username !== "" && firstname !== "" && lastname !== "")
         })   
+    }
+
+    REMOVE_TOKEN_LOCAL_STORAGE = () => {
+        window.localStorage.removeItem('token')
+        this.setState({token_username: "", token_firstname: "", token_lastname: ""})
     }
 
     componentWillMount = () => {

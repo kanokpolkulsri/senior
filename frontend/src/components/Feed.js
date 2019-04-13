@@ -66,6 +66,7 @@ class Feed extends React.Component {
         );
         return (announcement);
     }
+
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
@@ -87,6 +88,7 @@ class Feed extends React.Component {
         );
         return event;
     }
+    
     genCompany = () =>{
         const company = [];
         for(var i = 0; i < this.state.Company.length; i++){
@@ -109,7 +111,6 @@ class Feed extends React.Component {
                     </div>  
                 )
             }
-                
         }
         return company
     }

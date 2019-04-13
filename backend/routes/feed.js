@@ -21,9 +21,7 @@ router.post('/event', (req, res, next) => {
   let username = req.body.username
   const DB_FEED_EVENT = req.app.locals.DB_FEED_EVENT
   DB_FEED_EVENT.find( {members: {$in: [username]}} ).toArray()
-  .then(response => {
-    res.send({code: 1, data: response})
-  })
+  .then(response => {res.send({code: 1, data: response})})
   .catch(() => res.send({code: 0, data: ""}))
 });
 
