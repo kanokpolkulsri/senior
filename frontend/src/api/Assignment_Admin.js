@@ -8,15 +8,13 @@ export const GET_ADMIN = async () => {
 }
 
 export const POST_ID_PROCESS = async (id) => {
-    let params = {}
-    params["id"] = id
+    let params = {id: id}
     const res = await axios.post(API_URL + "/id", params)
     return await res.data
 }
 
 export const POST_YEAR = async (year) => {
-    let params = {}
-    params["year"] = year
+    let params = {year: year}
     const res = await axios.post(API_URL + "/year", params)
     return await res.data
 }
@@ -27,8 +25,7 @@ export const POST_NEW = async (params) => {
 }
 
 export const POST_DELETE = async (id) => {
-    let params = {}
-    params["id"] = id
+    let params = {id: id}
     const res = await axios.post(API_URL + "/delete", params)
     return await res.data
 }
