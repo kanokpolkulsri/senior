@@ -23,7 +23,7 @@ router.post('/login', (req, res, next) => {
       
       const payload = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
       const secret = "thisiskanokpol"
-      const token = jwt.sign(payload, secret, {expiresIn: '5m'})
+      const token = jwt.sign(payload, secret, {expiresIn: '24h'})
       res.send({code: 1, data: data, token: token})
 
     }else{

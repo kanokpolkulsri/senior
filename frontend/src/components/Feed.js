@@ -111,8 +111,20 @@ class Feed extends React.Component {
         this.genCompany();
     }
 
-    API_GET_EVENT = (username) => {
-        API_FEED.GET_EVENT(username)
+    API_GET_EVENT = () => {
+        API_FEED.GET_EVENT()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                this.setState({Event : response.data})
+                // request successfully
+                // response.data
+            }
+        })
+    }
+
+    API_POST_EVENT = (username) => {
+        API_FEED.POST_EVENT(username)
         .then(response => {
             if(response.code === 1){
                 console.log(response)
@@ -125,9 +137,10 @@ class Feed extends React.Component {
 
     POST_CHECK_TOKEN_AND_GET_EVENT = () => {
         let token = {'token': window.localStorage.getItem('token')}
+        console.log(token)
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
-            let username = response.username
+            let username = response.token_username
             // setstate username here
             if(username === undefined){
                 this.API_GET_EVENT()

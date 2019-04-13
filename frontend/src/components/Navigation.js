@@ -31,9 +31,9 @@ class Navigation extends React.Component {
         let token = {'token': window.localStorage.getItem('token')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
-            let username = response.username
-            let firstname = response.firstname
-            let lastname = response.lastname
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
             // setstate here
             return (username !== "" && firstname !== "" && lastname !== "")
         })   
