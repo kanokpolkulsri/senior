@@ -120,6 +120,8 @@ class Event extends React.Component {
             "date":moment(),
             "name":"",
             "place":"",
+            "startTime":moment("00:00",format),
+            "endTime":moment("00:00",format),
             "data":[]
         }
     }
@@ -128,6 +130,13 @@ class Event extends React.Component {
         this.setState({"date":date})
     }
 
+    onStartDateChange = (time, timeString) => {
+        this.setState({"startTime":time})
+    }
+
+    onEndDateChange = (time,timeString) => {
+        this.setState({"endTime":time})
+    }
     onCheckChange = (e) => {
         console.log(`checked = ${e.target.checked}`);
     }
@@ -136,20 +145,25 @@ class Event extends React.Component {
 
         this.setState({"date":moment(option.date),
         "name":option.name,
-        "place":option.location});
+        "place":option.location,
+        "startTime":moment.utc(option.startTime),
+        "endTime":moment.utc(option.endTime)});
    
         
         console.log(document.getElementById("event-name"))
     }
 
-    calStatus = (date) => {
+    calStatus = (date,startTime,endTime) => {
         var tmpRes = "";
-        if(moment(date).isBefore(moment()))
-            tmpRes = <span className="upcoming">Upcoming</span>
-        else if(moment(date).isAfter(moment()))
-            tmpRes = <span className="outdate">Outdate</span>
+        console.log("calStatus")
+        var eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
+        var eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
+        if(eventEnd.isBefore(moment()))
+            tmpRes = <span className="outdate item-span">Outdate</span>
+        else if(eventStart.isAfter(moment()))
+            tmpRes = <span className="upcoming item-span">Upcoming</span>
         else
-            tmpRes = <span>-</span>
+            tmpRes = <span>Ongoing</span>
         return tmpRes
     }
 
@@ -174,8 +188,10 @@ class Event extends React.Component {
                 <span className="item-span">Company: {option.name} </span><br/>
                 <span className="item-span">Place: {option.location} </span><br/>
                 <span className="item-span">Date: {moment(option.date).format('l')}</span><br/>
+                <span className="item-span">Time: {`${moment.utc(option.startTime).format(format)} - ${moment.utc(option.endTime).format(format)}`}</span><br/>
                 <span className="item-span">Interested people: {option.register} people</span><br/>
-                <span className="item-span">status: {() => this.calStatus(option.date)}</span><br/>
+                {/* <span className="item-span">Status: {moment(option.date).isBefore(moment())?<span>Upcoming</span>:<span>Outdate</span>}</span> */}
+                <span className="item-span">status: {this.calStatus(option.date,option.startTime,option.endTime)}</span><br/>
             </span>
             </Col>
           
@@ -246,8 +262,8 @@ class Event extends React.Component {
                         <span className="input-label">Date: </span><DatePicker className="event-date" onChange={this.onChange} value={this.state.date}/>
                     </Row><br/>
                     <Row>
-                        <span className="time-input-label">Start Time: </span><TimePicker defaultValue={moment('00:00', format)} format={format} />
-                        <span className="time-input-label pad-left">End Time: </span><TimePicker defaultValue={moment('00:00', format)} format={format} />
+                        <span className="time-input-label">Start Time: </span><TimePicker defaultValue={moment('00:00', format)} format={format} value={this.state.startTime} onChange={this.onStartDateChange}/>
+                        <span className="time-input-label pad-left">End Time: </span><TimePicker defaultValue={moment('00:00', format)} format={format} value={this.state.endTime} onChange={this.onEndDateChange}/>
 
                     </Row> <br/>
                     <Row>
@@ -265,7 +281,7 @@ class Event extends React.Component {
                 All upcoming events <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
             </Row>
             <br/>
-            {this.getEvent}
+            {this.getEvent()}
             </div>
            
         )

@@ -12,13 +12,14 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-  console.log(req.body)
   const DB_REGISTER = req.app.locals.DB_REGISTER
-  DB_REGISTER.find({username: req.body.username, password: req.body.password}, {projection: {username: 1, firstname: 1, lastname: 1}}).toArray()
+  DB_REGISTER.find(req.body, {projection: {username: 1, firstname: 1, lastname: 1}}).toArray()
   .then(response => {
-    console.log(response)
     if(response != []){
       let data = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
+      let sess = req.session
+      sess.username = response[0].username
+      console.log(sess)
       res.send({code: 1, data: data})
     }else{
       res.send({code: 0, data: "username or password is wrong"})

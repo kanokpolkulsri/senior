@@ -1,4 +1,3 @@
 {
-    "MongoURL_SERVER_NOT_RUN" : "mongodb+srv://kanokpol:kanokpol@cluster0-2ahsl.mongodb.net/test?retryWrites=true",
-    "MongoURL" : "mongodb://localhost:27017"
+    "MongoURL" : "mongodb+srv://kanokpol:kanokpol@cluster0-2ahsl.mongodb.net/test?retryWrites=true"
 }

@@ -28,9 +28,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(cors())
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}))
+app.use((req, res, next) => {
+  if(!req.session.username){
+    req.session.username = {}
+  }
+  next()
+})
 
-app.use('/', index)
 app.use('/register', register)
+app.use('/', index)
 app.use('/feed', feed)
 app.use('/report', report)
 app.use('/review', review)
@@ -39,13 +46,13 @@ app.use('/faq', faq)
 app.use('/assignment_student', assignment_student)
 app.use('/assignment_admin', assignment_admin)
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   let err = new Error('Not Found')
   err.status = 404
   next(err)
 })
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}
 
@@ -76,6 +83,5 @@ MongoClient.connect(MongoURL, { useNewUrlParser: true })
   app.locals.DB_ASSIGNMENT_ADMIN = assignment_admin
 })
 .catch(error => console.error(error))
-
 
 module.exports = app
