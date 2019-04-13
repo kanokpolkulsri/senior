@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let jwt = require('jsonwebtoken')
-const withAuth = require('./middleware');
+let withAuth = require('./middleware');
 
 /* GET users listing. */
 router.get('/', withAuth, (req, res, next) => {

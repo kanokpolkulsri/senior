@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 let mongo = require('mongodb')
+let withAuth = require('./middleware')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {

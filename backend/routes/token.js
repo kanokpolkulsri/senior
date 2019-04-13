@@ -1,6 +1,5 @@
-let express = require('express');
-let router = express.Router();
-let jwt = require('jsonwebtoken')
+let express = require('express')
+let router = express.Router()
 const withAuth = require('./middleware');
 
 router.post('/', withAuth, (req, res, next) => {
