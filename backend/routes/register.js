@@ -1,15 +1,21 @@
 let express = require('express');
 let router = express.Router();
-
-// let mongo = require('mongodb')
+let jwt = require('jsonwebtoken')
+const withAuth = require('./middleware');
 
 /* GET users listing. */
-router.get('/', (req, res, next) => {
+router.get('/', withAuth, (req, res, next) => {
+  if(req.token_username === "")
+    res.send({code: 0, data: "this service needs authorization."})
   const DB_REGISTER = req.app.locals.DB_REGISTER
   DB_REGISTER.find({}).toArray()
   .then(response => res.send(response))
   .catch(error => res.send(error))
-});
+})
+
+router.post('/token', withAuth, (req, res, next) => {
+  res.send({token_username: req.token_username, token_firstname: req.token_firstname, token_lastname: req.token_lastname})
+})
 
 router.post('/login', (req, res, next) => {
   const DB_REGISTER = req.app.locals.DB_REGISTER
@@ -17,8 +23,12 @@ router.post('/login', (req, res, next) => {
   .then(response => {
     if(response != []){
       let data = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
-      req.session.username = response[0].username
-      res.send({code: 1, data: data})
+      
+      const payload = {username: response[0].username, firstname: response[0].firstname, lastname: response[0].lastname}
+      const secret = "thisiskanokpol"
+      const token = jwt.sign(payload, secret, {expiresIn: '5m'})
+      res.send({code: 1, data: data, token: token})
+
     }else{
       res.send({code: 0, data: "username or password is wrong"})
     }

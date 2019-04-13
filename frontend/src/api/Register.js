@@ -17,7 +17,7 @@ export const POST_ADD = async (params) => {
     return await res.data
 }
 
-export const GET_SESSION = async () => {
-    const res = await axios.get(Config.API_URL)
+export const POST_CHECK_TOKEN = async (params) => {
+    const res = await axios.post(API_URL+'/token', params)
     return await res.data
 }
