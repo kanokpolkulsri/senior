@@ -35,7 +35,13 @@ class Feed extends React.Component {
     eventInterest = (e) => {
         console.log(e.target)
         e.target.classList.toggle("clicked")
-        e.target.blur();
+        e.target.blur()
+    }
+
+    eventInterestData = (option) => {
+        console.log(option)
+
+
         
         // var icon = '<i className="material-icons">star_border</i>'
         // if(e.target.classList.contains("clicked"))
@@ -68,7 +74,7 @@ class Feed extends React.Component {
                 <span className="event-name">{option.name}</span><br/>
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
-                <Button onClick={this.eventInterest} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
+                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
             </div> 
         );
         return event;
@@ -124,6 +130,7 @@ class Feed extends React.Component {
     }
 
     API_POST_EVENT = (username) => {
+        // request events for that username
         API_FEED.POST_EVENT(username)
         .then(response => {
             if(response.code === 1){
