@@ -25,6 +25,7 @@ class Feed extends React.Component {
             Company: [],
             eventColor: ["pink","orange","green","blue"],
             interest: "  interested",
+            token_username: ""
         }
     }
 
@@ -39,7 +40,17 @@ class Feed extends React.Component {
     }
 
     eventInterestData = (option) => {
-        console.log(option)
+        let values = option
+        values["members"].push(this.state.token_username)
+        values["register"] += 1
+        API_FEED.POST_UPDATE_EVENT(values)
+        .then(response => {
+            if(response.code === 1){
+                //update successfully
+                // may call this.getEvent()
+            }
+        })
+        console.log(this.state.token_username)
     }
 
     getAnnouncement = () => {
@@ -116,8 +127,6 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Event : response.data})
-                // request successfully
-                // response.data
             }
         })
     }
@@ -128,25 +137,29 @@ class Feed extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                this.setState({Event : response.data})
-                // request successfully
-                // response.data
+                // response for interested events
+                /* BAIVARN */
             }
+        })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            this.setState({token_username: username})
         })
     }
 
     POST_CHECK_TOKEN_AND_GET_EVENT = () => {
         let token = {'token': window.localStorage.getItem('token')}
-        console.log(token)
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
-            // setstate username here
-            if(username === undefined){
-                this.API_GET_EVENT()
-            }else{
-                this.API_POST_EVENT(username)
-            }
+            this.setState({token_username: username})
+            this.API_GET_EVENT()
+            this.API_POST_EVENT(username)
         })
         
     }
@@ -157,8 +170,6 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Announcement : response.data})
-                //request successfully
-                //response.data
             }
         })
     }
@@ -169,8 +180,6 @@ class Feed extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Company : response.data})
-                //request successfully
-                //response.data
             }
         })
     }
