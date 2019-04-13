@@ -6,16 +6,39 @@ import '../css/Report.css';
 import moment from 'moment';
 const API_REPORT = require('../api/Report')
 const API_STUDENT = require('../api/Assignment_Student')
+const API_TOKEN = require('../api/Token')
 
 const Step = Steps.Step;
 const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
-
 
 class Report extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             currentPage : "",
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
+        }
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }else{
+            // call functions
         }
     }
 
@@ -40,6 +63,7 @@ class Report extends React.Component {
                 this.setState({currentPage : filter});
         }
     }
+
     componentDidUpdate = () =>{  
         console.log(this.props)
 
@@ -115,8 +139,12 @@ class Schedule extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {"name":"plam",
-        Schedule:[]}
+        this.state = {
+            Schedule:[],
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
+        }
     }
 
     API_GET_SCHEDULE = () => {
@@ -125,29 +153,28 @@ class Schedule extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Schedule:response.data})
-                // request success fully
-
-                // response.data
-
-                /*
-                data = [
-                    {
-                        deadline: "2019-04-30T23:59:59.000Z",
-                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
-                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
-                        _id: "5c86765ff6da09a1aabd6951",
-                    },
-                    {
-                        deadline: "2019-04-30T23:59:59.000Z",
-                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
-                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
-                        _id: "5c86765ff6da09a1aabd6951",
-                    }
-                ]
-
-                */
             }
         })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }else{
+            // call functions
+        }
     }
 
     componentDidMount = () => {
@@ -173,6 +200,9 @@ class Assignment extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            token_username: "",
+            token_firstname: "",
+            token_lastname: "",
             columns : [
             {
                 title: 'Title',
@@ -213,8 +243,6 @@ class Assignment extends React.Component {
             }]
         }
     }
-    
-    
 
     genData = () => {
         console.log(this.props.match.params.filter)
@@ -229,11 +257,10 @@ class Assignment extends React.Component {
     }
 
     API_POST_STUDENT = (username) => {
-        /* username = 5810504361 */
         API_STUDENT.POST_STUDENT(username)
         .then(response => {
             if(response.code === 1){
-                
+                console.log(response)
             }
         })
     }
@@ -259,7 +286,6 @@ class Assignment extends React.Component {
                 ],
                 "year" : 59
             }
-
             check _id carefully
         */
         API_STUDENT.POST_UPDATE(params)
@@ -268,6 +294,27 @@ class Assignment extends React.Component {
 
             }
         })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            this.API_POST_STUDENT(this.state.token_username)
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }else{
+            // call functions
+        }
     }
 
     render(){

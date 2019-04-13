@@ -8,13 +8,13 @@ export const GET_STUDENT = async () => {
 }
 
 export const POST_STUDENT_YEAR = async (year) => {
-    let params = {}
-    params["year"] = year
+    let params = {year: year}
     const res = await axios.post(API_URL + "/year", params)
     return await res.data
 }
 
-export const POST_STUDENT = async (params) => {
+export const POST_STUDENT = async (username) => {
+    let params = {username: username}
     const res = await axios.post(API_URL + "/student", params)
     return await res.data
 }
