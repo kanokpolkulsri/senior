@@ -41,16 +41,20 @@ class Feed extends React.Component {
 
     eventInterestData = (option) => {
         let values = option
-        values["members"].push(this.state.token_username)
-        values["register"] += 1
+        if(values["members"].includes(this.state.token_username)){
+            values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
+            values["register"] -= 1
+        }else{
+            values["members"].push(this.state.token_username)
+            values["register"] += 1
+        }
         API_FEED.POST_UPDATE_EVENT(values)
         .then(response => {
             if(response.code === 1){
                 //update successfully
-                // may call this.getEvent()
+                // may call this.API_GET_EVENT() , this.API_POST_EVENT(this.state.token_username)
             }
         })
-        console.log(this.state.token_username)
     }
 
     getAnnouncement = () => {
