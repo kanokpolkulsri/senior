@@ -14,6 +14,7 @@ let schedule = require('./routes/schedule')
 let faq = require('./routes/faq')
 let assignment_admin = require('./routes/assignment_admin')
 let assignment_student = require('./routes/assignment_student')
+let token = require('./routes/token')
 
 let app = express()
 
@@ -37,6 +38,7 @@ app.use('/schedule', schedule)
 app.use('/faq', faq)
 app.use('/assignment_student', assignment_student)
 app.use('/assignment_admin', assignment_admin)
+app.use('/token', token)
 
 app.use((req, res, next) => {
   let err = new Error('Not Found')

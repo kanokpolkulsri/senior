@@ -5,16 +5,13 @@ const withAuth = require('./middleware');
 
 /* GET users listing. */
 router.get('/', withAuth, (req, res, next) => {
-  if(req.token_username === "")
+  if(req.token_username === ""){
     res.send({code: 0, data: "this service needs authorization."})
+  }
   const DB_REGISTER = req.app.locals.DB_REGISTER
   DB_REGISTER.find({}).toArray()
   .then(response => res.send(response))
   .catch(error => res.send(error))
-})
-
-router.post('/token', withAuth, (req, res, next) => {
-  res.send({token_username: req.token_username, token_firstname: req.token_firstname, token_lastname: req.token_lastname})
 })
 
 router.post('/login', (req, res, next) => {
