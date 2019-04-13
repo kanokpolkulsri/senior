@@ -16,6 +16,29 @@ class Report extends React.Component {
         super(props)
         this.state = {
             currentPage : "",
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
+        }
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }else{
+            // call functions
         }
     }
 
@@ -36,6 +59,7 @@ class Report extends React.Component {
                 this.setState({currentPage : filter});
         }
     }
+
     componentDidUpdate = () =>{  
         if(this.props.match.path === "/schedule"){
             console.log(this.refs.menuSchedule.classList)
@@ -108,8 +132,12 @@ class Schedule extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {"name":"plam",
-        Schedule:[]}
+        this.state = {
+            Schedule:[],
+            token_username: "",
+            token_firstname: "",
+            token_lastname: ""
+        }
     }
 
     API_GET_SCHEDULE = () => {
@@ -118,29 +146,28 @@ class Schedule extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({Schedule:response.data})
-                // request success fully
-
-                // response.data
-
-                /*
-                data = [
-                    {
-                        deadline: "2019-04-30T23:59:59.000Z",
-                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
-                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
-                        _id: "5c86765ff6da09a1aabd6951",
-                    },
-                    {
-                        deadline: "2019-04-30T23:59:59.000Z",
-                        description: ["สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้…ระเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"],
-                        title: "จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
-                        _id: "5c86765ff6da09a1aabd6951",
-                    }
-                ]
-
-                */
             }
         })
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let firstname = response.token_firstname
+            let lastname = response.token_lastname
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        if(!this.POST_CHECK_TOKEN()){
+            // redirect to login
+        }else{
+            // call functions
+        }
     }
 
     componentDidMount = () => {
@@ -278,6 +305,8 @@ class Assignment extends React.Component {
     componentWillMount = () => {
         if(!this.POST_CHECK_TOKEN()){
             // redirect to login
+        }else{
+            // call functions
         }
     }
 
