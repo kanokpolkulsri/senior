@@ -28,8 +28,12 @@ class Report extends React.Component {
             this.refs.menuAssignment.classList.add("active")
             console.log(this.refs.cardAssFilter)
             this.refs.cardAssFilter.container.classList.remove("hidden")
-            var filter = this.props.match.params.filter;
-            // console.log(matchCheck[filter]);
+
+            var filter;
+            if(this.props.match.params.filter) 
+                filter = this.props.match.params.filter;
+            else
+                filter = "assigned"
             
             this.refs[matchCheck[filter]].classList.add("active")
             if(this.state.currentPage !== filter)
@@ -37,6 +41,8 @@ class Report extends React.Component {
         }
     }
     componentDidUpdate = () =>{  
+        console.log(this.props)
+
         if(this.props.match.path === "/schedule"){
             console.log(this.refs.menuSchedule.classList)
             this.refs.menuSchedule.classList.add("active")
@@ -49,7 +55,8 @@ class Report extends React.Component {
             this.refs.menuAssignment.classList.add("active")
             this.refs.menuSchedule.classList.remove("active")
             this.refs.cardAssFilter.container.classList.remove("hidden")
-            this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+            if(this.state.currentPage !== "")
+                this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
             var filter = this.props.match.params.filter;
             this.refs[matchCheck[filter]].classList.add("active")
             if(this.state.currentPage !== filter)
@@ -73,7 +80,7 @@ class Report extends React.Component {
                             <p className="report-topic">Topics</p>
                             <ul className="report-type">
                                 <Link style={{ textDecoration: 'none' }} to="/schedule"><li className="menu-schedule" ref="menuSchedule">Internship Schedule</li></Link>
-                                <Link style={{ textDecoration: 'none' }} to="/assignment"><li className="menu-assignment" ref="menuAssignment">Assignments</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to="/assignment/assigned"><li className="menu-assignment" ref="menuAssignment">Assignments</li></Link>
                             </ul>
                         </Card>
                         <br/>

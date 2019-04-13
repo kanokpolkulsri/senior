@@ -119,8 +119,8 @@ class Review extends React.Component {
         if(this.state.paymentValue !== undefined){
             if(this.state.paymentValue !== "more than 1000"){
                 console.log("less thn");
-                lowRange = parseInt(this.state.paymentValue.Split('-')[0])
-                highRange = parseInt(this.state.paymentValue.Split('-')[1])
+                lowRange = parseInt(this.state.paymentValue.split('-')[0])
+                highRange = parseInt(this.state.paymentValue.split('-')[1])
                 tmp = tmp.filter(element => (element.payment >= lowRange && element.payment <= highRange));
             }
             else{
@@ -186,16 +186,16 @@ class Review extends React.Component {
     };
 
     genJobDesc = (j) => {
-        let jobDesc = this.state.allreview[j].jobDescriptionTitle[0];
-        for(var i = 1;i < this.state.allreview[j].jobDescriptionTitle.length;i++){
-            jobDesc += ", "+this.state.allreview[j].jobDescriptionTitle[i];
+        let jobDesc = this.state.currentReview[j].jobDescriptionTitle[0];
+        for(var i = 1;i < this.state.currentReview[j].jobDescriptionTitle.length;i++){
+            jobDesc += ", "+this.state.currentReview[j].jobDescriptionTitle[i];
         }
         return jobDesc;
     }
     getTransTag = (j) =>{
         let transShortTag = []
-        for (var i = 0; i < this.state.allreview[j].transportationTitle.length; i++){
-            transShortTag.push(<span className="tag trans-tag">{this.state.allreview[j].transportationTitle[i]}</span>)
+        for (var i = 0; i < this.state.currentReview[j].transportationTitle.length; i++){
+            transShortTag.push(<span className="tag trans-tag">{this.state.currentReview[j].transportationTitle[i]}</span>)
         }
         return transShortTag
     }
@@ -212,9 +212,9 @@ class Review extends React.Component {
 
         var tmp;
         if(prop === 'companyName')
-            tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
+            tmp = this.state.currentReview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
         else
-            tmp = this.state.allreview.sort((a,b)=> order * (parseInt(a[prop]) - parseInt(b[prop])))
+            tmp = this.state.currentReview.sort((a,b)=> order * (parseInt(a[prop]) - parseInt(b[prop])))
         // tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
             console.log(this.state.sortProp,this.state.sortOrder,tmp);
         this.setState({currentReview:tmp})
@@ -285,7 +285,7 @@ class Review extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                this.setState({allreview:response.data})
+                this.setState({allreview:response.data,currentReview:response.data})
                 this.sortCompany("prop","companyName")
             }
         })
