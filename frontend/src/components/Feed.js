@@ -36,17 +36,15 @@ class Feed extends React.Component {
         console.log(e.target)
         e.target.classList.toggle("clicked")
         e.target.blur()
-    }
 
-    eventInterestData = (option) => {
-        console.log(option)
-
-
-        
         // var icon = '<i className="material-icons">star_border</i>'
         // if(e.target.classList.contains("clicked"))
         //     var icon = "<i className='material-icons'>check</i>"
         // e.target.innerHTML = icon+"<span>"+this.state.interest+"</span>"
+    }
+
+    eventInterestData = (option) => {
+        console.log(option)
     }
 
     getAnnouncement = () => {
