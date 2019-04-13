@@ -10,6 +10,8 @@ const VariableConfig = require('../api/VariableConfig')
 const CheckableTag = Tag.CheckableTag;
 const tagList = VariableConfig.tagList;
 
+const API_TOKEN = require('../api/Token')
+
 
 class Feed extends React.Component {
 
@@ -109,8 +111,8 @@ class Feed extends React.Component {
         this.genCompany();
     }
 
-    API_GET_EVENT = () => {
-        API_FEED.GET_EVENT()
+    API_GET_EVENT = (username) => {
+        API_FEED.GET_EVENT(username)
         .then(response => {
             if(response.code === 1){
                 console.log(response)
@@ -119,6 +121,17 @@ class Feed extends React.Component {
                 // response.data
             }
         })
+    }
+
+    POST_CHECK_TOKEN_AND_GET_EVENT = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.username
+            // setstate username here
+            this.API_GET_EVENT(username)
+        })
+        
     }
 
     API_GET_ANNOUNCEMENT = () => {
@@ -145,8 +158,11 @@ class Feed extends React.Component {
         })
     }
 
+    componentWillMount = () => {
+        this.POST_CHECK_TOKEN_AND_GET_EVENT()
+    }
+
     componentDidMount = () => {
-        this.API_GET_EVENT()
         this.API_GET_ANNOUNCEMENT()
         this.API_GET_COMPANY()
     }

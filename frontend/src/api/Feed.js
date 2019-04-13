@@ -3,7 +3,8 @@ const Config = require('../Config')
 const API_URL = Config.API_URL+'/feed'
 
 /* feed/event */
-export const GET_EVENT = async () => {
+export const GET_EVENT = async (username) => {
+    console.log(username)
     const res = await axios.get(API_URL+'/event')
     return await res.data
 }

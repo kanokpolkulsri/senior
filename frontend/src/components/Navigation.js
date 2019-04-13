@@ -2,9 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Row, Col,Divider } from 'antd';
 
-
 import '../css/Navigation.css';
 import "antd/dist/antd.css";
+
+const API_TOKEN = require('../api/Token')
 
 class Navigation extends React.Component {
 
@@ -24,6 +25,23 @@ class Navigation extends React.Component {
             if(prevState == null || prevState.checkFeed)
                 this.setState({checkFeed: false});
         }
+    }
+
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.username
+            let firstname = response.firstname
+            let lastname = response.lastname
+            // setstate here
+            return (username !== "" && firstname !== "" && lastname !== "")
+        })   
+    }
+
+    componentWillMount = () => {
+        // to detect which button it should have
+        let shouldHaveLoginButton = this.POST_CHECK_TOKEN()
     }
 
     componentDidMount = () => {

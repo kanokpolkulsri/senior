@@ -7,7 +7,6 @@ import {
 import '../css/Register.css';
 
 const API_REGISTER = require('../api/Register')
-const API_TOKEN = require('../api/Token')
 
 class Register extends React.Component {
   constructor(props) {
@@ -53,9 +52,6 @@ class LogInForm extends React.Component {
     .then(response => {
       if(response.code === 1){
         window.localStorage.setItem('token', response.token)
-        let token = {'token': window.localStorage.getItem('token')}
-        API_TOKEN.POST_CHECK_TOKEN(token)
-        .then(response => {console.log(response)})
       }else{
         console.log(response)
       }
