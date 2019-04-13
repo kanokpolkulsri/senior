@@ -129,7 +129,11 @@ class Feed extends React.Component {
         .then(response => {
             let username = response.username
             // setstate username here
-            this.API_GET_EVENT(username)
+            if(username === undefined){
+                this.API_GET_EVENT()
+            }else{
+                this.API_POST_EVENT(username)
+            }
         })
         
     }
