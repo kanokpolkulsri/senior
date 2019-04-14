@@ -148,8 +148,11 @@ class Event extends React.Component {
         "place":option.location,
         "startTime":moment.utc(option.startTime),
         "endTime":moment.utc(option.endTime)});
-   
+        console.log(this.refs.addButtonGroup.classList);
         
+        if(!this.refs.addButtonGroup.classList.contains("hidden"))
+            this.refs.addButtonGroup.classList.add("hidden")
+        this.refs.editButtonGroup.classList.remove("hidden")
         console.log(document.getElementById("event-name"))
     }
 
@@ -272,7 +275,13 @@ class Event extends React.Component {
                     </Row>
                     <br/>
                     <Row className="row-submit-btn">
-                        <Button className="submit-btn" onClick={this.submitItem}>Submit</Button>
+                        <div ref="addButtonGroup" className="add-group"> 
+                            <Button className="submit-btn" onClick={this.submitItem}>Add new event</Button>
+                        </div>
+                        <div ref="editButtonGroup" className="edit-group hidden">
+                            <Button className="submit-btn" onClick={this.submitItem}>Save</Button>
+                            <Button className="submit-btn" onClick={this.submitItem}>Clear</Button>
+                        </div>
                     </Row>
                 </Col>
             </Row>
