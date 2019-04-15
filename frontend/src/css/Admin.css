@@ -17,10 +17,15 @@
 }
 .submit-btn{
     margin: 0 auto;
+    width:30%;
+}
+.submit-add-btn{
+    margin: 0 auto;
     width:40%;
 }
 .delete-btn{
     color: #048C8A;
+    cursor: pointer;
 }
 .breadcrumb-admin{
     font-weight:bold;
@@ -57,4 +62,7 @@ span.upcoming{
 }
 .radio-set{
     margin-bottom:10px;
+}
+div .ant-row.ant-form-item{
+    margin-bottom: 0px;
 }
