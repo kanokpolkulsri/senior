@@ -100,7 +100,7 @@ class Admin extends React.Component {
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/process/report" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment" component={Process}/>
-                            <Route path="/admin/process/assignment/add" component={AddProcess}/>
+                            <Route path="/admin/process/assignment/add" component={AddProcessForm}/>
                             <Route path="/admin/process/assignment/:idProcess" component={EachProcess}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
                             <Redirect from="/admin" to="/admin/process/report"/>
@@ -965,21 +965,7 @@ class Faq extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({data:response.data})
-                /*
-                data = [
-                    {
-                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
-                        question: "สามารถฝึกงานในตำแหน่งที่ไม่เกี่ยวข้องกับโปรแกรมมิ่งได้หรือไม่",
-                        _id: "5c9e15341a28591c19fb41f4"
-                    },
-                    {
-                        answer: "ได้ แต่ต้องได้รับการพิจารณาจากอาจารย์ผู้รับผิดชอบ",
-                        question: "หากมีการลาขณะฝึกงานเกิดจำนวนวันที่กำหนด สามารถทำงานเพิ่มเติมชดเชยวันที่ลาได้หรือไม่",
-                        _id: "5c9e15881a28591c19fb41fc"
-                    }
-                ]
-                */
-
+              
             }
         })
     }
@@ -1204,34 +1190,68 @@ class EachProcess extends React.Component {
     }
 }
 
+let id = 1;
+
 class AddProcess extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            value: 1,
-            questionSet:[1]
+            value: 1
         }
     }
-    // onChange = (e) => {
-    //     console.log('radio checked', e.target.value);
-    //     this.setState({
-    //       value: e.target.value,
-    //     });
-    //     if(e.target.value === 1){
-    //         this.refs['form-show'].classList.remove('hidden')
-    //         this.refs['file-show'].classList.add('hidden')
-    //     }
-    //     else{
-    //         this.refs['form-show'].classList.add('hidden')
-    //         this.refs['file-show'].classList.remove('hidden')
-    //     }
-           
-    //   }
+
+    remove = (k) => {
+        const { form } = this.props;
+        const keys = form.getFieldValue('keys');
+        if (keys.length === 1) {
+          return;
+        }
     
-    moreQuestion = () => {
-        let tmpArr = this.state.questionSet.concat(this.state.questionSet.length+1)
-        this.setState({questionSet:tmpArr})
-    }
+        form.setFieldsValue({
+          keys: keys.filter(key => key !== k),
+        });
+      }
+    
+      add = () => {
+        const { form } = this.props;
+        const keys = form.getFieldValue('keys');
+        const nextKeys = keys.concat(id++)
+        form.setFieldsValue({
+          keys: nextKeys,
+        });
+      }
+    
+      handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+            const { keys, title , option,assignmentDescription, assignmentName,deadline } = values;
+            console.log('Received values of form: ', values);
+            const tmp = keys.map(key => ({"title":title[key],"option":option[key],"data":""}));
+            const params = {
+                "id" : moment().format('YYYYMMDDHHmmss'),
+                "assignmentName" : assignmentName,
+                "assignmentDescription" : assignmentDescription,
+                "status" : 0,
+                "statusDescription" : "missing",
+                "submitDate" : "",
+                "deadline" : deadline,
+                "defaultForm" : 0,
+                "requireIdSubmit" : [],
+                "requireIdSubmitData" : [],
+                "formData" : tmp,
+                "year" : 59
+            }
+            console.log(params);
+            this.API_POST_NEW(params)
+          }
+        });
+      }
+    
+    // moreQuestion = () => {
+    //     let tmpArr = this.state.questionSet.concat(this.state.questionSet.length+1)
+    //     this.setState({questionSet:tmpArr})
+    // }
 
     API_POST_NEW = (params) => {
         /*
@@ -1258,59 +1278,107 @@ class AddProcess extends React.Component {
        API_ADMIN.POST_NEW(params)
        .then(response => {
            if(response.code === 1){
-
+                console.log(response);
+                
            }
        })
     }
 
+    
+
     render() {
+        const { getFieldDecorator, getFieldValue } = this.props.form;
+        getFieldDecorator('keys', { initialValue: [0] });
+        const keys = getFieldValue('keys');
+        const formItems = keys.map((k, index) => (
+
+        <div>
+            {console.log(k)}
+
+            <Form.Item required={false} key={k}>
+            <span className="input-label">Question {index+1}: </span>
+            {getFieldDecorator(`title[${k}]`, {
+              validateTrigger: ['onChange', 'onBlur'],
+              rules: [{
+                required: true,
+                whitespace: true,
+                message: "Please input question or delete this field.",
+              }],
+            })(
+                <Input className="question event-input" placeholder="Question" />
+            )}
+            
+          </Form.Item>
+         <Form.Item style={{display:'inline-block'}}>
+            <span className="input-label">Answer Type: </span>
+            {getFieldDecorator(`option[${k}]`, {
+              validateTrigger: ['onChange', 'onBlur'],
+              initialValue: "short",
+              rules: [{
+                required: true,
+                message: "Please select question type or delete this field.",
+              }],
+            })(
+                <Select style={{ width: 200 }}>
+                    <Option value="short">Short Answer</Option>
+                    <Option value="multiple">Multiple Line</Option>
+                    <Option value="upload">File Upload</Option>
+                </Select>            )}
+                    
+        </Form.Item>
+          {keys.length > 1 ? (
+              <Icon
+                className="dynamic-delete-button"
+                type="minus-circle-o"
+                onClick={() => this.remove(k)}
+              />
+            ) : null}
+        </div>
+      
+        ));
+
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > New Assignment</span><br/>
                 <Row>
                 <Col span={12}> 
-                    <Row>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Item>
                         <span className="input-label">Assignment Name: </span>
+                        {getFieldDecorator('assignmentName', {
+                            rules: [{ required: true, message: 'Please input answer!' }]
+                        })(
                         <Input className="assignment-name" placeholder="Assignment Name" onBlur={this.handleConfirmBlur}  />
-                    </Row> <br/>
-                    <Row>
+                        )}
+                    </Form.Item> 
+                    <Form.Item>                        
                         <span className="input-label">Assignment Description: </span>
+                        {getFieldDecorator('assignmentDescription', {
+                            rules: [{ required: true, message: 'Please input answer!' }]
+                        })(
                         <TextArea className="assignment-desc" placeholder="Description" onBlur={this.handleConfirmBlur} autosize />
-                    </Row> <br/> 
-                    {/* <RadioGroup className="radio-set" onChange={this.onChange} value={this.state.value}>
-                        <Radio value={1}>Form</Radio>
-                        <Radio value={2}>File Upload</Radio>
-                    </RadioGroup> <br/> */}
-                    {/* <div ref="form-show" className=""> */}
-                        {/* {this.genQuestion()} */}
+                        )}
+                    </Form.Item>
+                    <Form.Item>                        
+                        <span className="input-label">Assignment Deadline: </span>
+                        {getFieldDecorator('deadline', {
+                            initialValue:moment(),
+                            rules: [{ required: true, message: 'Please input deadline!' }]
+                        })(
+                            <DatePicker className="event-date" onChange={this.onChange} />
+                            )}
+                    </Form.Item><br/>
+                     
                         {
-                            this.state.questionSet.map((option)=>{ 
-                                return <div>
-                                    <Row>
-                                        <Row>
-                                            <span className="input-label">Question {option}: </span>
-                                            <Input className="question event-input" placeholder="Question" onBlur={this.handleConfirmBlur}  />
-                                        </Row>
-                                        <br/>
-                                        <span className="input-label">Answer Type: </span>
-                                        <Select defaultValue="short" style={{ width: 200 }}>
-                                            <Option value="short">Short Answer</Option>
-                                            <Option value="multiple">Multiple Line</Option>
-                                            <Option value="upload">File Upload</Option>
-                                        </Select>
-                                    </Row><br/>
-                                    </div>
-                            })
-                            
-                            
+                            formItems
                         }
-                        <Button onClick={this.moreQuestion}>Add more question</Button>
-                        <Button>Create assignment</Button>
-                    {/* </div>
-                    <div ref="file-show" className="hidden">
-                        <span>You select type of assignment to be file upload</span>
-
-                    </div> */}
+                        <Form.Item>
+                            <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>Add question</Button>
+                        </Form.Item><br/>
+                        <Form.Item>
+                            <Button htmlType="submit">Create assignment</Button>
+                        </Form.Item>
+                   </Form>
 
                 </Col>
                 </Row>
@@ -1318,6 +1386,9 @@ class AddProcess extends React.Component {
         )
     }
 }
+
+const AddProcessForm = Form.create({ name: 'addprocess_form' })(AddProcess);
+
 
 class StudentReport extends React.Component {
     constructor(props) {
