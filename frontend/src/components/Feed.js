@@ -151,7 +151,7 @@ class Feed extends React.Component {
     }
 
     POST_CHECK_TOKEN = () => {
-        let token = {'token': window.localStorage.getItem('token')}
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
@@ -160,7 +160,7 @@ class Feed extends React.Component {
     }
 
     POST_CHECK_TOKEN_AND_GET_EVENT = () => {
-        let token = {'token': window.localStorage.getItem('token')}
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username

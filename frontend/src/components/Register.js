@@ -51,12 +51,13 @@ class LogInForm extends React.Component {
     API_REGISTER.POST_LOGIN(values)
     .then(response => {
       if(response.code === 1){
-        window.localStorage.setItem('token', response.token)
+        window.localStorage.setItem('token_senior_project', response.token)
       }else{
         console.log(response)
       }
     })
   }
+
   validateStudentID = (rule, value, callback) => {
     if(value){
       if(value.length === 10){

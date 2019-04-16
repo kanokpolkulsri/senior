@@ -31,7 +31,7 @@ class Navigation extends React.Component {
     }
 
     POST_CHECK_TOKEN = () => {
-        let token = {'token': window.localStorage.getItem('token')}
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
@@ -43,7 +43,7 @@ class Navigation extends React.Component {
     }
 
     REMOVE_TOKEN_LOCAL_STORAGE = () => {
-        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('token_senior_project')
         this.setState({token_username: "", token_firstname: "", token_lastname: ""})
     }
 
