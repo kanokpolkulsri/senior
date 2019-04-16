@@ -42,6 +42,13 @@ class Navigation extends React.Component {
         })   
     }
 
+    logout = () => {
+        this.REMOVE_TOKEN_LOCAL_STORAGE()
+        // console.log(this.props.location);
+        
+        // this.props.history.push('/')
+    }
+
     REMOVE_TOKEN_LOCAL_STORAGE = () => {
         window.localStorage.removeItem('token_senior_project')
         this.setState({token_username: "", token_firstname: "", token_lastname: ""})
@@ -67,7 +74,7 @@ class Navigation extends React.Component {
                 <Col span={6}>
                     <span className="web-logo">Internship Program  </span>
                 </Col>
-                <Col span={15} offset={3}>
+                <Col span={14} offset={4}>
                     <div className="nav"> 
                         <NavLink className="nav-menu" to='/'>Announcement</NavLink>
                         <Divider className="divider" type="vertical" />
@@ -78,7 +85,12 @@ class Navigation extends React.Component {
                         <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
-                        <NavLink className="login-btn" to='/Login'>Log in</NavLink>
+                       {
+                           this.state.token_username === ""? 
+                           <NavLink className="login-btn" to='/Login'>Log in</NavLink>:
+                           <span>{this.state.token_firstname} <span className="login-btn" onClick={this.logout}>log out</span></span>
+
+                       } 
                     </div> 
                 </Col> 
        

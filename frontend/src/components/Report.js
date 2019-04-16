@@ -72,7 +72,8 @@ class Report extends React.Component {
             this.refs.menuSchedule.classList.add("active")
             this.refs.menuAssignment.classList.remove("active")
             this.refs.cardAssFilter.container.classList.add("hidden")
-            this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+            if(this.state.currentPage !== "")
+                this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
 
         }
         else{

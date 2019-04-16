@@ -41,6 +41,7 @@
     padding: 5px 10px;
     color: #048C8A;
     border: 1px solid #048C8A;
+    cursor:pointer;
 }
 .not-index{
     border-bottom: 1px solid #707070
