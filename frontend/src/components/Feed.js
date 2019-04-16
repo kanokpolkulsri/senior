@@ -37,6 +37,7 @@ class Feed extends React.Component {
         console.log(e.target)
         e.target.classList.toggle("clicked")
         e.target.blur()
+        
     }
 
     eventInterestData = (option) => {

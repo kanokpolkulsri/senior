@@ -64,6 +64,9 @@ span,p,a,h5{
 .new-line{
   display: block;
 }
+.inline{
+  display:inline-block;
+}
 .tag{
   border-radius: 4px;
   padding: 0px 7px;
