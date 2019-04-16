@@ -161,20 +161,20 @@ class SignUpForm extends React.Component {
       if(value.split('@')[1] !== "ku.th" && value.split('@')[1] !== "ku.ac.th")
         callback('your email is not Kasetsart email!')
     }
+    callback()
   }
 
   validateStudentID = (rule, value, callback) => {
     if(value){
       if(value.length === 10){
         try{
-          var tmp = parseInt(value)
-          console.log("tmp" ,tmp);
-          
+          var tmp = parseInt(value)          
           if(!tmp)
             callback("input only number!")
         }catch(err){
           callback("input only number!")
         }
+        callback()
       }
       else{
         callback("your student ID should be 10 digit!")
@@ -206,8 +206,11 @@ class SignUpForm extends React.Component {
     values["year"] = parseInt(values["username"][0] + values["username"][1])
     API_REGISTER.POST_ADD(values)
     .then(response => {
+      console.log("test signup")
       if(response.code === 1){
         console.log(response)
+        this.props.history.push("/login");
+
         // request successfully
 
         // response.data
@@ -223,7 +226,11 @@ class SignUpForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    console.log(e);
+    
     this.props.form.validateFields((err, values) => {
+      console.log(err,values);
+      
       if (!err) {
         console.log('Received values of SignUp form: ', values);
         this.POST_ADD(values)
