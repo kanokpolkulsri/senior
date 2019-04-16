@@ -199,6 +199,10 @@ class Feed extends React.Component {
         this.POST_CHECK_TOKEN_AND_GET_EVENT()
     }
 
+    componentDidUpdate = (prevProps,prevState) => {
+        if(this.state.token_status !== prevState.token_status)
+            this.POST_CHECK_TOKEN_AND_GET_EVENT()
+    }
 
     render() {
         const { selectedTags } = this.state;

@@ -94,10 +94,8 @@ class Navigation extends React.Component {
                             <span>
                                 <Divider className="divider" type="vertical" />
                                 <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
-                            </span> : <span></span>
-                            
+                            </span> : <span></span>   
                         }
-
                         
                        {
                            this.state.token_username === ""? 

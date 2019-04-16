@@ -71,8 +71,9 @@ class Admin extends React.Component {
 
     }
 
-    componentDidUpdate = () =>{  
-        this.setActive();
+    componentDidUpdate = (prevProps,prevState) =>{  
+        if(this.state.token_status !== prevState.token_status)
+            this.setActive();
     }
  
     POST_CHECK_TOKEN = () => {

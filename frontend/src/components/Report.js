@@ -12,6 +12,8 @@ const Step = Steps.Step;
 const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
 
 class Report extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props)
         this.state = {
@@ -34,13 +36,18 @@ class Report extends React.Component {
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
         })   
     }
-    setDefault = () => {
-        this.POST_CHECK_TOKEN()
-    }
-
+    
+    componentWillUnmount() {
+        this._isMounted = false;
+      }
     componentDidMount= () =>{
+        this._isMounted = true;
+
         console.log(this.props)
-        this.setDefault();
+
+        this.POST_CHECK_TOKEN()
+        console.log(this.state.token_status);
+        
         if(this.state.token_status === "student"){
             if(this.props.match.path === "/schedule"){
                 this.refs.menuSchedule.classList.add("active")
@@ -61,44 +68,52 @@ class Report extends React.Component {
                     this.setState({currentPage : filter});
             }
         }
-        
+        if(this.state.token_status !== "student"){
+            this.props.history.push('/')
+        }
     }
 
-    componentDidUpdate = () =>{  
+    componentDidUpdate = (prevProps,prevState) =>{  
         console.log(this.props)
-        this.setDefault();
-        if(this.state.token_status === "student"){
+        // if(this.state.token_status !== prevState.token_status)
+            // this.POST_CHECK_TOKEN()
 
-            if(this.props.match.path === "/schedule"){
-                console.log(this.refs.menuSchedule.classList)
-                this.refs.menuSchedule.classList.add("active")
-                this.refs.menuAssignment.classList.remove("active")
-                this.refs.cardAssFilter.container.classList.add("hidden")
-                if(this.state.currentPage !== "")
-                    this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
-
+        // if(this.state.token_status === "student"){
+            if(this.props.match.path !== prevProps.match.path){
+                if(this.props.match.path === "/schedule"){
+                    console.log(this.refs.menuSchedule.classList)
+                    this.refs.menuSchedule.classList.add("active")
+                    this.refs.menuAssignment.classList.remove("active")
+                    this.refs.cardAssFilter.container.classList.add("hidden")
+                    if(this.state.currentPage !== "")
+                        this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+    
+                }
+                else{
+                    this.refs.menuAssignment.classList.add("active")
+                    this.refs.menuSchedule.classList.remove("active")
+                    this.refs.cardAssFilter.container.classList.remove("hidden")
+                    if(this.state.currentPage !== "")
+                        this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+                    var filter = this.props.match.params.filter;
+                    this.refs[matchCheck[filter]].classList.add("active")
+                    if(this.state.currentPage !== filter)
+                        this.setState({currentPage : filter});
+                }
             }
-            else{
-                this.refs.menuAssignment.classList.add("active")
-                this.refs.menuSchedule.classList.remove("active")
-                this.refs.cardAssFilter.container.classList.remove("hidden")
-                if(this.state.currentPage !== "")
-                    this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
-                var filter = this.props.match.params.filter;
-                this.refs[matchCheck[filter]].classList.add("active")
-                if(this.state.currentPage !== filter)
-                    this.setState({currentPage : filter});
-            }
-        }
+           
+        // }
+        // else{
+        //     this.props.history.push('/')
+        // }
     }
 
     render() {
         return (
             <div className="report-container">
-            {
-                this.state.token_status === "student"?
+          
                 <div>
-<div className="report-title">
+                <div className="report-title">
                 <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
                 <span className="report-name" > Kanokpol Kulsri</span>
                 <br/>
@@ -136,9 +151,7 @@ class Report extends React.Component {
                         
                 </Row>
                 </div>    
-                :
-                this.props.history.push('/')       
-            }
+             
          
             
             </div>
