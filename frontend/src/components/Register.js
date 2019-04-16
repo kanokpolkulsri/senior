@@ -206,20 +206,9 @@ class SignUpForm extends React.Component {
     values["year"] = parseInt(values["username"][0] + values["username"][1])
     API_REGISTER.POST_ADD(values)
     .then(response => {
-      console.log("test signup")
       if(response.code === 1){
         console.log(response)
-        this.props.history.push("/login");
-
-        // request successfully
-
-        // response.data
-
-        /*
-        data = {
-          username: "5810504361"
-        }
-        */
+        this.props.history.push("/login")
       }
     })
   }
