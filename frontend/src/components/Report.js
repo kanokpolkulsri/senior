@@ -18,7 +18,8 @@ class Report extends React.Component {
             currentPage : "",
             token_username: "",
             token_firstname: "",
-            token_lastname: ""
+            token_lastname: "",
+            token_status: ""
         }
     }
 
@@ -29,71 +30,75 @@ class Report extends React.Component {
             let username = response.token_username
             let firstname = response.token_firstname
             let lastname = response.token_lastname
-            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
-            return (username !== "" && firstname !== "" && lastname !== "")
+            let status = response.token_status
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
         })   
     }
-
-    componentWillMount = () => {
-        if(!this.POST_CHECK_TOKEN()){
-            // redirect to login
-        }else{
-            // call functions
-        }
+    setDefault = () => {
+        this.POST_CHECK_TOKEN()
     }
 
     componentDidMount= () =>{
         console.log(this.props)
-        if(this.props.match.path === "/schedule"){
-            this.refs.menuSchedule.classList.add("active")
+        this.setDefault();
+        if(this.state.token_status === "student"){
+            if(this.props.match.path === "/schedule"){
+                this.refs.menuSchedule.classList.add("active")
+            }
+            else{
+                this.refs.menuAssignment.classList.add("active")
+                console.log(this.refs.cardAssFilter)
+                this.refs.cardAssFilter.container.classList.remove("hidden")
+    
+                var filter;
+                if(this.props.match.params.filter) 
+                    filter = this.props.match.params.filter;
+                else
+                    filter = "assigned"
+                
+                this.refs[matchCheck[filter]].classList.add("active")
+                if(this.state.currentPage !== filter)
+                    this.setState({currentPage : filter});
+            }
         }
-        else{
-            this.refs.menuAssignment.classList.add("active")
-            console.log(this.refs.cardAssFilter)
-            this.refs.cardAssFilter.container.classList.remove("hidden")
-
-            var filter;
-            if(this.props.match.params.filter) 
-                filter = this.props.match.params.filter;
-            else
-                filter = "assigned"
-            
-            this.refs[matchCheck[filter]].classList.add("active")
-            if(this.state.currentPage !== filter)
-                this.setState({currentPage : filter});
-        }
+        
     }
 
     componentDidUpdate = () =>{  
         console.log(this.props)
+        this.setDefault();
+        if(this.state.token_status === "student"){
 
-        if(this.props.match.path === "/schedule"){
-            console.log(this.refs.menuSchedule.classList)
-            this.refs.menuSchedule.classList.add("active")
-            this.refs.menuAssignment.classList.remove("active")
-            this.refs.cardAssFilter.container.classList.add("hidden")
-            if(this.state.currentPage !== "")
-                this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+            if(this.props.match.path === "/schedule"){
+                console.log(this.refs.menuSchedule.classList)
+                this.refs.menuSchedule.classList.add("active")
+                this.refs.menuAssignment.classList.remove("active")
+                this.refs.cardAssFilter.container.classList.add("hidden")
+                if(this.state.currentPage !== "")
+                    this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
 
-        }
-        else{
-            this.refs.menuAssignment.classList.add("active")
-            this.refs.menuSchedule.classList.remove("active")
-            this.refs.cardAssFilter.container.classList.remove("hidden")
-            if(this.state.currentPage !== "")
-                this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
-            var filter = this.props.match.params.filter;
-            this.refs[matchCheck[filter]].classList.add("active")
-            if(this.state.currentPage !== filter)
-                this.setState({currentPage : filter});
+            }
+            else{
+                this.refs.menuAssignment.classList.add("active")
+                this.refs.menuSchedule.classList.remove("active")
+                this.refs.cardAssFilter.container.classList.remove("hidden")
+                if(this.state.currentPage !== "")
+                    this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+                var filter = this.props.match.params.filter;
+                this.refs[matchCheck[filter]].classList.add("active")
+                if(this.state.currentPage !== filter)
+                    this.setState({currentPage : filter});
+            }
         }
     }
 
     render() {
         return (
             <div className="report-container">
-
-            <div className="report-title">
+            {
+                this.state.token_status === "student"?
+                <div>
+<div className="report-title">
                 <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
                 <span className="report-name" > Kanokpol Kulsri</span>
                 <br/>
@@ -130,6 +135,11 @@ class Report extends React.Component {
                     </Col>
                         
                 </Row>
+                </div>    
+                :
+                this.props.history.push('/')       
+            }
+         
             
             </div>
         )
@@ -144,7 +154,8 @@ class Schedule extends React.Component {
             Schedule:[],
             token_username: "",
             token_firstname: "",
-            token_lastname: ""
+            token_lastname: "",
+            token_status: ""
         }
     }
 
@@ -165,17 +176,9 @@ class Schedule extends React.Component {
             let username = response.token_username
             let firstname = response.token_firstname
             let lastname = response.token_lastname
-            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
-            return (username !== "" && firstname !== "" && lastname !== "")
+            let status = response.token_status
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
         })   
-    }
-
-    componentWillMount = () => {
-        if(!this.POST_CHECK_TOKEN()){
-            // redirect to login
-        }else{
-            // call functions
-        }
     }
 
     componentDidMount = () => {
@@ -204,6 +207,7 @@ class Assignment extends React.Component {
             token_username: "",
             token_firstname: "",
             token_lastname: "",
+            token_status: "",
             columns : [
             {
                 title: 'Title',
@@ -304,18 +308,9 @@ class Assignment extends React.Component {
             let username = response.token_username
             let firstname = response.token_firstname
             let lastname = response.token_lastname
-            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
-            this.API_POST_STUDENT(this.state.token_username)
-            return (username !== "" && firstname !== "" && lastname !== "")
+            let status = response.token_status
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
         })   
-    }
-
-    componentWillMount = () => {
-        if(!this.POST_CHECK_TOKEN()){
-            // redirect to login
-        }else{
-            // call functions
-        }
     }
 
     render(){

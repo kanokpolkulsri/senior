@@ -8,13 +8,6 @@ export const GET_EVENT = async () => {
     return await res.data    
 }
 
-export const POST_EVENT = async (username) => {
-    let params = {}
-    params["username"] = username
-    const res = await axios.post(API_URL+'/event', params)
-    return await res.data    
-}
-
 export const POST_ADD_EVENT = async (params) => {
     const res = await axios.post(API_URL+'/event/new', params)
     return await res.data

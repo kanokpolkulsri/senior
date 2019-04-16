@@ -22,12 +22,15 @@ class Navigation extends React.Component {
 
     checkPath = (prevState) => {
         if(window.location.pathname === "/"){
-            if(prevState == null || !prevState.checkFeed)
-                this.setState({checkFeed: true});
-        }    
-        else{
-            if(prevState == null || prevState.checkFeed)
-                this.setState({checkFeed: false});
+            if(prevState == null || !prevState.checkFeed){
+                this.POST_CHECK_TOKEN()
+                this.setState({checkFeed: true})
+            }
+        }else{
+            if(prevState == null || prevState.checkFeed){
+                this.POST_CHECK_TOKEN()
+                this.setState({checkFeed: false})
+            }
         }
     }
 
@@ -40,14 +43,12 @@ class Navigation extends React.Component {
             let lastname = response.token_lastname
             let status = response.token_status
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
-            return (username !== "" && firstname !== "" && lastname !== "" && status !== "")
         })   
     }
 
     logout = () => {
         this.REMOVE_TOKEN_LOCAL_STORAGE()
         // console.log(this.props.location);
-        
         // this.props.history.push('/')
     }
 
@@ -56,14 +57,11 @@ class Navigation extends React.Component {
         this.setState({token_username: "", token_firstname: "", token_lastname: "", token_status: ""})
     }
 
-    componentWillMount = () => {
-        // to detect which button it should have
-        let shouldHaveLoginButton = this.POST_CHECK_TOKEN()
-    }
-
     componentDidMount = () => {
+        this.POST_CHECK_TOKEN()
         this.checkPath(null)
     }
+
     componentDidUpdate = (prevProps,prevState) => {
         this.checkPath(prevState)
     }
@@ -78,15 +76,29 @@ class Navigation extends React.Component {
                 </Col>
                 <Col span={14} offset={4}>
                     <div className="nav"> 
+                {
+                    console.log("token_status",this.state.token_status)
+                    
+                }
                         <NavLink className="nav-menu" to='/'>Announcement</NavLink>
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/Review'>Review</NavLink>
                         <Divider className="divider" type="vertical" />
                         <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
-                        <Divider className="divider" type="vertical" />
-                        <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
-                        <Divider className="divider" type="vertical" />
-                        <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
+                        {
+                            this.state.token_status === "student"? 
+                            <span>
+                                <Divider className="divider" type="vertical" />
+                                <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
+                            </span> : this.state.token_status === "admin"? 
+                            <span>
+                                <Divider className="divider" type="vertical" />
+                                <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
+                            </span> : <span></span>
+                            
+                        }
+
+                        
                        {
                            this.state.token_username === ""? 
                            <NavLink className="login-btn" to='/Login'>Log in</NavLink>:

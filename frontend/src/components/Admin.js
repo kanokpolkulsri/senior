@@ -14,6 +14,7 @@ const API_FEED = require('../api/Feed')
 const API_FAQ = require('../api/Faq')
 const API_ADMIN = require('../api/Assignment_Admin')
 const API_STUDENT = require('../api/Assignment_Student')
+const API_TOKEN = require('../api/Token')
 
 const VariableConfig = require('../api/VariableConfig')
 
@@ -24,50 +25,70 @@ class Admin extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {"cate":"",
-        "topic":"",
-        form: this.props.form,
-        process:["test"]
+        this.state = {
+            cate: "",
+            topic: "",
+            form: this.props.form,
+            process:["test"],
+            token_status: ""
         }
     }
 
     setActive = () =>{
-        var elems = document.querySelectorAll(".menu-li.active");
+        this.POST_CHECK_TOKEN()
+        if(this.state.token_status === "admin"){
+            var elems = document.querySelectorAll(".menu-li.active");
 
-        [].forEach.call(elems, function(el) {
-            el.classList.remove("active");
-        });
-
-        if(this.props.match.params.cate === "faq"){
-            this.refs.faq.classList.add("active")
-        }
-        else if(this.props.match.params.cate === "announcement"){
-            var tmp= this.props.match.params.topic
-            this.refs[tmp].classList.add("active")
-            console.log(this.refs[tmp].innerHTML) 
-        }
-        else if(this.props.match.params.cate === "process"){
-            var tmp = this.props.match.params.topic
-            console.log(tmp);
-            
-            if(tmp === null || tmp === undefined)
-                this.refs["report"].classList.add("active")
-            else
+            [].forEach.call(elems, function(el) {
+                el.classList.remove("active");
+            });
+    
+            if(this.props.match.params.cate === "faq"){
+                this.refs.faq.classList.add("active")
+            }
+            else if(this.props.match.params.cate === "announcement"){
+                var tmp= this.props.match.params.topic
                 this.refs[tmp].classList.add("active")
+                console.log(this.refs[tmp].innerHTML) 
+            }
+            else if(this.props.match.params.cate === "process"){
+                var tmp = this.props.match.params.topic
+                console.log(tmp);
+                
+                if(tmp === null || tmp === undefined)
+                    this.refs["report"].classList.add("active")
+                else
+                    this.refs[tmp].classList.add("active")
+        }
+       
         }   
     }
+
     componentDidMount = () =>{
         this.setActive();
+
     }
+
     componentDidUpdate = () =>{  
         this.setActive();
     }
  
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let status = response.token_status
+            this.setState({token_status: status})
+        })   
+    }
 
 
     render() {
         return (
-            <div>      
+            <div>  
+            {
+                this.state.token_status === "admin"?
+                    
                 <Row>
                     <Col span={5}>
                         <div className="col-menu">
@@ -107,7 +128,11 @@ class Admin extends React.Component {
                         </Switch>
                     </Col>
                 </Row>
+            :
+             this.props.history.push('/')
+            }
             </div>
+
         )
     }
 
