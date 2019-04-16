@@ -25,7 +25,8 @@ class Feed extends React.Component {
             Company: [],
             eventColor: ["pink","orange","green","blue"],
             interest: "  interested",
-            token_username: ""
+            token_username: "",
+            token_status: ""
         }
     }
 
@@ -53,8 +54,6 @@ class Feed extends React.Component {
         .then(response => {
             if(response.code === 1){
                 this.API_GET_EVENT()
-                //update successfully
-                // may call this.API_POST_EVENT(this.state.token_username)
             }
         })
     }
@@ -69,9 +68,14 @@ class Feed extends React.Component {
         return (announcement);
     }
 
+    calMember = (member) => {
+        console.log("member",member);
+        
+    }
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
+            {console.log(option)}
                 <div className="event-color-tab"></div>
                 <Row>
                     <Col span={4}>
@@ -85,7 +89,9 @@ class Feed extends React.Component {
                 <span className="event-name">{option.name}</span><br/>
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
-                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className="event-btn"><i className="material-icons"></i> { this.state.interest }</Button><br/>
+                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={`event-btn ${() => this.calMember(option.members)}`}><i className="material-icons"></i> { this.state.interest }</Button><br/>
+                {/* <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={`event-btn ${this.state.token_status==="student"?(option.members.includes(this.state.token_username)?"clicked":""):""}`}><i className="material-icons"></i> { this.state.interest }</Button><br/> */}
+
             </div> 
         );
         return event;
@@ -132,20 +138,9 @@ class Feed extends React.Component {
         API_FEED.GET_EVENT()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({Event : response.data})
-            }
-        })
-    }
-
-    API_POST_EVENT = (username) => {
-        // request events for that username
-        API_FEED.POST_EVENT(username)
-        .then(response => {
-            if(response.code === 1){
-                console.log(response)
-                // response for interested events
-                /* BAIVARN */
+                console.log("eventttt",response.data);
+                
             }
         })
     }
@@ -164,9 +159,9 @@ class Feed extends React.Component {
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
-            this.setState({token_username: username})
+            let status = response.token_status
+            this.setState({token_username: username, token_status: status})
             this.API_GET_EVENT()
-            this.API_POST_EVENT(username)
         })
         
     }
@@ -190,7 +185,7 @@ class Feed extends React.Component {
             }
         })
     }
-    
+
     componentDidMount = () => {
         this.API_GET_ANNOUNCEMENT()
         this.API_GET_COMPANY()

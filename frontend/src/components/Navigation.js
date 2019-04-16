@@ -43,7 +43,6 @@ class Navigation extends React.Component {
             let lastname = response.token_lastname
             let status = response.token_status
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
-            return (username !== "" && firstname !== "" && lastname !== "" && status !== "")
         })   
     }
 
@@ -62,7 +61,7 @@ class Navigation extends React.Component {
         this.POST_CHECK_TOKEN()
         this.checkPath(null)
     }
-    
+
     componentDidUpdate = (prevProps,prevState) => {
         this.checkPath(prevState)
     }
