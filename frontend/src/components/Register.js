@@ -48,14 +48,11 @@ class Register extends React.Component {
 class LogInForm extends React.Component {  
 
   POST_LOGIN = (values) => {
-    console.log("test login");
-    
     API_REGISTER.POST_LOGIN(values)
     .then(response => {
       if(response.code === 1){
         window.localStorage.setItem('token_senior_project', response.token)
         this.props.history.push("/")
-
       }else{
         console.log(response)
 

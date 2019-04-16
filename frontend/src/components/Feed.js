@@ -190,14 +190,11 @@ class Feed extends React.Component {
             }
         })
     }
-
-    componentWillMount = () => {
-        this.POST_CHECK_TOKEN_AND_GET_EVENT()
-    }
-
+    
     componentDidMount = () => {
         this.API_GET_ANNOUNCEMENT()
         this.API_GET_COMPANY()
+        this.POST_CHECK_TOKEN_AND_GET_EVENT()
     }
 
 
