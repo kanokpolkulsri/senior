@@ -98,12 +98,11 @@ class Report extends React.Component {
             {
                 this.state.token_status === "student"?
                 <div>
-<div className="report-title">
-                <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
-                <span className="report-name" > Kanokpol Kulsri</span>
-                <br/>
-            </div>
-               
+                <div className="report-title">
+                    <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
+                    <span className="report-name" > Kanokpol Kulsri</span>
+                    <br/>
+                </div>
                 <Row>
                     <Col span={7} offset={2}>
                         <Card style={{ width: '70%' }}>
