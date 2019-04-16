@@ -102,7 +102,7 @@ class Navigation extends React.Component {
                        {
                            this.state.token_username === ""? 
                            <NavLink className="login-btn" to='/Login'>Log in</NavLink>:
-                           <span className="username">{this.state.token_firstname} <span className="login-btn" onClick={this.logout}>log out</span></span>
+                           <span className="username"><span className="username">{this.state.token_firstname}</span> <span className="login-btn" onClick={this.logout}>log out</span></span>
 
                        } 
                     </div> 

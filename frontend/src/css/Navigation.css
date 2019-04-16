@@ -31,6 +31,9 @@
     color: #002B33;
 
 }
+.not-index span{
+    color: #002B33;
+}
 .not-index .divider{
     color: white;
     /* font-size: xx-large; */
