@@ -82,7 +82,6 @@ class Feed extends React.Component {
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
-                    {console.log(option)}
 
                 <div className="event-color-tab"></div>
                 <Row>
