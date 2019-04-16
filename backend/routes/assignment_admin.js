@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
     DB_ASSIGNMENT_ADMIN.find({}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0, data: ""}))
-});
+})
 
 router.post('/id', (req, res, next) => {
     // status: 0 = missing, 1 = turned in, -1 = late
@@ -17,14 +17,21 @@ router.post('/id', (req, res, next) => {
     DB_ASSIGNMENT_ADMIN.find({id: req.body.id}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0, data: ""}))
-});
+})
 
 router.post('/year', (req, res, next) => {
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
     DB_ASSIGNMENT_ADMIN.find({year: req.body.year}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0, data: ""}))
-});
+})
+
+router.get('/year_assignment', (req, res, next) => {
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.distinct("year")
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+})
 
 router.post('/new', (req, res, next) => {
     // status: 0 = missing, 1 = turned in, -1 = late
@@ -51,17 +58,24 @@ router.post('/new', (req, res, next) => {
         .catch(() => res.send({code: 0}))
     })
     .catch(() => res.send({code: 0}))
-});
+})
 
 router.post('/delete', (req, res, next) => {
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
     DB_ASSIGNMENT_ADMIN.remove({id: req.body.id})
-    .then(() => res.send({code: 1}))
+    .then(() => {
+        DB_ASSIGNMENT_STUDENT.remove({id: req.body.id})
+        .then(() => {
+            res.send({code: 1})
+        })
+        .catch(() => res.send({code: 0}))
+    })
     .catch(() => res.send({code: 0}))
-});
+})
 
 router.post('/sendemail', (req, res, next) => {
-    let nodemailer = require('nodemailer');
+    let nodemailer = require('nodemailer')
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -73,15 +87,28 @@ router.post('/sendemail', (req, res, next) => {
         from: 'kanokpol.k@ku.th',
         to: 'kanokpolkulsri@gmail.com',
         subject: 'Evaultion Form for the internship student - Kasetsart university',
-        text: 'To whom it may concern,<br/> we have got your email from our internship student whose name is</br> following this link'
+        text: `
+        Dear...,
+    
+        We have got your email from our internship student whose name is...
+        This is a process for you to evaluate the internship student's scores. You are able to submit only once, please carefully consider it.
+        Please submit your evaluation following this link...
+        This email is an auto message system, please do not reply. 
+    
+        Best regards,
+        Internship Evaluation System
+        Department of Computer Engineering and Software Engineering
+        Kasetsart university
+    
+        `
     }
     transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-        console.log(error);
+        console.log(error)
     } else {
-        console.log('Email sent: ' + info.response);
+        console.log('Email sent: ' + info.response)
     }
     })
 })
 
-module.exports = router;
+module.exports = router
