@@ -12,7 +12,6 @@ const tagList = VariableConfig.tagList;
 
 const API_TOKEN = require('../api/Token')
 
-
 class Feed extends React.Component {
 
     constructor(props) {
@@ -34,10 +33,8 @@ class Feed extends React.Component {
     };
 
     eventInterest = (e) => {
-        console.log(e.target)
         e.target.classList.toggle("clicked")
         e.target.blur()
-        
     }
 
     eventInterestData = (option) => {
@@ -68,7 +65,6 @@ class Feed extends React.Component {
     }
 
     calMember = (member) => {
-        console.log("member",member);
         let classBtn = "event-btn";
         if(this.state.token_status === "student"){
             if(member.length > 0)
@@ -82,8 +78,6 @@ class Feed extends React.Component {
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
-                    {console.log(option)}
-
                 <div className="event-color-tab"></div>
                 <Row>
                     <Col span={4}>
@@ -98,8 +92,6 @@ class Feed extends React.Component {
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
                 <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={this.calMember(option.members)}><i className="material-icons"></i> interested </Button><br/>
-                {/* <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={`event-btn ${this.state.token_status==="student"?(option.members.includes(this.state.token_username)?"clicked":""):""}`}><i className="material-icons"></i> { this.state.interest }</Button><br/> */}
-
             </div> 
         );
         return event;
@@ -135,7 +127,6 @@ class Feed extends React.Component {
         const nextSelectedTags = checked
           ? [...selectedTags, tag]
           : selectedTags.filter(t => t !== tag);
-        console.log('You are interested in: ', nextSelectedTags);
         this.setState({ selectedTags: nextSelectedTags });
 
         this.genCompany();
@@ -146,7 +137,6 @@ class Feed extends React.Component {
         .then(response => {
             if(response.code === 1){
                 this.setState({Event : response.data})
-                console.log("eventttt",response.data);
                 
             }
         })
@@ -177,7 +167,6 @@ class Feed extends React.Component {
         API_FEED.GET_ANNOUNCEMENT()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({Announcement : response.data})
             }
         })
@@ -187,7 +176,6 @@ class Feed extends React.Component {
         API_FEED.GET_COMPANY()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({Company : response.data})
             }
         })
@@ -264,7 +252,6 @@ class Feed extends React.Component {
                         {this.getAnnouncement()}
                      
                     <p className="feed-title">Company Lists</p>
-                    {/* {console.log("variaable",tagList)} */}
                     <span className="job-desc-text">Job Description:</span> {tagList.map(tag => (
                         <CheckableTag
                             color="#F06050"
