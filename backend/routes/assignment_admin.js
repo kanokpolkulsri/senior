@@ -60,4 +60,28 @@ router.post('/delete', (req, res, next) => {
     .catch(() => res.send({code: 0}))
 });
 
+router.post('/sendemail', (req, res, next) => {
+    let nodemailer = require('nodemailer');
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'kanokpol.k@ku.th',
+            pass: 'Mypassword.1'
+        }
+    })
+    let mailOptions = {
+        from: 'kanokpol.k@ku.th',
+        to: 'kanokpolkulsri@gmail.com',
+        subject: 'Evaultion Form for the internship student - Kasetsart university',
+        text: 'To whom it may concern,<br/> we have got your email from our internship student whose name is</br> following this link'
+    }
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+    })
+})
+
 module.exports = router;

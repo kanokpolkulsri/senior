@@ -1034,7 +1034,7 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-
+                console.log(response)
             }
         })
     }
