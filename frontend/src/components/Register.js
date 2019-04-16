@@ -124,10 +124,15 @@ const Login = Form.create({ name: 'normal_login' })(LogInForm);
 
   
 class SignUpForm extends React.Component {  
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
-  };
+  
+  constructor(props){
+    super(props)
+    this.state = {
+      confirmDirty: false,
+      autoCompleteResult: [],
+    };
+  }
+  
 
   handleConfirmBlur = (e) => {
     const value = e.target.value;
@@ -177,6 +182,7 @@ class SignUpForm extends React.Component {
     }
     callback()
   }
+
   signupBackNext = (e) => {
     console.log(e.currentTarget);
     const form = this.props.form;
@@ -193,9 +199,6 @@ class SignUpForm extends React.Component {
       document.getElementsByClassName("first-page")[0].classList.toggle("hidden");
       document.getElementsByClassName("second-page")[0].classList.toggle("hidden");
     }
-      
-    
-    
   }
 
   POST_ADD = (values) => {

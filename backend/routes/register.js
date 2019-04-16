@@ -33,7 +33,9 @@ router.post('/login', (req, res, next) => {
 router.post('/add', (req, res, next) => {
   const DB_REGISTER = req.app.locals.DB_REGISTER
   DB_REGISTER.insertOne(req.body)
-  .then(() => res.send({code: 1, data: {username: req.body.username}}))
+  .then(() => {
+    res.send({code: 1, data: {username: req.body.username}})
+  })
   .catch(() => res.send({code: 0, data: ""}))
 })
 
