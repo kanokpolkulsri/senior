@@ -7,6 +7,7 @@ const withAuth = (req, res, next) => {
     req.token_username = ""
     req.token_firstname = ""
     req.token_lastname = ""
+    req.token_status = ""
     next()
   } else {
     jwt.verify(token, secret, (err, decoded) => {
@@ -14,11 +15,13 @@ const withAuth = (req, res, next) => {
         req.token_username = ""
         req.token_firstname = ""
         req.token_lastname = ""
+        req.token_status = ""
         next()
       } else {
         req.token_username = decoded.username
         req.token_firstname = decoded.firstname
         req.token_lastname = decoded.lastname
+        req.token_status = decoded.status
         next()
       }
     })

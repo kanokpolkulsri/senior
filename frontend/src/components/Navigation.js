@@ -15,7 +15,8 @@ class Navigation extends React.Component {
             checkFeed: true,
             token_username: "",
             token_firstname: "",
-            token_lastname: ""
+            token_lastname: "",
+            token_status: ""
         }
     }
 
@@ -37,8 +38,9 @@ class Navigation extends React.Component {
             let username = response.token_username
             let firstname = response.token_firstname
             let lastname = response.token_lastname
-            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname})
-            return (username !== "" && firstname !== "" && lastname !== "")
+            let status = response.token_status
+            this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
+            return (username !== "" && firstname !== "" && lastname !== "" && status !== "")
         })   
     }
 
@@ -51,7 +53,7 @@ class Navigation extends React.Component {
 
     REMOVE_TOKEN_LOCAL_STORAGE = () => {
         window.localStorage.removeItem('token_senior_project')
-        this.setState({token_username: "", token_firstname: "", token_lastname: ""})
+        this.setState({token_username: "", token_firstname: "", token_lastname: "", token_status: ""})
     }
 
     componentWillMount = () => {
@@ -70,6 +72,7 @@ class Navigation extends React.Component {
         let headerClass = this.state.checkFeed? "index":"not-index";
         return (
             <div className={"header "+ `${headerClass}`}>
+<<<<<<< HEAD
              <Row>
                 <Col span={6}>
                     <span className="web-logo">Internship Program  </span>
@@ -96,8 +99,29 @@ class Navigation extends React.Component {
        
              </Row>
           
+=======
+                <Row>
+                    <Col span={6}>
+                        <span className="web-logo">Internship Program  </span>
+                    </Col>
+                    <Col span={15} offset={3}>
+                        <div className="nav"> 
+                            <NavLink className="nav-menu" to='/'>Announcement</NavLink>
+                            <Divider className="divider" type="vertical" />
+                            <NavLink className="nav-menu" to='/Review'>Review</NavLink>
+                            <Divider className="divider" type="vertical" />
+                            <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
+                            <Divider className="divider" type="vertical" />
+                            <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
+                            <Divider className="divider" type="vertical" />
+                            <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
+                            <NavLink className="login-btn" to='/Login'>Log in</NavLink>
+                        </div> 
+                    </Col> 
+                </Row>
+>>>>>>> add1906658a99fb5d686bcab47ac7083fb268bb6
             </div>  
-    )
+        )
     }
 }
 
