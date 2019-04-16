@@ -1068,7 +1068,16 @@ class Process extends React.Component {
 
     API_POST_DELETE_ID_PROCESS = (id) => {
         /* id = "20180408235902" */
-        API_ADMIN.API_POST_DELETE_ID_PROCESS(id)
+        API_ADMIN.POST_DELETE(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    API_GET_YEAR_ASSIGNMENT = () => {
+        API_ADMIN.GET_YEAR_ASSIGNMENT()
         .then(response => {
             if(response.code === 1){
 
@@ -1079,6 +1088,7 @@ class Process extends React.Component {
     componentDidMount = () => {
         let currentYear = (new Date()).getYear() - 50
         this.API_POST_YEAR(currentYear)
+        this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
     }
 
     render () {
@@ -1403,7 +1413,7 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-
+                console.log(response)
             }
         })
     }

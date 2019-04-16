@@ -7,6 +7,11 @@ export const GET_ADMIN = async () => {
     return await res.data
 }
 
+export const GET_YEAR_ASSIGNMENT = async () => {
+    const res = await axios.get(API_URL)
+    return await res.data
+}
+
 export const POST_ID_PROCESS = async (id) => {
     let params = {id: id}
     const res = await axios.post(API_URL + "/id", params)
