@@ -55,7 +55,6 @@ class LogInForm extends React.Component {
       if(response.code === 1){
         window.localStorage.setItem('token_senior_project', response.token)
         this.props.history.push("/")
-
       }else{
         console.log(response)
 
