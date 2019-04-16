@@ -12,6 +12,8 @@ const Step = Steps.Step;
 const matchCheck = {"all":"menuAll","assigned":"menuAssign","turnedin":"menuTurnin","missing":"menuMissing","late":"menuLate"}
 
 class Report extends React.Component {
+    // _isMounted = false;
+
     constructor(props) {
         super(props)
         this.state = {
@@ -19,7 +21,8 @@ class Report extends React.Component {
             token_username: "",
             token_firstname: "",
             token_lastname: "",
-            token_status: ""
+            token_status: "",
+            isMounted: false
         }
     }
 
@@ -32,25 +35,20 @@ class Report extends React.Component {
             let lastname = response.token_lastname
             let status = response.token_status
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
+            this.checkRedirect()
         })   
     }
-    setDefault = () => {
-        this.POST_CHECK_TOKEN()
-    }
 
-    componentDidMount= () =>{
-        console.log(this.props)
-        this.setDefault();
+    checkRedirect = () => {
         if(this.state.token_status === "student"){
             if(this.props.match.path === "/schedule"){
                 this.refs.menuSchedule.classList.add("active")
-            }
-            else{
+            }else{
                 this.refs.menuAssignment.classList.add("active")
                 console.log(this.refs.cardAssFilter)
                 this.refs.cardAssFilter.container.classList.remove("hidden")
     
-                var filter;
+                let filter;
                 if(this.props.match.params.filter) 
                     filter = this.props.match.params.filter;
                 else
@@ -61,14 +59,17 @@ class Report extends React.Component {
                     this.setState({currentPage : filter});
             }
         }
-        
+        if(this.state.token_status !== "student"){
+            this.props.history.push('/')
+        }
     }
 
-    componentDidUpdate = () =>{  
-        console.log(this.props)
-        this.setDefault();
-        if(this.state.token_status === "student"){
+    componentDidMount= () =>{
+        this.POST_CHECK_TOKEN()
+    }
 
+    componentDidUpdate = (prevProps,prevState) =>{
+        if(this.props.match.path !== prevProps.match.path){
             if(this.props.match.path === "/schedule"){
                 console.log(this.refs.menuSchedule.classList)
                 this.refs.menuSchedule.classList.add("active")
@@ -77,8 +78,7 @@ class Report extends React.Component {
                 if(this.state.currentPage !== "")
                     this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
 
-            }
-            else{
+            }else{
                 this.refs.menuAssignment.classList.add("active")
                 this.refs.menuSchedule.classList.remove("active")
                 this.refs.cardAssFilter.container.classList.remove("hidden")
@@ -95,8 +95,7 @@ class Report extends React.Component {
     render() {
         return (
             <div className="report-container">
-            {
-                this.state.token_status === "student"?
+          
                 <div>
                 <div className="report-title">
                     <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
@@ -135,11 +134,6 @@ class Report extends React.Component {
                         
                 </Row>
                 </div>    
-                :
-                this.props.history.push('/')       
-            }
-         
-            
             </div>
         )
     }

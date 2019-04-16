@@ -36,6 +36,7 @@ class Admin extends React.Component {
 
     setActive = () =>{
         this.POST_CHECK_TOKEN()
+        
         if(this.state.token_status === "admin"){
             var elems = document.querySelectorAll(".menu-li.active");
 
@@ -49,7 +50,6 @@ class Admin extends React.Component {
             else if(this.props.match.params.cate === "announcement"){
                 var tmp= this.props.match.params.topic
                 this.refs[tmp].classList.add("active")
-                console.log(this.refs[tmp].innerHTML) 
             }
             else if(this.props.match.params.cate === "process"){
                 var tmp = this.props.match.params.topic
@@ -60,7 +60,9 @@ class Admin extends React.Component {
                 else
                     this.refs[tmp].classList.add("active")
         }
-       
+       else{
+           this.props.history.push('/')
+       }
         }   
     }
 
@@ -69,8 +71,9 @@ class Admin extends React.Component {
 
     }
 
-    componentDidUpdate = () =>{  
-        this.setActive();
+    componentDidUpdate = (prevProps,prevState) =>{  
+        if(this.state.token_status !== prevState.token_status)
+            this.setActive();
     }
  
     POST_CHECK_TOKEN = () => {
@@ -86,9 +89,7 @@ class Admin extends React.Component {
     render() {
         return (
             <div>  
-            {
-                this.state.token_status === "admin"?
-                    
+             
                 <Row>
                     <Col span={5}>
                         <div className="col-menu">
@@ -128,9 +129,7 @@ class Admin extends React.Component {
                         </Switch>
                     </Col>
                 </Row>
-            :
-             this.props.history.push('/')
-            }
+          
             </div>
 
         )
@@ -146,6 +145,7 @@ class Event extends React.Component {
             "topic":"",
             currentRegister:0,
             currentId:null,
+            currentMember:[],
             checkboxList:[],
             "data":[],
             form: this.props.form
@@ -157,6 +157,7 @@ class Event extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
               values["register"] = 0;
+              values["members"] =[];
               this.API_ADD_EVENT(values)
             }
           });
@@ -184,7 +185,7 @@ class Event extends React.Component {
         "location":option.location,
         "startTime":moment.utc(option.startTime),
         "endTime":moment.utc(option.endTime)});
-        this.setState({currentId:option._id, currentRegister:option.register})
+        this.setState({currentId:option._id, currentRegister:option.register,currentMember:option.members})
         console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
@@ -195,7 +196,7 @@ class Event extends React.Component {
     clearInput = () => {
         this.refs.addButtonGroup.classList.remove("hidden")
         this.refs.editButtonGroup.classList.add("hidden")
-        this.setState({currentId:"", currentRegister:0})
+        this.setState({currentId:"", currentRegister:0,currentMember:[]})
         this.props.form.setFieldsValue({
             "date":moment(),
             "name":"",
@@ -205,7 +206,6 @@ class Event extends React.Component {
     }
     calStatus = (date,startTime,endTime) => {
         var tmpRes = "";
-        console.log("calStatus")
         var eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
         var eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
         if(eventEnd.isBefore(moment()))
@@ -221,6 +221,7 @@ class Event extends React.Component {
         let tmp =this.props.form.getFieldsValue()
         tmp["register"] = this.state.currentRegister;
         tmp["_id"] = this.state.currentId;
+        tmp["members"] = this.state.currentMember
         this.API_UPDATE_EVENT(tmp)
         console.log(tmp);
         
@@ -908,7 +909,6 @@ class Faq extends React.Component {
     }
     editItem = () => {
         let tmp =this.props.form.getFieldsValue()
-        tmp["register"] = this.state.currentRegister;
         tmp["_id"] = this.state.currentId;
         this.API_POST_UPDATE(tmp)
         console.log(tmp);

@@ -17,6 +17,7 @@ import Navigation from './components/Navigation'
 
 class App extends Component {
 
+ 
   render() {
     return (
       <BrowserRouter>
@@ -25,7 +26,6 @@ class App extends Component {
           <Navigation></Navigation>
           <Switch>
             <Route path='/' component={Feed} exact />
-
             <Route path='/login' component={Register} />
             <Route path='/signup' component={Register} />
             <Route path='/schedule' component={Report} />

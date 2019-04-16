@@ -24,7 +24,6 @@ class Feed extends React.Component {
             Announcement: [],
             Company: [],
             eventColor: ["pink","orange","green","blue"],
-            interest: "  interested",
             token_username: "",
             token_status: ""
         }
@@ -70,12 +69,21 @@ class Feed extends React.Component {
 
     calMember = (member) => {
         console.log("member",member);
-        
+        let classBtn = "event-btn";
+        if(this.state.token_status === "student"){
+            if(member.length > 0)
+                if(member.includes(this.state.token_username)){
+                    classBtn += " clicked"
+                }
+        }
+        return classBtn
     }
+  
     getEvent = () => {
         const event = this.state.Event.map((option,idx)=>
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
-            {console.log(option)}
+                    {console.log(option)}
+
                 <div className="event-color-tab"></div>
                 <Row>
                     <Col span={4}>
@@ -89,7 +97,7 @@ class Feed extends React.Component {
                 <span className="event-name">{option.name}</span><br/>
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
-                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={`event-btn ${() => this.calMember(option.members)}`}><i className="material-icons"></i> { this.state.interest }</Button><br/>
+                <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={this.calMember(option.members)}><i className="material-icons"></i> interested </Button><br/>
                 {/* <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={`event-btn ${this.state.token_status==="student"?(option.members.includes(this.state.token_username)?"clicked":""):""}`}><i className="material-icons"></i> { this.state.interest }</Button><br/> */}
 
             </div> 
@@ -110,7 +118,6 @@ class Feed extends React.Component {
             }
                
             if(checkTag || this.state.selectedTags.length === 0){
-                console.log("check")
                 company.push(   
                     <div className="company">
                     <span className="content feed-company-name">{this.state.Company[i].name}</span> 
@@ -192,6 +199,10 @@ class Feed extends React.Component {
         this.POST_CHECK_TOKEN_AND_GET_EVENT()
     }
 
+    componentDidUpdate = (prevProps,prevState) => {
+        if(this.state.token_status !== prevState.token_status)
+            this.POST_CHECK_TOKEN_AND_GET_EVENT()
+    }
 
     render() {
         const { selectedTags } = this.state;
