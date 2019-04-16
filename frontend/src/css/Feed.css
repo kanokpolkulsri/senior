@@ -149,9 +149,16 @@ Button.event-btn{
     bottom: 20px;
     width: 83%;
 }
+/* Button.event-btn::after{
+    content:"interest"
+
+} */
 Button.event-btn.clicked{
     background-color: transparent;
 }
+/* Button.event-btn.clicked::after{
+    content: "interested"
+} */
 Button.event-btn i.material-icons::after{
     content: "star_border"
 }
@@ -169,7 +176,7 @@ Button.event-btn.clicked i.material-icons::after{
 }
 .event-btn i.material-icons{
     font-size: medium;
-    vertical-align: text-bottom;
+    vertical-align: sub;
 }
 .job-desc-text{
     font-size: 18px;
@@ -180,31 +187,34 @@ Button.event-btn.clicked i.material-icons::after{
 .job-desc-tag.pink{
     background-color: #F06050;
 }
-.pink .event-color-tab, .pink .event-btn{
+.event-block button.event-btn.clicked:hover{
+    color:white;
+}
+.pink .event-color-tab, .pink .event-btn, .pink .event-btn.clicked:hover{
     background-color: #F06050;
 }
 .pink .event-btn:hover,.pink .event-btn.clicked{
     color:#F06050;
     border: 1px solid #F06050;
 }
-.orange .event-color-tab, .orange .event-btn{
+.orange .event-color-tab, .orange .event-btn, .orange .event-btn.clicked:hover{
     background-color: #EF9033;
 }
 .orange .event-btn:hover,.orange .event-btn.clicked , .orange .event-btn:focus{
     color:#EF9033;
     border: 1px solid #EF9033;
 }
-.green .event-color-tab, .green .event-btn{
+.green .event-color-tab, .green .event-btn, .green .event-btn.clicked:hover{
     background-color: #00C7AB;
 }
 .green .event-btn:hover,.green .event-btn.clicked , .green .event-btn:focus{
     color:#00C7AB;
     border: 1px solid #00C7AB;
 }
-.blue .event-color-tab, .blue .event-btn{
+.blue .event-color-tab, .blue .event-btn, .blue .event-btn.clicked:hover{
     background-color: #415C71;
 }
-.blue .event-btn:hover, .blue .event-btn:focus{
+.blue .event-btn:hover,.blue .event-btn.clicked, .blue .event-btn:focus{
     color:#415C71;
     border: 1px solid #415C71;
 }

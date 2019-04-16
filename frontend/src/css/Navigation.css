@@ -38,7 +38,7 @@
 }
 .login-btn{
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 5px 12px;
     color: #048C8A;
     border: 1px solid #048C8A;
     cursor:pointer;
@@ -46,7 +46,10 @@
 .not-index{
     border-bottom: 1px solid #707070
 }
-
+.username{
+    color:white;
+    padding: 3px;
+}
 
 /* for feed */
 
