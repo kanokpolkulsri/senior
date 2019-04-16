@@ -71,6 +71,9 @@ class LogInForm extends React.Component {
           callback("input only number!")
         }
       }
+      else if(value.includes('admin')){
+        callback()
+      }
       else{
         callback("your student ID should be 10 digit!")
       }
@@ -144,7 +147,7 @@ class SignUpForm extends React.Component {
     if (value && value !== form.getFieldValue('password')) {
       callback('Two passwords that you enter is inconsistent!');
     } else {
-      callback();
+      callback()
     }
   }
 
@@ -153,7 +156,7 @@ class SignUpForm extends React.Component {
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
     }
-    callback();
+    callback()
   }
 
   validateEmailKu = (rule, value, callback) => {
