@@ -2,16 +2,17 @@ import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
     TimePicker,Checkbox,Upload, Icon, message,Popconfirm    } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
-import moment from 'moment-timezone';
+import moment from 'moment'
 
-import '../css/Admin.css';
-import '../css/App.css';
+import '../css/Admin.css'
+import '../css/App.css'
 
-const { TextArea } = Input;
-const format = 'HH:mm';
-const Option = Select.Option;
+const { TextArea } = Input
+const format = 'HH:mm'
+const Option = Select.Option
 const API_FEED = require('../api/Feed')
 const API_FAQ = require('../api/Faq')
+const API_SCHEDULE = require('../api/Schedule')
 const API_ADMIN = require('../api/Assignment_Admin')
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
@@ -19,7 +20,6 @@ const API_TOKEN = require('../api/Token')
 const VariableConfig = require('../api/VariableConfig')
 
 // const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
-
 
 class Admin extends React.Component {
 
@@ -162,30 +162,14 @@ class Event extends React.Component {
               values["register"] = 0;
               values["members"] =[];
               console.log(moment(values["date"].format('x')))
-            //   let startTimeHour = moment(values["startTime"]).hour()
-            //   let endTimeHour = moment(values["endTime"]).hour()
-            //   let startTimeMinute = moment(values["startTime"]).minute()
-            //   let endTimeMinute = moment(values["endTime"]).minute()
-
-            
-        //       console.log(moment(values["startTime"]).hour())
-        //       console.log(moment(values["endTime"]).hour())
-        //       values["startTime"] = tmp.set({'hour':startTimeHour,'minute':startTimeMinute}).add(7, 'hours')
-        //       values["endTime"] = tmp.hour(endTimeHour).minute(endTimeMinute).add(7, 'hours')
-        //   console.log(values["startTime"])
-        //   console.log(values["endTime"])
-              
               this.API_ADD_EVENT(values)
             }
-          });
-
+          })
     }
 
   
     onCheckChange = (idx,e) => {
-        console.log(idx,e);
-        
-        // console.log(`checked = ${e.target}`);
+        console.log(idx,e)
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
@@ -712,7 +696,6 @@ class CompanyList extends React.Component{
         })
     }
 
-
     getComCat = (cat) =>{
         console.log("test");
         let catString = cat[0];
@@ -1078,16 +1061,13 @@ const FaqForm = Form.create({ name: 'faq_form' })(Faq);
 class Schedule extends React.Component {  
     constructor(props) {
         super(props)
-        this.state = {"cate":"",
-            "topic":"",
-            currentId:null,
-            checkboxList:[],
-            "data":[]
+        this.state = {
+            cate: "",
+            topic: "",
+            currentId: null,
+            checkboxList: [],
+            data: []
         }
-    }
-
-    componentDidMount = () => {
-        this.API_GET_FAQ();
     }
 
     onCheckChange = (idx,e) => {
@@ -1131,6 +1111,7 @@ class Schedule extends React.Component {
           });
 
     }
+
     editItem = () => {
         let tmp =this.props.form.getFieldsValue()
         tmp["_id"] = this.state.currentId;
@@ -1142,12 +1123,10 @@ class Schedule extends React.Component {
     deleteItem = () => {
         const {checkboxList} = this.state;
         checkboxList.forEach((id) => {
-            const val = {}
-            val["_id"] = id
+            const val = {_id: id}
             this.API_POST_DELETE(val)
         })
     }
-
 
     getSchedule = () => {
         const event = this.state.data.map((option,idx)=>
@@ -1171,50 +1150,61 @@ class Schedule extends React.Component {
     }
 
     API_POST_ADD = (values) => {
-        // let values = "" // {"question": "...", "answer": "..."}
-        API_FAQ.POST_ADD(values)
+        /*
+            values = {
+                "title": " update จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
+                "deadline": "2019-04-30T23:59:59.000Z",
+                "description": [
+                    "สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้น กล่าวคือสหกิจศึกษา ณ ต่างประเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"
+                ]
+            }
+        */
+        API_SCHEDULE.POST_ADD(values)
         .then(response => {
             if(response.code === 1){
-              console.log(response)
-              this.API_GET_FAQ()
-              // request successfully
+
+            }
+        })
+    }
+
+    API_GET_SCHEDULE = () => {
+        API_SCHEDULE.GET_SCHEDULE()
+        .then(response => {
+            if(response.code === 1){
+
             }
         })
     }
 
     API_POST_UPDATE = (values) => {
-        // let values = "" // {"_id": "...", "question": "...", "answer": "..."}
-        API_FAQ.POST_UPDATE(values)
+        /*
+            values = {
+                "_id": "5c86765ff6da09a1aabd6951",
+                "title": " update จัดหาสถานประกอบการสำหรับสหกิจศึกษา เวลารวมไม่น้อยกว่า 6 เดือน",
+                "deadline": "2019-04-30T23:59:59.000Z",
+                "description": [
+                    "สามารถแยกเป็น 2 สถานประกอบการได้ในกรณีเดียวเท่านั้น กล่าวคือสหกิจศึกษา ณ ต่างประเทศ และในประเทศ โดยห้ามเว้นระยะห่างกันนานเกินไป"
+                ]
+            }
+        */
+        API_SCHEDULE.POST_UPDATE(values)
         .then(response => {
             if(response.code === 1){
-              console.log(response)
-              this.API_GET_FAQ()
 
-              // request successfully
             }
         })
     }
 
     API_POST_DELETE = (values) => {
-        // let values = "" // {"_id": "..."}
-        API_FAQ.POST_DELETE(values)
-        .then(response => {
-            if(response.code === 1){
-              console.log(response)
-              this.API_GET_FAQ()
-
-              // request successfully
+        /*
+            values = {
+                "_id": "5c86765ff6da09a1aabd6951"
             }
-        })
-    }
-
-    API_GET_FAQ = () => {
-        API_FAQ.GET_FAQ()
+        */
+        API_SCHEDULE.POST_DELETE(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
-                this.setState({data:response.data})
-              
+                
             }
         })
     }
@@ -1337,7 +1327,7 @@ class Process extends React.Component {
     componentDidMount = () => {
         let currentYear = (new Date()).getYear() - 50
         this.API_POST_YEAR(currentYear)
-        this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
+        this.API_GET_YEAR_ASSIGNMENT()
     }
 
     render () {

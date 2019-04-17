@@ -23,7 +23,6 @@ router.get('/:id', (req, res, next) => {
   DB_REVIEW.find({_id: mongo.ObjectID(req.params.id)}).toArray()
   .then(response => res.send({code: 1, data: response[0]}))
   .catch(() => res.send({code: 0, data: ""}))
-  return "hi"
 });
 
 router.post('/add', (req, res, next) => {
