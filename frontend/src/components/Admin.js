@@ -46,11 +46,13 @@ class Admin extends React.Component {
     
             if(this.props.match.params.cate === "faq"){
                 this.refs.faq.classList.add("active")
-            }else if(this.props.match.params.cate === "announcement"){
-                var tmp= this.props.match.params.topic
+            }
+            else if(this.props.match.params.cate === "announcement"){
+                let tmp= this.props.match.params.topic
                 this.refs[tmp].classList.add("active")
-            }else if(this.props.match.params.cate === "process"){
-                var tmp = this.props.match.params.topic
+            }
+            else if(this.props.match.params.cate === "process"){
+                let tmp = this.props.match.params.topic
                 console.log(tmp);
                 
                 if(tmp === null || tmp === undefined)

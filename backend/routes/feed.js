@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 /* EVENT */
 router.get('/event', (req, res, next) => {
   const DB_FEED_EVENT = req.app.locals.DB_FEED_EVENT
-  DB_FEED_EVENT.find({}).toArray()
+  DB_FEED_EVENT.find({}).sort({date: 1}).toArray()
   .then(response => res.send({code: 1, data: response}))
   .catch(() => res.send({code: 0, data: ""}))
 });
