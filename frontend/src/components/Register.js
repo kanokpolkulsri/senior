@@ -116,7 +116,8 @@ class LogInForm extends React.Component {
           )}
         </Form.Item>
         <Form.Item>
-          <a className="login-form-forgot" href="">Forgot password</a>
+          {/* WILL BE DONE AFTER 11 FORMS */}
+          {/* <a className="login-form-forgot" href="#">Forgot password</a> */}
           <Button type="primary" htmlType="submit" className="login-form-button" block>
             Log in
           </Button>
@@ -191,7 +192,7 @@ class SignUpForm extends React.Component {
 
   signupBackNext = (e) => {
     console.log(e.currentTarget);
-    const form = this.props.form;
+    // const form = this.props.form;
 
     if(e.currentTarget.id === "next-btn"){
       this.props.form.validateFields(['firstname','lastname','username'], { force: true }, (errors, values)  => {
@@ -263,13 +264,10 @@ class SignUpForm extends React.Component {
         </Form.Item>
         <Form.Item  {...formItemLayout} >
             {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Please input your Student ID!' },
-              ,{
-                validator: this.validateStudentID,
-              }],
-            })(
-              <Input placeholder="Student ID" />
-            )}
+              rules: [
+                { required: true, message: 'Please input your Student ID!' },
+                {validator: this.validateStudentID,}
+            ]})(<Input placeholder="Student ID" />)}
         </Form.Item>
         <Button onClick={this.signupBackNext} className="signup-next-button login-form-button">
           Next <i className="material-icons">arrow_right_alt</i>

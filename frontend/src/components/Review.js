@@ -1,32 +1,23 @@
 import React from 'react'
-import StarRatings from 'react-star-ratings';
-import { NavLink } from "react-router-dom";
-import { Tag, Row, Col, Select, message, Checkbox } from 'antd';
-import debounce from 'lodash/debounce';
-import querystring from 'querystring';
+import StarRatings from 'react-star-ratings'
+import { NavLink } from "react-router-dom"
+import { Tag, Row, Col, Select, message, Checkbox } from 'antd'
+import debounce from 'lodash/debounce'
 
-
-// var Template = require('./Review.jsx')
-import '../css/App.css';
-import '../css/Review.css';
-import "antd/dist/antd.css";
-import { API_SEARCH_NAME } from '../api/Review';
+import '../css/App.css'
+import '../css/Review.css'
+import "antd/dist/antd.css"
 
 const VariableConfig = require('../api/VariableConfig')
-
-const Option = Select.Option;
-
-const CheckableTag = Tag.CheckableTag;
-const transTag = VariableConfig.transTag;
-const tagList = VariableConfig.tagList
-const paymentRange =  VariableConfig.paymentRange;
-
 const API_REVIEW = require('../api/Review')
+const Option = Select.Option
+const CheckableTag = Tag.CheckableTag
+const transTag = VariableConfig.transTag
+const tagList = VariableConfig.tagList
+const paymentRange =  VariableConfig.paymentRange
 
-let timeout;
-let currentValue;
-
-
+let timeout
+let currentValue
 
 class Review extends React.Component {
     constructor(props) {
@@ -44,16 +35,16 @@ class Review extends React.Component {
             transValue: undefined
            
         }
-        this.lastFetchId = 0;
-        this.fetchCompany = debounce(this.fetchCompany, 800);
+        this.lastFetchId = 0
+        this.fetchCompany = debounce(this.fetchCompany, 800)
   }
  
 
   fetchCompany = (value) => {
-    console.log('fetching company', value);
-    this.lastFetchId += 1;
-    const fetchId = this.lastFetchId;
-    this.setState({ data: [], fetching: true });
+    console.log('fetching company', value)
+    this.lastFetchId += 1
+    const fetchId = this.lastFetchId
+    this.setState({ data: [], fetching: true })
 
     API_REVIEW.POST_SEARCH_NAME_COMPANY(value)
     .then(response => {
@@ -61,7 +52,7 @@ class Review extends React.Component {
             console.log(response.data)
         }
         if (fetchId !== this.lastFetchId) { // for fetch callback order
-          return;
+          return
         }
         const data = response.data.map(company => (
             {
@@ -69,42 +60,42 @@ class Review extends React.Component {
                 value: `${company.companyName}`,
             }
         ))
-        this.setState({ data, fetching: false });
+        this.setState({ data, fetching: false })
     })
   }
     fetchData = (value, callback) => {
-        console.log('fetchhh');
+        console.log('fetchhh')
         
         if (timeout) {
-          clearTimeout(timeout);
-          timeout = null;
+          clearTimeout(timeout)
+          timeout = null
         }
-        currentValue = value;
+        currentValue = value
     
         function fake() {
         //   const str = querystring.encode({
         //     code: 'utf-8',
         //     q: value,
-        //   });
+        //   })
           API_REVIEW.POST_SEARCH_NAME_COMPANY(value)
           .then(response => {
-              console.log('responsee',response);
+              console.log('responsee',response)
               
               if (currentValue === value) {
-                const result = response.data;
-                const data = [];
+                const result = response.data
+                const data = []
                 result.forEach((r) => {
                   data.push({
                     value: r.companyName,
                     text: r.companyName,
-                  });
-                });
-                callback(data);
+                  })
+                })
+                callback(data)
               }
-            });
+            })
         }
       
-        timeout = setTimeout(fake, 300);
+        timeout = setTimeout(fake, 300)
       }
 
 
@@ -114,109 +105,109 @@ class Review extends React.Component {
         if(this.state.searchValue !== undefined)
             tmp = tmp.filter(element => element.companyName === this.state.searchValue)
         
-        var lowRange;
-        var highRange;
+        var lowRange
+        var highRange
         if(this.state.paymentValue !== undefined){
             if(this.state.paymentValue !== "more than 1000"){
-                console.log("less thn");
+                console.log("less thn")
                 lowRange = parseInt(this.state.paymentValue.split('-')[0])
                 highRange = parseInt(this.state.paymentValue.split('-')[1])
-                tmp = tmp.filter(element => (element.payment >= lowRange && element.payment <= highRange));
+                tmp = tmp.filter(element => (element.payment >= lowRange && element.payment <= highRange))
             }
             else{
-                console.log("more than");
-                tmp = tmp.filter(element => element.payment >= 1001);
+                console.log("more than")
+                tmp = tmp.filter(element => element.payment >= 1001)
             }
         }
        
 
-//        tmp = tmp.filter(element => this.state.jobDescValue.includes(element.jobDesc));
+//        tmp = tmp.filter(element => this.state.jobDescValue.includes(element.jobDesc))
         if(this.state.selectedTags.length !== 0){
-            var selectedTags = this.state.selectedTags;
+            var selectedTags = this.state.selectedTags
             tmp = tmp.filter(function(array_el){
                 return selectedTags.filter(function(tag){
-                    console.log(tag);
+                    console.log(tag)
                     
-                   return array_el.transportationTitle.includes(tag.toLowerCase());
+                   return array_el.transportationTitle.includes(tag.toLowerCase())
                 }).length === selectedTags.length
             })
         }
         
-        console.log(tmp);
+        console.log(tmp)
 
 
-        this.setState({currentReview :tmp});
+        this.setState({currentReview :tmp})
       }
 
 
 
   
     onJobDescChange = (value) => {
-        this.setState({ jobDescValue : value },() => {this.searchFilter()});
+        this.setState({ jobDescValue : value },() => {this.searchFilter()})
         
     }
 
     handleSearch = (value) => {
-        this.fetchData(value, data => this.setState({ data }));
+        this.fetchData(value, data => this.setState({ data }))
     }
 
     
     handleSearchChange = (value) => {
-        this.setState({ searchValue : value },() => {this.searchFilter()});
+        this.setState({ searchValue : value },() => {this.searchFilter()})
     }
 
     handlePaymentChange = (value) => {
-        console.log("selected" ,value);
-        this.setState({ paymentValue : value },() => {this.searchFilter()});
+        console.log("selected" ,value)
+        this.setState({ paymentValue : value },() => {this.searchFilter()})
 
     }
 
     handleChange = (tag, checked) => {
-        const { selectedTags } = this.state;
+        const { selectedTags } = this.state
         const nextSelectedTags = checked
           ? [...selectedTags, tag]
-          : selectedTags.filter(t => t !== tag);
-        console.log('You are interested in: ', nextSelectedTags);
-        this.setState({ selectedTags: nextSelectedTags },()=>{this.searchFilter()});
+          : selectedTags.filter(t => t !== tag)
+        console.log('You are interested in: ', nextSelectedTags)
+        this.setState({ selectedTags: nextSelectedTags },()=>{this.searchFilter()})
 
     }
 
     onClick = ({ key }) => {
-        message.info(`Click on item ${key}`);
-    };
+        message.info(`Click on item ${key}`)
+    }
 
     genJobDesc = (j) => {
-        let jobDesc = this.state.currentReview[j].jobDescriptionTitle[0];
-        for(var i = 1;i < this.state.currentReview[j].jobDescriptionTitle.length;i++){
-            jobDesc += ", "+this.state.currentReview[j].jobDescriptionTitle[i];
+        let jobDesc = this.state.currentReview[j].jobDescriptionTitle[0]
+        for(let i = 1; i < this.state.currentReview[j].jobDescriptionTitle.length; i++){
+            jobDesc += ", "+this.state.currentReview[j].jobDescriptionTitle[i]
         }
-        return jobDesc;
+        return jobDesc
     }
     getTransTag = (j) =>{
         let transShortTag = []
-        for (var i = 0; i < this.state.currentReview[j].transportationTitle.length; i++){
+        for (let i = 0; i < this.state.currentReview[j].transportationTitle.length; i++){
             transShortTag.push(<span className="tag trans-tag">{this.state.currentReview[j].transportationTitle[i]}</span>)
         }
         return transShortTag
     }
 
     sortCompany = (change,value) => {
-        var order = this.state.sortOrder;
-        var prop = this.state.sortProp;
+        var order = this.state.sortOrder
+        var prop = this.state.sortProp
         
         if(change === "order")
-            order = value;
+            order = value
         else 
-            prop = value;
-        console.log('prop',prop);
+            prop = value
+        console.log('prop',prop)
 
-        var tmp;
+        var tmp
         if(prop === 'companyName')
             tmp = this.state.currentReview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
         else
             tmp = this.state.currentReview.sort((a,b)=> order * (parseInt(a[prop]) - parseInt(b[prop])))
         // tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
-            console.log(this.state.sortProp,this.state.sortOrder,tmp);
+            console.log(this.state.sortProp,this.state.sortOrder,tmp)
         this.setState({currentReview:tmp})
         
 
@@ -263,15 +254,15 @@ class Review extends React.Component {
     }
 
     handleOrderChange = (value) =>{
-        console.log(value);
+        console.log(value)
         this.setState({sortOrder: value})
-        this.sortCompany("order",value);
+        this.sortCompany("order",value)
     }
     handlePropChange = (value) =>{
-        console.log(value);
+        console.log(value)
         
         this.setState({sortProp: value})
-        this.sortCompany("prop",value);
+        this.sortCompany("prop",value)
     }
 
     getJobDescChoice = () => {
@@ -296,7 +287,7 @@ class Review extends React.Component {
     }
 
     render() {
-        const { selectedTags } = this.state;
+        const { selectedTags } = this.state
         const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>)
         return (
         

@@ -206,7 +206,7 @@ class Assignment extends React.Component {
                 title: 'Title',
                 dataIndex: 'title',
                 key: 'title',
-                render: text => <a href="javascript:;" className="assignment-title">{text}</a>,
+                render: text => <a href="https://kanokpolkulsri.netlify.com" className="assignment-title">{text}</a>,
             }, {
                 title: 'Due',
                 dataIndex: 'due',

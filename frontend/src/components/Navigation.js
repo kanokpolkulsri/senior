@@ -71,7 +71,7 @@ class Navigation extends React.Component {
     render() {
         let headerClass = this.state.checkFeed? "index":"not-index";
         return (
-            <div className={"header "+ `${headerClass}`}>
+            <div className={`header ${headerClass}`}>
              <Row>
                 <Col span={6}>
                     <span className="web-logo">Internship Program  </span>

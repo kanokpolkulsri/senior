@@ -1342,11 +1342,19 @@ class Process extends React.Component {
 }
 
 class EachProcess extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            loading: false
+        }
+    }
+
     getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
-      }
+    }
       
     beforeUpload = (file) => {
         const isJPG = file.type === 'image/jpeg';
@@ -1360,13 +1368,9 @@ class EachProcess extends React.Component {
         return isJPG && isLt2M;
       }
 
-    state = {
-        loading: false,
-    };
-
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
+            this.setState({ loading: true })
             return;
         }
         if (info.file.status === 'done') {
@@ -1374,7 +1378,7 @@ class EachProcess extends React.Component {
             this.getBase64(info.file.originFileObj, imageUrl => this.setState({
             imageUrl,
             loading: false,
-            }));
+            }))
         }
     }
     

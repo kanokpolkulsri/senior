@@ -63,7 +63,7 @@ class ReviewCompany extends React.Component {
         let comment = []
         for (var i = 0; i < this.state.company.comments.length; i++){
             comment.push( <div className="comment-block col-11">
-            <img className="comment-img col-2"></img>
+            <img className="comment-img col-2" alt="commect-img" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"></img>
             <div className="comment-content col-8 ">
                 <StarRatings
                 rating={this.state.company.comments[i].star}
@@ -87,10 +87,10 @@ class ReviewCompany extends React.Component {
             let internTmp  =this.state.company.previousIntern[i]
             let year = <span className="year">{internTmp.year}</span>
             const cpe = internTmp.cpe.map((option,idx)=>
-                <div> <span className="tag cpe-tag">CPE</span><p class="intern-name">{option}</p></div>
+                <div> <span className="tag cpe-tag">CPE</span><p className="intern-name">{option}</p></div>
             );
             const ske = internTmp.ske.map((option,idx)=>
-                <div> <span className="tag ske-tag">SKE</span><p class="intern-name">{option}</p></div>
+                <div> <span className="tag ske-tag">SKE</span><p className="intern-name">{option}</p></div>
             );
             intern.push(<div className="previous-intern-year">{year}{cpe}{ske}</div>)
         }
@@ -107,27 +107,6 @@ class ReviewCompany extends React.Component {
             if(response.code === 1){
                 console.log(response)
                 this.setState({company:response.data})
-                // request successfully
-
-                // response.data
-
-                /*
-                data = {
-                    activities: "กิจกรรมมีให้ทำเยอะมากๆๆๆ toastmaster อันนี้ช่วยฝึก public speaking ได้ดีมากๆ ให้ออกไปพูดตามหัวข้อข้างหน้าภาษาอังกฤษ UCD101 อันนี้สอนเกี่ยวกับ user centered design bootcamp อันนี้เค้าจะจำลอง startup ในบริษัท ให้เสนอไอเดีย รวมทีมละก็ตีๆๆไอเดียให้มันเวิร์กแล้ว pitch ขอทุนจากบริษัท เหมือนแข่งสตาร์ทอัพเลยย",
-                    comments: (2) [{…}, {…}],
-                    companyBackground: "Exxon Mobil Corporation, doing business as ExxonMobil, is an American multinational oil and gas corporation headquartered in Irving, Texas. It is the largest direct descendant of John D. Rockefeller's Standard Oil Company, and was formed on November 30, 1999 by the merger of Exxon (formerly the Standard Oil Company of New Jersey) and Mobil (formerly the Standard Oil Company of New York). ExxonMobil's primary brands are Exxon, Mobil, Esso, and ExxonMobil Chemical.",
-                    companyName: "ExxonMobil Limited",
-                    jobDescriptionContent: {Chatbot: "Chatbot content", Frontend Development: "Frontend Development content", Backend Development: "Backend Development content", Business Process Improvement: "Business Process Improvement content", SAP: "SAP content"},
-                    jobDescriptionTitle: (5) ["Chatbot", "Frontend Development", "Backend Development", "Business Process Improvement", "SAP"],
-                    logo: "logo.png",
-                    payment: 500
-                    previousIntern: (2) [{…}, {…}],,
-                    star: 3,
-                    transportation: {bts: "BTS Saladang แล้วเดินผ่านลานจอดรถไปด้านหลังสีลมคอมเพล็กซ์ เดินตรงไปในซอย...", mrt: "MRT Silom จะไกลกว่าเดินจาก BTS เล็กน้อย เปิดกูเกิ้ลแมปเอานะ...", bus: "Bus..."},
-                    transportationTitle: (3) ["bts", "mrt", "bus"],
-                    _id: "5c6ba5a8e440f7d89bb8619f"
-                }
-                */
             }
         })
     }
@@ -187,7 +166,7 @@ class ReviewCompany extends React.Component {
                                 starDimension="15px"
                                 starSpacing="0px"
                                 />
-                            <img className="company-logo"></img>
+                            <img className="company-logo" alt="company-logo" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"/>
                             <span>Job Description: {this.getJobDesc()}</span>
                             <br/>
                             <span>Payment: {this.state.company.payment} Baht </span>
