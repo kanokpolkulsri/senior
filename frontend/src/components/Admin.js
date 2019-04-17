@@ -42,38 +42,34 @@ class Admin extends React.Component {
 
             [].forEach.call(elems, function(el) {
                 el.classList.remove("active");
-            });
+            })
     
             if(this.props.match.params.cate === "faq"){
                 this.refs.faq.classList.add("active")
-            }
-            else if(this.props.match.params.cate === "announcement"){
-                let tmp= this.props.match.params.topic
+            }else if(this.props.match.params.cate === "announcement"){
+                var tmp= this.props.match.params.topic
                 this.refs[tmp].classList.add("active")
-            }
-            else if(this.props.match.params.cate === "process"){
-                let tmp = this.props.match.params.topic
+            }else if(this.props.match.params.cate === "process"){
+                var tmp = this.props.match.params.topic
                 console.log(tmp);
                 
                 if(tmp === null || tmp === undefined)
                     this.refs["report"].classList.add("active")
                 else
                     this.refs[tmp].classList.add("active")
-        }
-       else{
-           this.props.history.push('/')
-       }
+            }else{
+                this.props.history.push('/')
+            }
         }   
     }
 
     componentDidMount = () =>{
-        this.setActive();
-
+        this.setActive()
     }
 
     componentDidUpdate = (prevProps,prevState) =>{  
         if(this.state.token_status !== prevState.token_status)
-            this.setActive();
+            this.setActive()
     }
  
     POST_CHECK_TOKEN = () => {
