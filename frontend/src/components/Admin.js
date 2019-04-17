@@ -1359,14 +1359,20 @@ class Process extends React.Component {
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > Assignments </span><br/>
-                <Select defaultValue={this.state.currentYear}>
-                    <Option value={this.state.currentYear}>{this.state.currentYear}</Option>
-                    {this.state.year.map((option)=>
-                        <Option value={option}>{option}</Option>    
-                    )}
-                </Select>
-                <Button className="btn-newas"><Link to="/admin/process/assignment/add">Add new assignment</Link></Button>
-                <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+                <span>Academic year: </span>
+                <div className="year-blog">
+                    <Select defaultValue={this.state.currentYear} style={{ width: 120 }} >
+                        <Option value={this.state.currentYear}>{this.state.currentYear}</Option>
+                        {this.state.year.map((option)=>
+                            <Option value={option}>{option}</Option>    
+                        )}
+                    </Select><br/>    
+                </div>
+                <div className="assignment-blog">
+                    <Button className="btn-newas"><Link to="/admin/process/assignment/add">Add new assignment</Link></Button>
+                    <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+                </div>
+              
             </div>
         )
     }
