@@ -35,26 +35,33 @@ class Feed extends React.Component {
 
     eventInterest = (e) => {
         console.log(e.target)
+            if(this.state.token_status === "student")
         e.target.classList.toggle("clicked")
         e.target.blur()
         
     }
 
     eventInterestData = (option) => {
-        let values = option
-        if(values["members"].includes(this.state.token_username)){
-            values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
-            values["register"] -= 1
-        }else{
-            values["members"].push(this.state.token_username)
-            values["register"] += 1
+        if(this.state.token_status !== "student"){
+            message.error('You need to log in first');
         }
-        API_FEED.POST_UPDATE_EVENT(values)
-        .then(response => {
-            if(response.code === 1){
-                this.API_GET_EVENT()
+        else{
+            let values = option
+            if(values["members"].includes(this.state.token_username)){
+                values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
+                values["register"] -= 1
+            }else{
+                values["members"].push(this.state.token_username)
+                values["register"] += 1
             }
-        })
+            API_FEED.POST_UPDATE_EVENT(values)
+            .then(response => {
+                if(response.code === 1){
+                    this.API_GET_EVENT()
+                }
+            })
+        }
+       
     }
 
     getAnnouncement = () => {
