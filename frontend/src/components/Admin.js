@@ -102,6 +102,10 @@ class Admin extends React.Component {
                             <ul className="menu-ul">
                                 <Link style={{ textDecoration: 'none' }} to="/admin/faq" ><li ref="faq" className="menu-li">FAQs Lists</li></Link>
                             </ul>
+                            <span className="menu-header"><i className="material-icons">assignment</i>  Schedule</span>
+                            <ul className="menu-ul">
+                                <Link style={{ textDecoration: 'none' }} to="/admin/schedule" ><li ref="schedule" className="menu-li">Schedule</li></Link>
+                            </ul>
                             <span className="menu-header"><i className="material-icons">assignment</i>  Process 
                          
                             </span>
@@ -118,6 +122,7 @@ class Admin extends React.Component {
                             <Route path="/admin/announcement/announcement" component={AnnouncementForm}/>
                             <Route path="/admin/announcement/companylist" component={CompanyListForm}/>
                             <Route path="/admin/faq" component={FaqForm}/>
+                            <Route path="/admin/schedule" component={ScheduleForm}/>
                             <Route path="/admin/process/report" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment" component={Process}/>
                             <Route path="/admin/process/assignment/add" component={AddProcessForm}/>
@@ -1068,6 +1073,205 @@ class Faq extends React.Component {
     }
 }
 const FaqForm = Form.create({ name: 'faq_form' })(Faq);
+
+
+class Schedule extends React.Component {  
+    constructor(props) {
+        super(props)
+        this.state = {"cate":"",
+            "topic":"",
+            currentId:null,
+            checkboxList:[],
+            "data":[]
+        }
+    }
+
+    componentDidMount = () => {
+        this.API_GET_FAQ();
+    }
+
+    onCheckChange = (idx,e) => {
+        console.log(idx,e);
+        
+        const { checkboxList } = this.state;
+        const nextSelected = e.target.checked
+          ? [...checkboxList, idx]
+          : checkboxList.filter(t => t !== idx);
+        console.log('You are interested in: ', nextSelected);
+        this.setState({ checkboxList: nextSelected });
+    }
+
+    chooseItem = (option) => {
+        this.props.form.setFieldsValue({
+            "question":option.question,
+            "answer":option.answer});
+        this.setState({currentId:option._id})
+        console.log(this.refs.addButtonGroup.classList);
+        
+        if(!this.refs.addButtonGroup.classList.contains("hidden"))
+            this.refs.addButtonGroup.classList.add("hidden")
+        this.refs.editButtonGroup.classList.remove("hidden")
+    }
+
+    clearInput = () => {
+        this.refs.addButtonGroup.classList.remove("hidden")
+        this.refs.editButtonGroup.classList.add("hidden")
+        this.setState({currentId:""})
+        this.props.form.setFieldsValue({
+            "question":"",
+            "answer":""});
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+              this.API_POST_ADD(values)
+            }
+          });
+
+    }
+    editItem = () => {
+        let tmp =this.props.form.getFieldsValue()
+        tmp["_id"] = this.state.currentId;
+        this.API_POST_UPDATE(tmp)
+        console.log(tmp);
+        
+    }
+
+    deleteItem = () => {
+        const {checkboxList} = this.state;
+        checkboxList.forEach((id) => {
+            const val = {}
+            val["_id"] = id
+            this.API_POST_DELETE(val)
+        })
+    }
+
+
+    getSchedule = () => {
+        const event = this.state.data.map((option,idx)=>
+        <div className="div-item">
+        <Row>
+            <Col span={1}>
+                <Checkbox onChange={(e) => this.onCheckChange(option._id,e)}>
+                </Checkbox>    
+            </Col>
+            <Col span={23} className="item-group" > 
+            <span onClick={() => this.chooseItem(option)}>
+                <span className="item-span">Question: {option.question} </span><br/>
+                <span className="item-span">Answer: {option.answer} </span><br/>                
+            </span>
+            </Col>
+          
+        </Row>
+        </div>
+        )
+        return event;
+    }
+
+    API_POST_ADD = (values) => {
+        // let values = "" // {"question": "...", "answer": "..."}
+        API_FAQ.POST_ADD(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              this.API_GET_FAQ()
+              // request successfully
+            }
+        })
+    }
+
+    API_POST_UPDATE = (values) => {
+        // let values = "" // {"_id": "...", "question": "...", "answer": "..."}
+        API_FAQ.POST_UPDATE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              this.API_GET_FAQ()
+
+              // request successfully
+            }
+        })
+    }
+
+    API_POST_DELETE = (values) => {
+        // let values = "" // {"_id": "..."}
+        API_FAQ.POST_DELETE(values)
+        .then(response => {
+            if(response.code === 1){
+              console.log(response)
+              this.API_GET_FAQ()
+
+              // request successfully
+            }
+        })
+    }
+
+    API_GET_FAQ = () => {
+        API_FAQ.GET_FAQ()
+        .then(response => {
+            if(response.code === 1){
+                console.log(response)
+                this.setState({data:response.data})
+              
+            }
+        })
+    }
+
+    render () {
+        const { getFieldDecorator } = this.props.form;
+
+        return (
+            <div>
+            <span className="breadcrumb-admin">FAQs > FAQ Lists </span><br/>
+            <Row>
+                <Col span={15}> 
+                    <Form onSubmit={this.handleSubmit} className="login-form">
+                        <Form.Item>
+                        <span className="input-label">Question: </span>
+                        {getFieldDecorator('question', {
+                            rules: [{ required: true, message: 'Please input question!' }]
+                        })(
+                        <TextArea className="event-input" placeholder="Question" onBlur={this.handleConfirmBlur}  autosize />
+                        )}
+                        </Form.Item>
+                        <Form.Item>
+                        <span className="input-label">Answer: </span>
+                        {getFieldDecorator('answer', {
+                            rules: [{ required: true, message: 'Please input answer!' }]
+                        })(
+                        <TextArea className="event-input" placeholder="Answer" onBlur={this.handleConfirmBlur}  autosize={{ minRows: 2, maxRows: 6 }}/>
+                        )}
+                    </Form.Item>
+                    <Form.Item className="row-submit-btn">
+                        <div ref="addButtonGroup" className="add-group"> 
+                            <Button className="submit-btn" htmlType="submit">Add new faq</Button>
+                        </div>
+                        <div ref="editButtonGroup" className="edit-group hidden">
+                            <Button className="submit-btn" onClick={this.editItem}>Save</Button>
+                            <Button className="submit-btn pad-left" onClick={this.clearInput}>Clear</Button>
+                        </div>
+                        </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
+            <br/>
+            <Row>
+                FAQ Lists   
+                <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
+                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                </Popconfirm>
+
+            </Row>
+            <br/>
+            {this.getSchedule()}
+            </div>
+           
+        )
+    }
+}
+const ScheduleForm = Form.create({ name: 'schedule_form' })(Schedule);
 
 
 class Process extends React.Component {  

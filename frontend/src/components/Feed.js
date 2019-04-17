@@ -92,7 +92,7 @@ class Feed extends React.Component {
                 <div className="event-color-tab"></div>
                 <Row>
                     <Col span={4}>
-                        <span className="event-date">{moment.utc(option.date).date()}</span>
+                        <span className="event-date">{moment(option.date).date()}</span>
                     </Col>
                     <Col span={15} offset={1}>
                         <span className="event-month">{moment(option.date).format('MMMM')}</span>
