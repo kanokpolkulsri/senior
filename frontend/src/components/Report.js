@@ -84,7 +84,7 @@ class Report extends React.Component {
                 this.refs.cardAssFilter.container.classList.remove("hidden")
                 if(this.state.currentPage !== "")
                     this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
-                var filter = this.props.match.params.filter;
+                let filter = this.props.match.params.filter;
                 this.refs[matchCheck[filter]].classList.add("active")
                 if(this.state.currentPage !== filter)
                     this.setState({currentPage : filter});
@@ -244,9 +244,9 @@ class Assignment extends React.Component {
 
     genData = () => {
         console.log(this.props.match.params.filter)
-        var tmp = this.props.match.params.filter
+        let tmp = this.props.match.params.filter
         if(this.props.match.params.filter !== 'all'){
-            var filtered = this.state.data.filter(function(item) {
+            let filtered = this.state.data.filter(function(item) {
                 return item['status'].replace(/\s+/g, '').toLowerCase() === tmp;
             });
             return filtered

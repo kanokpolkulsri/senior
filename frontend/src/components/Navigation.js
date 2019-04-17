@@ -48,6 +48,7 @@ class Navigation extends React.Component {
 
     logout = () => {
         this.REMOVE_TOKEN_LOCAL_STORAGE()
+        window.location.reload();
         // console.log(this.props.location);
         // this.props.history.push('/')
     }
@@ -55,6 +56,7 @@ class Navigation extends React.Component {
     REMOVE_TOKEN_LOCAL_STORAGE = () => {
         window.localStorage.removeItem('token_senior_project')
         this.setState({token_username: "", token_firstname: "", token_lastname: "", token_status: ""})
+    
     }
 
     componentDidMount = () => {
@@ -100,7 +102,7 @@ class Navigation extends React.Component {
                        {
                            this.state.token_username === ""? 
                            <NavLink className="login-btn" to='/Login'>Log in</NavLink>:
-                           <span className="username">{this.state.token_firstname} <span className="login-btn" onClick={this.logout}>log out</span></span>
+                           <span className="username"><span className="username">{this.state.token_firstname}</span> <span className="login-btn" onClick={this.logout}>log out</span></span>
 
                        } 
                     </div> 

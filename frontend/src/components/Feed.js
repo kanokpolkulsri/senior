@@ -12,6 +12,7 @@ const tagList = VariableConfig.tagList;
 
 const API_TOKEN = require('../api/Token')
 
+
 class Feed extends React.Component {
 
     constructor(props) {
@@ -92,6 +93,7 @@ class Feed extends React.Component {
                 <span className="event-place">place: {option.location}</span>
                 <span className="people-event-interest">{option.register} people interested</span><br/>
                 <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={this.calMember(option.members)}><i className="material-icons"></i> interested </Button><br/>
+
             </div> 
         );
         return event;

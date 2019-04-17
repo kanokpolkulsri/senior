@@ -38,7 +38,7 @@ class Admin extends React.Component {
         this.POST_CHECK_TOKEN()
         
         if(this.state.token_status === "admin"){
-            var elems = document.querySelectorAll(".menu-li.active");
+            let elems = document.querySelectorAll(".menu-li.active");
 
             [].forEach.call(elems, function(el) {
                 el.classList.remove("active");
@@ -201,9 +201,9 @@ class Event extends React.Component {
             "endTime":moment("00:00",format)});
     }
     calStatus = (date,startTime,endTime) => {
-        var tmpRes = "";
-        var eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
-        var eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
+        let tmpRes = "";
+        let eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
+        let eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
         if(eventEnd.isBefore(moment()))
             tmpRes = <span className="outdate item-span">Outdate</span>
         else if(eventStart.isAfter(moment()))
@@ -686,7 +686,7 @@ class CompanyList extends React.Component{
 
     getComCat = (cat) =>{
         console.log("test");
-        var catString = cat[0];
+        let catString = cat[0];
         for(let i =1;i<cat.length;i++){
             catString += ", "+cat[i]
         }
