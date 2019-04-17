@@ -2,6 +2,8 @@ import React from 'react'
 import '../css/Feed.css';
 import { Tag,message,Row,Col,Button } from 'antd';
 import Slider from "react-slick";
+import moment from 'moment';
+
 
 import "antd/dist/antd.css";
 
@@ -34,25 +36,33 @@ class Feed extends React.Component {
     };
 
     eventInterest = (e) => {
-        e.target.classList.toggle("clicked")
+        console.log(e.target)
+        if(this.state.token_status === "student")
+            e.target.classList.toggle("clicked")
         e.target.blur()
     }
 
     eventInterestData = (option) => {
-        let values = option
-        if(values["members"].includes(this.state.token_username)){
-            values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
-            values["register"] -= 1
-        }else{
-            values["members"].push(this.state.token_username)
-            values["register"] += 1
+        if(this.state.token_status !== "student"){
+            message.error('You have to log in as a student to perform this one',6);
         }
-        API_FEED.POST_UPDATE_EVENT(values)
-        .then(response => {
-            if(response.code === 1){
-                this.API_GET_EVENT()
+        else{
+            let values = option
+            if(values["members"].includes(this.state.token_username)){
+                values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
+                values["register"] -= 1
+            }else{
+                values["members"].push(this.state.token_username)
+                values["register"] += 1
             }
-        })
+            API_FEED.POST_UPDATE_EVENT(values)
+            .then(response => {
+                if(response.code === 1){
+                    this.API_GET_EVENT()
+                }
+            })
+        }
+       
     }
 
     getAnnouncement = () => {
@@ -82,11 +92,11 @@ class Feed extends React.Component {
                 <div className="event-color-tab"></div>
                 <Row>
                     <Col span={4}>
-                        <span className="event-date">4</span>
+                        <span className="event-date">{moment.utc(option.date).date()}</span>
                     </Col>
                     <Col span={15} offset={1}>
-                        <span className="event-month">February</span>
-                        <span className="event-time">13:00-16:00</span>
+                        <span className="event-month">{moment(option.date).format('MMMM')}</span>
+                        <span className="event-time">{`${moment(option.startTime).format('HH:mm')} - ${moment(option.endTime).format('HH:mm')}`}</span>
                     </Col>
                 </Row>
                 <span className="event-name">{option.name}</span><br/>

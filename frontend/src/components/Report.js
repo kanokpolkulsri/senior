@@ -98,8 +98,8 @@ class Report extends React.Component {
           
                 <div>
                 <div className="report-title">
-                    <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>K</Avatar>
-                    <span className="report-name" > Kanokpol Kulsri</span>
+                    <Avatar className="report-avatar" size={54} style={{ color: 'white', backgroundColor: '#008E7E' }}>{this.state.token_firstname[0]}</Avatar>
+                    <span className="report-name" > {`${this.state.token_firstname} ${this.state.token_lastname}` }</span>
                     <br/>
                 </div>
                 <Row>
@@ -258,9 +258,18 @@ class Assignment extends React.Component {
         API_STUDENT.POST_STUDENT(username)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
+                console.log('response',response.data)
             }
         })
+    }
+
+    componentDidMount = () => {
+        this.POST_CHECK_TOKEN()
+    }
+
+    componentDidUpdate = (prevProps,prevState) =>{
+        if(this.state.token_username !== prevState.token_username)
+            this.POST_CHECK_TOKEN()
     }
 
     API_POST_UPDATE = (params) => {
@@ -303,6 +312,7 @@ class Assignment extends React.Component {
             let lastname = response.token_lastname
             let status = response.token_status
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
+            this.API_POST_STUDENT(username) 
         })   
     }
 
