@@ -1,16 +1,16 @@
 import React from 'react'
-import '../css/Feed.css';
-import { Tag,message,Row,Col,Button } from 'antd';
-import Slider from "react-slick";
-import moment from 'moment';
+import '../css/Feed.css'
+import { Tag,message,Row,Col,Button } from 'antd'
+import Slider from "react-slick"
+import moment from 'moment'
 
 
-import "antd/dist/antd.css";
+import "antd/dist/antd.css"
 
 const API_FEED = require('../api/Feed')
 const VariableConfig = require('../api/VariableConfig')
-const CheckableTag = Tag.CheckableTag;
-const tagList = VariableConfig.tagList;
+const CheckableTag = Tag.CheckableTag
+const tagList = VariableConfig.tagList
 
 const API_TOKEN = require('../api/Token')
 
@@ -32,8 +32,8 @@ class Feed extends React.Component {
     }
 
     onClick = ({ key }) => {
-        message.info(`Click on item ${key}`);
-    };
+        message.info(`Click on item ${key}`)
+    }
 
     eventInterest = (e) => {
         console.log(e.target)
@@ -44,9 +44,8 @@ class Feed extends React.Component {
 
     eventInterestData = (option) => {
         if(this.state.token_status !== "student"){
-            message.error('You have to log in as a student to perform this one',6);
-        }
-        else{
+            message.error('You have to log in as a student to perform this one',6)
+        }else{
             let values = option
             if(values["members"].includes(this.state.token_username)){
                 values["members"].splice( values["members"].indexOf(this.state.token_username), 1 )
@@ -62,7 +61,6 @@ class Feed extends React.Component {
                 }
             })
         }
-       
     }
 
     getAnnouncement = () => {
@@ -71,12 +69,12 @@ class Feed extends React.Component {
                 <p className="announce-topic content">{option.title}</p>
                 <p className="content announce-content">{option.description}</p>
             </div>
-        );
-        return (announcement);
+        )
+        return (announcement)
     }
 
     calMember = (member) => {
-        let classBtn = "event-btn";
+        let classBtn = "event-btn"
         if(this.state.token_status === "student"){
             if(member.length > 0)
                 if(member.includes(this.state.token_username)){
@@ -105,19 +103,19 @@ class Feed extends React.Component {
                 <Button onClick={(e) => {this.eventInterest(e); this.eventInterestData(option)}} className={this.calMember(option.members)}><i className="material-icons"></i> interested </Button><br/>
 
             </div> 
-        );
-        return event;
+        )
+        return event
     }
     
     genCompany = () =>{
-        const company = [];
+        const company = []
         for(var i = 0; i < this.state.Company.length; i++){
-            var checkTag = false;
-            var cat = this.state.Company[i].category;
-            var allTag = [];
+            var checkTag = false
+            var cat = this.state.Company[i].category
+            var allTag = []
             for(var j = 0; j < cat.length; j++){
                 if(this.state.selectedTags.includes(cat[j]))
-                    checkTag = true;
+                    checkTag = true
                 allTag.push( <span className="tag job-desc-tag" key={j}>{cat[j]}</span> )
             }
                
@@ -135,13 +133,13 @@ class Feed extends React.Component {
     }
 
     handleChange = (tag, checked) => {
-        const { selectedTags } = this.state;
+        const { selectedTags } = this.state
         const nextSelectedTags = checked
           ? [...selectedTags, tag]
-          : selectedTags.filter(t => t !== tag);
-        this.setState({ selectedTags: nextSelectedTags });
+          : selectedTags.filter(t => t !== tag)
+        this.setState({ selectedTags: nextSelectedTags })
 
-        this.genCompany();
+        this.genCompany()
     }
 
     API_GET_EVENT = () => {
@@ -205,7 +203,7 @@ class Feed extends React.Component {
     }
 
     render() {
-        const { selectedTags } = this.state;
+        const { selectedTags } = this.state
         var settings = {
             dots: true,
             infinite: false,
@@ -240,7 +238,7 @@ class Feed extends React.Component {
                 }
               }
             ]
-          };
+          }
 
         return (
             <div>
