@@ -152,7 +152,6 @@ class Event extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let tmp;
         this.props.form.validateFields((err, values) => {
             if (!err) {
               values["register"] = 0;
