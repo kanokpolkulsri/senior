@@ -2,7 +2,7 @@ import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
     TimePicker,Checkbox,Upload, Icon, message,Popconfirm    } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import '../css/Admin.css';
 import '../css/App.css';
@@ -150,10 +150,25 @@ class Event extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        let tmp;
         this.props.form.validateFields((err, values) => {
             if (!err) {
               values["register"] = 0;
               values["members"] =[];
+              console.log(moment(values["date"].format('x')))
+            //   let startTimeHour = moment(values["startTime"]).hour()
+            //   let endTimeHour = moment(values["endTime"]).hour()
+            //   let startTimeMinute = moment(values["startTime"]).minute()
+            //   let endTimeMinute = moment(values["endTime"]).minute()
+
+            
+        //       console.log(moment(values["startTime"]).hour())
+        //       console.log(moment(values["endTime"]).hour())
+        //       values["startTime"] = tmp.set({'hour':startTimeHour,'minute':startTimeMinute}).add(7, 'hours')
+        //       values["endTime"] = tmp.hour(endTimeHour).minute(endTimeMinute).add(7, 'hours')
+        //   console.log(values["startTime"])
+        //   console.log(values["endTime"])
+              
               this.API_ADD_EVENT(values)
             }
           });
@@ -204,6 +219,11 @@ class Event extends React.Component {
         let tmpRes = "";
         let eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
         let eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
+        // console.log("eventstart",eventStart);
+        // console.log("now",moment());
+        // console.log("eventEnd",eventEnd);
+        
+       
         if(eventEnd.isBefore(moment()))
             tmpRes = <span className="outdate item-span">Outdate</span>
         else if(eventStart.isAfter(moment()))
@@ -217,7 +237,9 @@ class Event extends React.Component {
         let tmp =this.props.form.getFieldsValue()
         tmp["register"] = this.state.currentRegister;
         tmp["_id"] = this.state.currentId;
-        tmp["members"] = this.state.currentMember
+        tmp["members"] = this.state.currentMember;
+        tmp["startTime"] = moment.utc(tmp["startTime"])
+        tmp["endTime"] = moment.utc(tmp["endTime"])
         this.API_UPDATE_EVENT(tmp)
         console.log(tmp);
         
@@ -235,6 +257,7 @@ class Event extends React.Component {
     getEvent = () => {
         const event = this.state.data.map((option,idx)=>
         <div className="div-item">
+       
         <Row>
             <Col span={1}>
                 <Checkbox onChange={(e) => this.onCheckChange(option._id,e)}>
@@ -245,7 +268,7 @@ class Event extends React.Component {
                 <span className="item-span">Company: {option.name} </span><br/>
                 <span className="item-span">Place: {option.location} </span><br/>
                 <span className="item-span">Date: {moment(option.date).format('l')}</span><br/>
-                <span className="item-span">Time: {`${moment.utc(option.startTime).format(format)} - ${moment.utc(option.endTime).format(format)}`}</span><br/>
+                <span className="item-span">Time: {`${moment(option.startTime).format(format)} - ${moment(option.endTime).format(format)}`}</span><br/>
                 <span className="item-span">Interested people: {option.register} people</span><br/>
                 {/* <span className="item-span">Status: {moment(option.date).isBefore(moment())?<span>Upcoming</span>:<span>Outdate</span>}</span> */}
                 <span className="item-span">status: {this.calStatus(option.date,option.startTime,option.endTime)}</span><br/>
