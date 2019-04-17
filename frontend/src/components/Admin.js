@@ -2,7 +2,7 @@ import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
     TimePicker,Checkbox,Upload, Icon, message,Popconfirm    } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
-import moment from 'moment-timezone';
+import moment from 'moment';
 
 import '../css/Admin.css';
 import '../css/App.css';
@@ -1092,7 +1092,6 @@ class Schedule extends React.Component {
     }
 
     onCheckChange = (idx,e) => {
-        console.log(idx,e);
         
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
@@ -1161,7 +1160,9 @@ class Schedule extends React.Component {
             <Col span={23} className="item-group" > 
             <span onClick={() => this.chooseItem(option)}>
                 <span className="item-span">Question: {option.question} </span><br/>
-                <span className="item-span">Answer: {option.answer} </span><br/>                
+                <span className="item-span">Answer: {option.answer} </span><br/> 
+                <span className="item-span">Deadline: {option.answer} </span><br/>                
+               
             </span>
             </Col>
           
@@ -1225,7 +1226,7 @@ class Schedule extends React.Component {
 
         return (
             <div>
-            <span className="breadcrumb-admin">FAQs > FAQ Lists </span><br/>
+            <span className="breadcrumb-admin">Schedule > Schedule </span><br/>
             <Row>
                 <Col span={15}> 
                     <Form onSubmit={this.handleSubmit} className="login-form">
@@ -1244,10 +1245,18 @@ class Schedule extends React.Component {
                         })(
                         <TextArea className="event-input" placeholder="Answer" onBlur={this.handleConfirmBlur}  autosize={{ minRows: 2, maxRows: 6 }}/>
                         )}
-                    </Form.Item>
+                        </Form.Item>
+                        <Form.Item>
+                        <span className="input-label">Deadline: </span>
+                        {getFieldDecorator('deadline', {
+                            rules: [{ required: true, message: 'Please input deadline!' }]
+                        })(
+                            <DatePicker className="event-date" onChange={this.onChange} />
+                        )}
+                        </Form.Item>
                     <Form.Item className="row-submit-btn">
                         <div ref="addButtonGroup" className="add-group"> 
-                            <Button className="submit-btn" htmlType="submit">Add new faq</Button>
+                            <Button className="submit-btn" htmlType="submit">Add new activity</Button>
                         </div>
                         <div ref="editButtonGroup" className="edit-group hidden">
                             <Button className="submit-btn" onClick={this.editItem}>Save</Button>
@@ -1259,7 +1268,7 @@ class Schedule extends React.Component {
             </Row>
             <br/>
             <Row>
-                FAQ Lists   
+                 Lists   
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
                     <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
                 </Popconfirm>
@@ -1290,7 +1299,9 @@ class Process extends React.Component {
             key: '1',
             assignment:'aaaaaaaaaaaaa',
             deadline: moment(),
-          }]
+          }],
+          year: [],
+          currentYear:(new Date()).getYear() - 60
 
         }
     }
@@ -1330,14 +1341,17 @@ class Process extends React.Component {
         API_ADMIN.GET_YEAR_ASSIGNMENT()
         .then(response => {
             if(response.code === 1){
-
+                console.log("year",response.data);
+                
+                this.setState({year:response.data});
             }
         })
     }
 
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() - 50
-        this.API_POST_YEAR(currentYear)
+        let currentYearCal = (new Date()).getYear() - 60
+        this.setState({currentYear:currentYearCal})
+        this.API_POST_YEAR(currentYearCal)
         this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
     }
 
@@ -1345,6 +1359,12 @@ class Process extends React.Component {
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > Assignments </span><br/>
+                <Select defaultValue={this.state.currentYear}>
+                    <Option value={this.state.currentYear}>{this.state.currentYear}</Option>
+                    {this.state.year.map((option)=>
+                        <Option value={option}>{option}</Option>    
+                    )}
+                </Select>
                 <Button className="btn-newas"><Link to="/admin/process/assignment/add">Add new assignment</Link></Button>
                 <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
             </div>
@@ -1669,7 +1689,7 @@ class StudentReport extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() - 50
+        let currentYear = (new Date()).getYear() - 60
         this.API_POST_STUDENT_YEAR(currentYear)
     }
 
