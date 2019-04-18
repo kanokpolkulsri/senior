@@ -209,11 +209,7 @@ class Event extends React.Component {
         let tmpRes = "";
         let eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
         let eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
-        // console.log("eventstart",eventStart);
-        // console.log("now",moment());
-        // console.log("eventEnd",eventEnd);
-        
-       
+
         if(eventEnd.isBefore(moment()))
             tmpRes = <span className="outdate item-span">Outdate</span>
         else if(eventStart.isAfter(moment()))
@@ -238,8 +234,7 @@ class Event extends React.Component {
     deleteItem = () => {
         const {checkboxList} = this.state;
         checkboxList.forEach((id) => {
-            const val = {}
-            val["_id"] = id
+            const val = {_id: id}
             this.API_DELETE_EVENT(val)
         })
     }

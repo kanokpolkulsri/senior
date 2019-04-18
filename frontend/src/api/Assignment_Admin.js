@@ -8,7 +8,7 @@ export const GET_ADMIN = async () => {
 }
 
 export const GET_YEAR_ASSIGNMENT = async () => {
-    const res = await axios.get(API_URL)
+    const res = await axios.get(API_URL + "/year_assignment")
     return await res.data
 }
 

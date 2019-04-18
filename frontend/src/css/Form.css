@@ -1,0 +1,17 @@
+
+.input-label{
+    vertical-align: top;
+    padding: 7px 5px;
+    display: inline-block;
+}
+
+.event-input{
+    margin-top: 8px;
+    padding-top: 8px;
+    margin-right: 30px;
+    margin-left: 10px;
+}
+
+.label-center{
+    text-align: center;
+}

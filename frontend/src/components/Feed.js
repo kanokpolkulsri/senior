@@ -4,16 +4,13 @@ import { Tag,message,Row,Col,Button } from 'antd'
 import Slider from "react-slick"
 import moment from 'moment'
 
-
 import "antd/dist/antd.css"
 
 const API_FEED = require('../api/Feed')
+const API_TOKEN = require('../api/Token')
 const VariableConfig = require('../api/VariableConfig')
 const CheckableTag = Tag.CheckableTag
 const tagList = VariableConfig.tagList
-
-const API_TOKEN = require('../api/Token')
-
 
 class Feed extends React.Component {
 
