@@ -3,7 +3,7 @@ import {Form, Input, Button, Row, Col} from 'antd'
 import '../../css/Form.css'
 const { TextArea } = Input;
 
-class Form_5 extends React.Component {
+class Form_7 extends React.Component {
     
     constructor(props){
         super(props)
@@ -130,4 +130,4 @@ class Form_5 extends React.Component {
     }
 }
 
-export default Form.create({ name: 'form_5' })(Form_5)
+export default Form.create({ name: 'form_7' })(Form_7)

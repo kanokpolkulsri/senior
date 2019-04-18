@@ -20,6 +20,7 @@ import Form_4 from './components/form/Form_4'
 import Form_5 from './components/form/Form_5'
 import Form_6 from './components/form/Form_6'
 import Form_7 from './components/form/Form_7'
+import Form_8 from './components/form/Form_8'
 
 class App extends Component {
 
@@ -52,6 +53,7 @@ class App extends Component {
             <Route path='/form_5' component={Form_5} />
             <Route path='/form_6' component={Form_6} />
             <Route path='/form_7' component={Form_7} />
+            <Route path='/form_8' component={Form_8} />
        
             <Route component={Error} />
           </Switch>
