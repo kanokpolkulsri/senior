@@ -61,7 +61,7 @@ class Form_1 extends React.Component {
                     <span><b>ข้อมูลส่วนของผู้ประสานงาน</b></span>
                     <Form.Item>
                         <span className="input-label">ชื่อผู้ประสานงาน </span>
-                        {getFieldDecorator('f1_coordiator_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอกชื่อผู้ประสานงาน' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
+                        {getFieldDecorator('f1_coordiator_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อผู้ประสานงาน' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
                         <span className="input-label">ตำแหน่ง </span>
                         {getFieldDecorator('f1_coordiator_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
                     </Form.Item>
@@ -83,8 +83,8 @@ class Form_1 extends React.Component {
                     <hr/>
                     <span><b>ข้อมูลส่วนของพนักงานที่ปรึกษา</b></span>
                     <Form.Item>
-                        <span className="input-label">ผู้พนักงานที่ปรึกษา </span>
-                        {getFieldDecorator('f1_supervisor_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ผู้พนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
+                        <span className="input-label">ชื่อผู้พนักงานที่ปรึกษา </span>
+                        {getFieldDecorator('f1_supervisor_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ขื่อผู้พนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
                         <span className="input-label">ตำแหน่ง </span>
                         {getFieldDecorator('f1_supervisor_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '36%'}}  placeholder="" />)}
                     </Form.Item>
@@ -99,8 +99,8 @@ class Form_1 extends React.Component {
                         {getFieldDecorator('f1_supervisor_phone', {rules: [{ required: true, message: 'กรุณากรอก โทรศัพท์/โทรสาร' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                     </Form.Item>
                     <Form.Item>
-                        <span className="input-label">Email Address </span>
-                        {getFieldDecorator('f1_supervisor_email', {rules: [{ required: true, message: 'กรุณากรอก Email address' }],})( <Input className="event-input" style={{width: '35%'}}  placeholder="" />)}
+                        <span className="input-label">E-mail </span>
+                        {getFieldDecorator('f1_supervisor_email', {rules: [{ required: true, message: 'กรุณากรอก E-mail' }],})( <Input className="event-input" style={{width: '35%'}}  placeholder="" />)}
                     </Form.Item>
 
 
