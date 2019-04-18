@@ -74,3 +74,7 @@ div .ant-row.ant-form-item{
     margin-bottom: 20px;
     text-align: center;
 }
+.delete-text{
+    color:red;
+    cursor: pointer;
+}

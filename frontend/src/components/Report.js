@@ -4,7 +4,7 @@ import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 
 import '../css/Report.css';
 import moment from 'moment';
-const API_REPORT = require('../api/Report')
+const API_SCHEDULE = require('../api/Schedule')
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
 
@@ -153,7 +153,7 @@ class Schedule extends React.Component {
     }
 
     API_GET_SCHEDULE = () => {
-        API_REPORT.GET_SCHEDULE()
+        API_SCHEDULE.GET_SCHEDULE()
         .then(response => {
             if(response.code === 1){
                 console.log(response)
