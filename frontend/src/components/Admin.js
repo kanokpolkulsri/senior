@@ -1322,7 +1322,8 @@ class Process extends React.Component {
         API_ADMIN.POST_DELETE(id)
         .then(response => {
             if(response.code === 1){
-                this.API_POST_YEAR()
+
+                this.API_POST_YEAR(this.state.yearSelected)
             }
         })
     }
