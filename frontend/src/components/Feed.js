@@ -86,10 +86,10 @@ class Feed extends React.Component {
             <div className={`event-block ${this.state.eventColor[idx%4]}`}>
                 <div className="event-color-tab"></div>
                 <Row>
-                    <Col span={4}>
+                    <Col span={6}>
                         <span className="event-date">{moment(option.date).date()}</span>
                     </Col>
-                    <Col span={15} offset={1}>
+                    <Col span={13} offset={2}>
                         <span className="event-month">{moment(option.date).format('MMMM')}</span>
                         <span className="event-time">{`${moment(option.startTime).format('HH:mm')} - ${moment(option.endTime).format('HH:mm')}`}</span>
                     </Col>

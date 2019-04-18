@@ -42,8 +42,9 @@ class App extends Component {
             <Route path='/review/:company' component={ReviewCompany}/>
             <Route path='/review' component={Review} />
             <Route path='/faq' component={FAQ} />
+            <Route path='/admin/:cate/:topic/:year/:idProcess' component={Admin} />
+            <Route path='/admin/:cate/:topic/:year' component={Admin} />
             <Route path='/admin/:cate/:topic' component={Admin} />
-            <Route path='/admin/:cate/:topic/:idProcess' component={Admin} />
             <Route path='/admin/:cate' component={Admin} />
             <Route path='/admin' component={Admin} />
 

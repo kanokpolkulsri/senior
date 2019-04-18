@@ -1,8 +1,9 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message,Popconfirm    } from 'antd';
+    TimePicker,Checkbox,Upload, Icon, message,Popconfirm   } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
+import AssignmentModal from './Modal'
 
 import '../css/Admin.css'
 import '../css/App.css'
@@ -35,7 +36,6 @@ class Admin extends React.Component {
     }
 
     setActive = () =>{
-        this.POST_CHECK_TOKEN()
         
         if(this.state.token_status === "admin"){
             let elems = document.querySelectorAll(".menu-li.active");
@@ -59,19 +59,20 @@ class Admin extends React.Component {
                     this.refs["report"].classList.add("active")
                 else
                     this.refs[tmp].classList.add("active")
-            }else{
-                this.props.history.push('/')
             }
         }   
+        else{
+            this.props.history.push('/')
+        }
     }
 
     componentDidMount = () =>{
-        this.setActive()
+        this.POST_CHECK_TOKEN()
     }
 
     componentDidUpdate = (prevProps,prevState) =>{  
-        if(this.state.token_status !== prevState.token_status)
-            this.setActive()
+        if(this.state.token_status !== prevState.token_status || this.props.match !== prevProps.match)
+            this.POST_CHECK_TOKEN()
     }
  
     POST_CHECK_TOKEN = () => {
@@ -80,6 +81,7 @@ class Admin extends React.Component {
         .then(response => {
             let status = response.token_status
             this.setState({token_status: status})
+            this.setActive()
         })   
     }
 
@@ -111,7 +113,7 @@ class Admin extends React.Component {
                             </span>
                             <ul className="menu-ul">
                                 <Link style={{ textDecoration: 'none' }} to="/admin/process/report" ><li ref="report" className="menu-li">Report</li></Link>
-                                <Link style={{ textDecoration: 'none' }} to="/admin/process/assignment" ><li ref="assignment" className="menu-li">Assignment</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} ><li ref="assignment" className="menu-li">Assignment</li></Link>
                             </ul>
                         </div>
                     </Col>
@@ -124,9 +126,10 @@ class Admin extends React.Component {
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/schedule" component={ScheduleForm}/>
                             <Route path="/admin/process/report" component={StudentReport}/>
-                            <Route exact path="/admin/process/assignment" component={Process}/>
-                            <Route path="/admin/process/assignment/add" component={AddProcessForm}/>
-                            <Route path="/admin/process/assignment/:idProcess" component={EachProcess}/>
+                            <Route exact path="/admin/process/assignment/:year" component={Process}/>
+                            <Route path="/admin/process/assignment/:year/add" component={AddProcessForm}/>
+                            <Route path="/admin/process/assignment/:year/:idProcess" component={EachProcess}/>
+                            <Redirect from="/admin/process/assignment" to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
                             <Redirect from="/admin" to="/admin/process/report"/>
                         </Switch>
@@ -386,7 +389,7 @@ class Event extends React.Component {
             <Row>
                 All upcoming events 
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
-                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                    <i className="material-icons delete-btn" >delete</i>
                 </Popconfirm>
 
             </Row>
@@ -594,7 +597,7 @@ class Announcement extends React.Component {
             <Row>
                 Announcement   
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
-                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                    <i className="material-icons delete-btn">delete</i>
                 </Popconfirm>
 
             </Row>
@@ -840,7 +843,7 @@ class CompanyList extends React.Component{
             <Row>
                 Company Lists   
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
-                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                    <i className="material-icons delete-btn">delete</i>
                 </Popconfirm>
 
             </Row>
@@ -1039,7 +1042,7 @@ class Faq extends React.Component {
             <Row>
                 FAQ Lists   
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
-                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                    <i className="material-icons delete-btn" >delete</i>
                 </Popconfirm>
 
             </Row>
@@ -1066,7 +1069,6 @@ class Schedule extends React.Component {
     }
 
     onCheckChange = (idx,e) => {
-        console.log(idx,e);
         
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
@@ -1078,8 +1080,9 @@ class Schedule extends React.Component {
 
     chooseItem = (option) => {
         this.props.form.setFieldsValue({
-            "question":option.question,
-            "answer":option.answer});
+            "title":option.title,
+            "description":option.description,
+            "deadline":moment(option.deadline)});
         this.setState({currentId:option._id})
         console.log(this.refs.addButtonGroup.classList);
         
@@ -1093,8 +1096,9 @@ class Schedule extends React.Component {
         this.refs.editButtonGroup.classList.add("hidden")
         this.setState({currentId:""})
         this.props.form.setFieldsValue({
-            "question":"",
-            "answer":""});
+            "title":"",
+            "description":"",
+            "deadline":moment()});
     }
 
     handleSubmit = (e) => {
@@ -1133,8 +1137,10 @@ class Schedule extends React.Component {
             </Col>
             <Col span={23} className="item-group" > 
             <span onClick={() => this.chooseItem(option)}>
-                <span className="item-span">Question: {option.question} </span><br/>
-                <span className="item-span">Answer: {option.answer} </span><br/>                
+                <span className="item-span">Title: {option.title} </span><br/>
+                <span className="item-span">Description: {option.description} </span><br/> 
+                <span className="item-span">Deadline: {moment(option.date).format('l')} </span><br/>                
+               
             </span>
             </Col>
           
@@ -1144,6 +1150,9 @@ class Schedule extends React.Component {
         return event;
     }
 
+    componentDidMount = () => {
+        this.API_GET_SCHEDULE() 
+    }
     API_POST_ADD = (values) => {
         /*
             values = {
@@ -1157,6 +1166,7 @@ class Schedule extends React.Component {
         API_SCHEDULE.POST_ADD(values)
         .then(response => {
             if(response.code === 1){
+                this.API_GET_SCHEDULE() 
 
             }
         })
@@ -1166,7 +1176,7 @@ class Schedule extends React.Component {
         API_SCHEDULE.GET_SCHEDULE()
         .then(response => {
             if(response.code === 1){
-
+                this.setState(this.setState({data:response.data}))
             }
         })
     }
@@ -1185,6 +1195,7 @@ class Schedule extends React.Component {
         API_SCHEDULE.POST_UPDATE(values)
         .then(response => {
             if(response.code === 1){
+                this.API_GET_SCHEDULE() 
 
             }
         })
@@ -1199,7 +1210,8 @@ class Schedule extends React.Component {
         API_SCHEDULE.POST_DELETE(values)
         .then(response => {
             if(response.code === 1){
-                
+                this.API_GET_SCHEDULE() 
+
             }
         })
     }
@@ -1209,29 +1221,37 @@ class Schedule extends React.Component {
 
         return (
             <div>
-            <span className="breadcrumb-admin">FAQs > FAQ Lists </span><br/>
+            <span className="breadcrumb-admin">Schedule > Schedule </span><br/>
             <Row>
                 <Col span={15}> 
                     <Form onSubmit={this.handleSubmit} className="login-form">
-                        <Form.Item>
-                        <span className="input-label">Question: </span>
-                        {getFieldDecorator('question', {
-                            rules: [{ required: true, message: 'Please input question!' }]
+                    <Form.Item>
+                        <span className="input-label">Title: </span>
+                        {getFieldDecorator('title', {
+                            rules: [{ required: true, message: 'Please input title!' }]
                         })(
-                        <TextArea className="event-input" placeholder="Question" onBlur={this.handleConfirmBlur}  autosize />
+                        <TextArea className="event-input" placeholder="Title" onBlur={this.handleConfirmBlur}  autosize />
                         )}
                         </Form.Item>
                         <Form.Item>
-                        <span className="input-label">Answer: </span>
-                        {getFieldDecorator('answer', {
-                            rules: [{ required: true, message: 'Please input answer!' }]
+                        <span className="input-label">Description: </span>
+                        {getFieldDecorator('description', {
+                            rules: [{ required: true, message: 'Please input description!' }]
                         })(
-                        <TextArea className="event-input" placeholder="Answer" onBlur={this.handleConfirmBlur}  autosize={{ minRows: 2, maxRows: 6 }}/>
+                        <TextArea className="event-input" placeholder="Description" onBlur={this.handleConfirmBlur}  autosize={{ minRows: 2, maxRows: 6 }}/>
                         )}
-                    </Form.Item>
+                        </Form.Item>
+                        <Form.Item>
+                        <span className="input-label">Deadline: </span>
+                        {getFieldDecorator('deadline', {
+                            rules: [{ required: true, message: 'Please input deadline!' }]
+                        })(
+                            <DatePicker className="event-date" onChange={this.onChange} />
+                        )}
+                        </Form.Item>
                     <Form.Item className="row-submit-btn">
                         <div ref="addButtonGroup" className="add-group"> 
-                            <Button className="submit-btn" htmlType="submit">Add new faq</Button>
+                            <Button className="submit-btn" htmlType="submit">Add new activity</Button>
                         </div>
                         <div ref="editButtonGroup" className="edit-group hidden">
                             <Button className="submit-btn" onClick={this.editItem}>Save</Button>
@@ -1243,9 +1263,9 @@ class Schedule extends React.Component {
             </Row>
             <br/>
             <Row>
-                FAQ Lists   
+                Activity Lists   
                 <Popconfirm title="Are you sure you want to delete?" onConfirm={this.deleteItem} okText="Yes" cancelText="No">
-                    <i className="material-icons delete-btn" onClick={this.deleteItem}>delete</i>
+                    <i className="material-icons delete-btn" >delete</i>
                 </Popconfirm>
 
             </Row>
@@ -1262,39 +1282,27 @@ const ScheduleForm = Form.create({ name: 'schedule_form' })(Schedule);
 class Process extends React.Component {  
     constructor(props) {
         super(props)
-        this.state = {columns : [{
-            title: 'Assignment',
-            dataIndex: 'assignment',
-            render: (text,data) =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${data.key}`}>{text}</Link>
-          },  {
-            title: 'Deadline',
-            dataIndex: 'deadline',
-          }],
-          data : [{
-            key: '1',
-            assignment:'aaaaaaaaaaaaa',
-            deadline: moment(),
-          }]
+        this.state = {
+          data : [],
+          year: [],
+          currentYear:this.props.match.params.year,
+          yearSelected: this.props.match.params.year,
+          modalLoading: false,
+          modalVisible: false,      
 
         }
     }
 
     
-    rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        }),
-    };
+   
 
     API_POST_YEAR = (year) => {
         /* to get all assignment in that year */
         API_ADMIN.POST_YEAR(year)
         .then(response => {
             if(response.code === 1){
+                console.log("all assignment",response.data);
+                this.setState({data:response.data})
                 /* get latest year */
             }
         })
@@ -1306,6 +1314,7 @@ class Process extends React.Component {
         .then(response => {
             if(response.code === 1){
 
+                this.API_POST_YEAR(this.state.yearSelected)
             }
         })
     }
@@ -1314,23 +1323,110 @@ class Process extends React.Component {
         API_ADMIN.GET_YEAR_ASSIGNMENT()
         .then(response => {
             if(response.code === 1){
-
+                console.log("year",response.data);
+                let tmp = response.data
+                if(tmp.includes(this.state.currentYear))
+                    tmp.splice(tmp.indexOf(this.state.currentYear),1)
+                
+                this.setState({year:tmp});
             }
         })
     }
 
-    componentDidMount = () => {
-        let currentYear = (new Date()).getYear() - 50
-        this.API_POST_YEAR(currentYear)
-        this.API_GET_YEAR_ASSIGNMENT()
+    showAsModal = () => {
+        this.setState({
+          modalVisible: true,
+        });
+      }
+    
+    handleOk = (selectedRow) => {
+        this.setState({ modalLoading: true });
+        setTimeout(() => {
+          this.setState({ modalLoading: false, modalVisible: false });
+        }, 3000);
+        selectedRow.forEach((element,idx)=>{
+            delete element["_id"];
+            const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
+            element["id"] = tmp;
+            element["year"] = parseInt(this.state.yearSelected)
+            console.log('element',element);
+            
+            this.API_POST_NEW(element)
+        })
     }
 
+    API_POST_NEW = (params) => {
+       
+       API_ADMIN.POST_NEW(params)
+       .then(response => {
+           if(response.code === 1){
+                console.log(response);
+                this.API_POST_YEAR(this.state.yearSelected)
+           }
+       })
+    }
+    
+      handleCancel = () => {
+        this.setState({ modalVisible: false });
+      }
+
+    handleYearChange = (value) => {
+        this.setState({yearSelected:value})
+        this.API_POST_YEAR(value)
+
+    }
+
+    componentDidMount = () => {
+        let currentYearCal = this.props.match.params.year
+        console.log("currentYearCal",currentYearCal)
+        this.setState({currentYear:currentYearCal})
+        this.API_POST_YEAR(parseInt(currentYearCal))
+        this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
+    }
+
+
     render () {
+        let columns = [{
+            title: 'Assignment',
+            dataIndex: 'assignmentName',
+            render: (text,data) =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${this.state.yearSelected}/${data.id}`}>{text}</Link>
+          },  {
+            title: 'Deadline',
+            dataIndex: 'deadline',
+            render: (text) => <span>{moment(text).format('l')}</span>
+          }, 
+          {
+            title: 'Action', render: (text,data) =>   
+            <Popconfirm title="Are you sure delete this task?" onConfirm={() => this.API_POST_DELETE_ID_PROCESS(data.id)}  okText="Yes" cancelText="No">
+                <span className="delete-text">Delete</span>
+            </Popconfirm>
+          }];
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > Assignments </span><br/>
-                <Button className="btn-newas"><Link to="/admin/process/assignment/add">Add new assignment</Link></Button>
-                <Table rowSelection={this.rowSelection} columns={this.state.columns} dataSource={this.state.data} />,
+                <div className="year-blog">
+                    <span>Academic year: </span>
+                    <Select defaultValue={this.state.currentYear} style={{ width: 120 }} onChange={this.handleYearChange} >
+                        <Option value={this.state.currentYear}>{this.state.currentYear}</Option>
+                        {this.state.year.map((option)=>
+                            <Option value={option}>{option}</Option>    
+                        )}
+                    </Select><br/>    
+                </div>
+                <div className="assignment-blog">
+                    <Button className="btn-newas"><Link to={`/admin/process/assignment/${this.state.yearSelected}/add`}>Add new assignment</Link></Button>
+                    <Button className="btn-newas" onClick={this.showAsModal}>Duplicate assignment</Button>
+                    <Table rowKey={record => record._id} columns={columns} dataSource={this.state.data} />
+                    <AssignmentModal
+                        modalLoading={this.state.modalLoading}
+                        modalVisible={this.state.modalVisible}
+                        handleOk={this.handleOk}
+                        handleCancel={this.handleCancel}
+                        year={this.state.year}
+                        currentYear={this.state.currentYear}
+                    />
+                </div>
+              
             </div>
         )
     }
@@ -1377,14 +1473,7 @@ class EachProcess extends React.Component {
         }
     }
     
-    API_POST_ID_PROCESS = (id) => {
-        API_ADMIN.POST_ID_PROCESS(id)
-        .then(response => {
-            if(response.code === 1){
 
-            }
-        })
-    }
 
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)
@@ -1399,14 +1488,14 @@ class EachProcess extends React.Component {
         API_ADMIN.POST_ID_PROCESS(id)
         .then(response => {
             if(response.code === 1){
-
+                console.log('response',response.data);
             }
         })
     }
 
     componentDidMount = () => {
         /* PALM NEEDS BAIVARN's HELP HERE */
-        let id = "20180408235902" /* id of each process */
+        let id = this.props.match.params.idProcess /* id of each process */
         this.API_POST_ID_PROCESS(id)
     }
     
@@ -1487,7 +1576,7 @@ class AddProcess extends React.Component {
                 "requireIdSubmit" : [],
                 "requireIdSubmitData" : [],
                 "formData" : tmp,
-                "year" : 59
+                "year" : parseInt(this.props.match.params.year)
             }
             console.log(params);
             this.API_POST_NEW(params)
@@ -1526,7 +1615,7 @@ class AddProcess extends React.Component {
        .then(response => {
            if(response.code === 1){
                 console.log(response);
-                
+                this.props.history.push('/admin/process/assignment/'+this.props.match.params.year)
            }
        })
     }
@@ -1666,7 +1755,7 @@ class StudentReport extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() - 50
+        let currentYear = (new Date()).getYear() - 60
         this.API_POST_STUDENT_YEAR(currentYear)
     }
 
