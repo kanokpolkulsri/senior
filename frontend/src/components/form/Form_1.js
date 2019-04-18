@@ -30,7 +30,10 @@ class Form_1 extends React.Component {
                 <Row>
                     <Col span={30}>
                     <Form onSubmit={this.handleSubmit}>
-                    <span><center><b><u>ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</u></b></center></span><br/><br/>
+                    <span><center><b><u>ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</u></b></center></span>
+                    <br/>
+                    <hr/>
+                    <br/>
                     <span><b>ชื่อสถานประกอบการ (ที่เป็นทางการ)</b></span><br/><br/>
                     <span><b>ข้อมูลส่วนของนิสิต</b></span>
                     <Form.Item>

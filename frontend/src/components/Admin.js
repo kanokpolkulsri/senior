@@ -1457,7 +1457,7 @@ class EachProcess extends React.Component {
           message.error('Image must smaller than 2MB!');
         }
         return isJPG && isLt2M;
-      }
+    }
 
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
