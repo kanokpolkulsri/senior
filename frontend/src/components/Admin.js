@@ -1395,6 +1395,15 @@ class EachProcess extends React.Component {
         })
     }
 
+    API_POST_ID_PROCESS = (id) => {
+        API_ADMIN.POST_ID_PROCESS(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
     componentDidMount = () => {
         /* PALM NEEDS BAIVARN's HELP HERE */
         let id = "20180408235902" /* id of each process */
