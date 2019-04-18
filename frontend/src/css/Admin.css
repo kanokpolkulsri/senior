@@ -71,10 +71,13 @@ div .ant-row.ant-form-item{
     margin-bottom: 0px;
 }
 .year-blog{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-align: center;
 }
 .delete-text{
     color:red;
     cursor: pointer;
+}
+.btn-newas{
+    margin-right: 10px;
 }

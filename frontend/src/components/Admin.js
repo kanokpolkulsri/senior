@@ -1,8 +1,9 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message,Popconfirm    } from 'antd';
+    TimePicker,Checkbox,Upload, Icon, message,Popconfirm   } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
+import AssignmentModal from './Modal'
 
 import '../css/Admin.css'
 import '../css/App.css'
@@ -112,7 +113,7 @@ class Admin extends React.Component {
                             </span>
                             <ul className="menu-ul">
                                 <Link style={{ textDecoration: 'none' }} to="/admin/process/report" ><li ref="report" className="menu-li">Report</li></Link>
-                                <Link style={{ textDecoration: 'none' }} to="/admin/process/assignment" ><li ref="assignment" className="menu-li">Assignment</li></Link>
+                                <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} ><li ref="assignment" className="menu-li">Assignment</li></Link>
                             </ul>
                         </div>
                     </Col>
@@ -125,9 +126,10 @@ class Admin extends React.Component {
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/schedule" component={ScheduleForm}/>
                             <Route path="/admin/process/report" component={StudentReport}/>
-                            <Route exact path="/admin/process/assignment" component={Process}/>
+                            <Route exact path="/admin/process/assignment/:year" component={Process}/>
                             <Route path="/admin/process/assignment/:year/add" component={AddProcessForm}/>
                             <Route path="/admin/process/assignment/:year/:idProcess" component={EachProcess}/>
+                            <Redirect from="/admin/process/assignment" to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
                             <Redirect from="/admin" to="/admin/process/report"/>
                         </Switch>
@@ -1283,22 +1285,16 @@ class Process extends React.Component {
         this.state = {
           data : [],
           year: [],
-          currentYear:(new Date()).getYear() - 60,
-          yearSelected: (new Date()).getYear() - 60
+          currentYear:this.props.match.params.year,
+          yearSelected: this.props.match.params.year,
+          modalLoading: false,
+          modalVisible: false,      
 
         }
     }
 
     
-    rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
-          console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-        },
-        getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
-        }),
-    };
+   
 
     API_POST_YEAR = (year) => {
         /* to get all assignment in that year */
@@ -1337,6 +1333,43 @@ class Process extends React.Component {
         })
     }
 
+    showAsModal = () => {
+        this.setState({
+          modalVisible: true,
+        });
+      }
+    
+    handleOk = (selectedRow) => {
+        this.setState({ modalLoading: true });
+        setTimeout(() => {
+          this.setState({ modalLoading: false, modalVisible: false });
+        }, 3000);
+        selectedRow.forEach((element,idx)=>{
+            delete element["_id"];
+            const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
+            element["id"] = tmp;
+            element["year"] = parseInt(this.state.yearSelected)
+            console.log('element',element);
+            
+            this.API_POST_NEW(element)
+        })
+    }
+
+    API_POST_NEW = (params) => {
+       
+       API_ADMIN.POST_NEW(params)
+       .then(response => {
+           if(response.code === 1){
+                console.log(response);
+                this.API_POST_YEAR(this.state.yearSelected)
+           }
+       })
+    }
+    
+      handleCancel = () => {
+        this.setState({ modalVisible: false });
+      }
+
     handleYearChange = (value) => {
         this.setState({yearSelected:value})
         this.API_POST_YEAR(value)
@@ -1344,26 +1377,26 @@ class Process extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYearCal = (new Date()).getYear() - 60
+        let currentYearCal = this.props.match.params.year
+        console.log("currentYearCal",currentYearCal)
         this.setState({currentYear:currentYearCal})
-        this.API_POST_YEAR(currentYearCal)
+        this.API_POST_YEAR(parseInt(currentYearCal))
         this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
     }
+
 
     render () {
         let columns = [{
             title: 'Assignment',
-            key: 'assignment',
             dataIndex: 'assignmentName',
             render: (text,data) =>   <Link style={{ textDecoration: 'none' }} to={`/admin/process/assignment/${this.state.yearSelected}/${data.id}`}>{text}</Link>
           },  {
             title: 'Deadline',
-            key: 'deadline',
             dataIndex: 'deadline',
             render: (text) => <span>{moment(text).format('l')}</span>
           }, 
           {
-            title: 'Action', key: 'x', render: (text,data) =>   
+            title: 'Action', render: (text,data) =>   
             <Popconfirm title="Are you sure delete this task?" onConfirm={() => this.API_POST_DELETE_ID_PROCESS(data.id)}  okText="Yes" cancelText="No">
                 <span className="delete-text">Delete</span>
             </Popconfirm>
@@ -1382,7 +1415,16 @@ class Process extends React.Component {
                 </div>
                 <div className="assignment-blog">
                     <Button className="btn-newas"><Link to={`/admin/process/assignment/${this.state.yearSelected}/add`}>Add new assignment</Link></Button>
-                    <Table rowSelection={this.rowSelection} columns={columns} dataSource={this.state.data} />,
+                    <Button className="btn-newas" onClick={this.showAsModal}>Duplicate assignment</Button>
+                    <Table rowKey={record => record._id} columns={columns} dataSource={this.state.data} />
+                    <AssignmentModal
+                        modalLoading={this.state.modalLoading}
+                        modalVisible={this.state.modalVisible}
+                        handleOk={this.handleOk}
+                        handleCancel={this.handleCancel}
+                        year={this.state.year}
+                        currentYear={this.state.currentYear}
+                    />
                 </div>
               
             </div>
@@ -1431,14 +1473,7 @@ class EachProcess extends React.Component {
         }
     }
     
-    API_POST_ID_PROCESS = (id) => {
-        API_ADMIN.POST_ID_PROCESS(id)
-        .then(response => {
-            if(response.code === 1){
 
-            }
-        })
-    }
 
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)
@@ -1453,14 +1488,14 @@ class EachProcess extends React.Component {
         API_ADMIN.POST_ID_PROCESS(id)
         .then(response => {
             if(response.code === 1){
-
+                console.log('response',response.data);
             }
         })
     }
 
     componentDidMount = () => {
         /* PALM NEEDS BAIVARN's HELP HERE */
-        let id = "20180408235902" /* id of each process */
+        let id = this.props.match.params.idProcess /* id of each process */
         this.API_POST_ID_PROCESS(id)
     }
     
@@ -1580,7 +1615,7 @@ class AddProcess extends React.Component {
        .then(response => {
            if(response.code === 1){
                 console.log(response);
-                
+                this.props.history.push('/admin/process/assignment/'+this.props.match.params.year)
            }
        })
     }
