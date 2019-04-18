@@ -210,11 +210,7 @@ class Event extends React.Component {
         let tmpRes = "";
         let eventStart = moment(date).hour(moment(startTime).hour()).minute(moment(startTime).minute());
         let eventEnd = moment(date).hour(moment(endTime).hour()).minute(moment(endTime).minute());
-        // console.log("eventstart",eventStart);
-        // console.log("now",moment());
-        // console.log("eventEnd",eventEnd);
-        
-       
+
         if(eventEnd.isBefore(moment()))
             tmpRes = <span className="outdate item-span">Outdate</span>
         else if(eventStart.isAfter(moment()))
@@ -239,8 +235,7 @@ class Event extends React.Component {
     deleteItem = () => {
         const {checkboxList} = this.state;
         checkboxList.forEach((id) => {
-            const val = {}
-            val["_id"] = id
+            const val = {_id: id}
             this.API_DELETE_EVENT(val)
         })
     }
@@ -1396,11 +1391,19 @@ class Process extends React.Component {
 }
 
 class EachProcess extends React.Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            loading: false
+        }
+    }
+
     getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
-      }
+    }
       
     beforeUpload = (file) => {
         const isJPG = file.type === 'image/jpeg';
@@ -1414,13 +1417,9 @@ class EachProcess extends React.Component {
         return isJPG && isLt2M;
       }
 
-    state = {
-        loading: false,
-    };
-
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
+            this.setState({ loading: true })
             return;
         }
         if (info.file.status === 'done') {
@@ -1428,7 +1427,7 @@ class EachProcess extends React.Component {
             this.getBase64(info.file.originFileObj, imageUrl => this.setState({
             imageUrl,
             loading: false,
-            }));
+            }))
         }
     }
     
@@ -1443,6 +1442,15 @@ class EachProcess extends React.Component {
 
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)
+        .then(response => {
+            if(response.code === 1){
+
+            }
+        })
+    }
+
+    API_POST_ID_PROCESS = (id) => {
+        API_ADMIN.POST_ID_PROCESS(id)
         .then(response => {
             if(response.code === 1){
 
