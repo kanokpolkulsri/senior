@@ -4,18 +4,31 @@
     padding: 7px 5px;
     display: inline-block;
 }
-
 .event-input{
     margin-top: 8px;
     padding-top: 8px;
     margin-right: 30px;
-    margin-left: 10px;
 }
-
+.date-input{
+    padding-top: 8px;
+}
 .label-center{
     text-align: center;
 }
-
 .tab{
     margin-left: 20px;
+}
+.date-input .anticon > * {
+    margin-top: 3px;
+}
+.align-right-signature{
+    margin-right: 30px;
+}
+.border-form-5{
+    border: 1px solid #d9d9d9;
+    padding: 20px;
+}
+.border-form-5-title{
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 20px;
 }
