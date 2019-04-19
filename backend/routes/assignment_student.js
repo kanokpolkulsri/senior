@@ -32,7 +32,7 @@ router.post('/student_year', (req, res, next) => {
             })
             data.push(tmpJobList)
         })
-        res.send(data)
+        res.send({code: 1, data: data})
     })
 })
 
