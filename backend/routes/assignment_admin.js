@@ -25,11 +25,10 @@ router.post('/id', (req, res, next) => {
 })
 
 router.post('/update', (req, res, next) => {
-    res.send({id: req.body.id})
-    // const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
-    // DB_ASSIGNMENT_ADMIN.updateOne({id: req.body.id}, {$set: req.body})
-    // .then(() => res.send({code: 1}))
-    // .catch(() => res.send({code: 0}))
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.updateOne({id: req.body.id}, {$set: req.body})
+    .then(() => res.send({code: 1}))
+    .catch(() => res.send({code: 0}))
 })
 
 router.post('/year', (req, res, next) => {
