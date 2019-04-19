@@ -219,8 +219,7 @@ class Assignment extends React.Component {
                 render:(data) => <span></span>
             }
             ],
-              
-            data : []
+            data : [],
         }
     }
 
@@ -241,7 +240,8 @@ class Assignment extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log('response',response.data)
-                this.setState({data:response.data})
+                // if(this.state.data !== response.data)
+                //     this.setState({data:response.data})
             }
         })
     }
