@@ -31,12 +31,7 @@
     padding:12px;
     vertical-align: sub;
 }
-.breadcrumb-admin{
-    font-weight:bold;
-    font-size:14px;
-    display: flex;
-    margin-bottom:10px;
-}
+
 .div-item{
     margin-bottom: 10px;
 }

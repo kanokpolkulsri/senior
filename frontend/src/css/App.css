@@ -67,6 +67,9 @@ span,p,a,h5{
 .inline{
   display:inline-block;
 }
+.bold{
+  font-weight: bold;
+}
 .tag{
   border-radius: 4px;
   padding: 0px 7px;
@@ -110,4 +113,10 @@ input.ant-input,textarea.ant-input{
 }
 .menu-ul li.active{
   background-color: #8DDDD4;
+}
+.breadcrumb-admin{
+  font-weight:bold;
+  font-size:14px;
+  display: flex;
+  margin-bottom:10px;
 }

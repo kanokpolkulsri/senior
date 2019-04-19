@@ -213,7 +213,7 @@ class Assignment extends React.Component {
                 title: 'Title',
                 dataIndex: 'assignmentName',
                 key: 'title',
-                render: (text,data) => <Link to={`/${data.id}`} className="assignment-title">{text}</Link>,
+                render: (text,data) => <Link to={`/${data.id}`} className="assignment-name">{text}</Link>,
             }, {
                 title: 'Due',
                 dataIndex: 'deadline',

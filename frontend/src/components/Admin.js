@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message,Popconfirm, Divider   } from 'antd';
+    TimePicker,Checkbox,Upload, Icon, message,Popconfirm  } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
@@ -1523,7 +1523,7 @@ class AddProcess extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            const { keys, title , option,assignmentDescription, assignmentName,deadline } = values;
+            const { keys, title , option,assignmentDescription, assignmentName,deadline,timeDeadline } = values;
             const tmp = keys.map(key => ({"title":title[key],"option":option[key],"data":""}));
             const params = {
                 "id" : moment().format('YYYYMMDDHHmmss'),
@@ -1532,7 +1532,7 @@ class AddProcess extends React.Component {
                 "status" : 0,
                 "statusDescription" : "assigned",
                 "submitDate" : "",
-                "deadline" : deadline,
+                "deadline" : deadline.set({'hour':timeDeadline.hour(),'minute':timeDeadline.minute()}),
                 "defaultForm" : 0,
                 "requireIdSubmit" : [],
                 "requireIdSubmitData" : [],
@@ -1635,7 +1635,7 @@ class AddProcess extends React.Component {
             <div>  
                 <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > New Assignment</span><br/>
                 <Row>
-                <Col span={12}> 
+                <Col span={16}> 
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item>
                         <span className="input-label">Assignment Name: </span>
@@ -1652,8 +1652,8 @@ class AddProcess extends React.Component {
                         })(
                         <TextArea className="assignment-desc" placeholder="Description" onBlur={this.handleConfirmBlur} autosize />
                         )}
-                    </Form.Item>
-                    <Form.Item>                        
+                    </Form.Item><br/>
+                    <Form.Item style={{display:"inline-block"}}>                        
                         <span className="input-label">Assignment Deadline: </span>
                         {getFieldDecorator('deadline', {
                             initialValue:moment(),
@@ -1661,7 +1661,16 @@ class AddProcess extends React.Component {
                         })(
                             <DatePicker className="event-date" onChange={this.onChange} />
                             )}
-                    </Form.Item><br/>
+                    </Form.Item>
+                    <Form.Item style={{display:"inline-block"}}>
+                         <span className="input-label">Time: </span>
+                        {getFieldDecorator('timeDeadline', {
+                            initialValue:moment().set({'hour':23,'minute':59}),
+                            rules: [{ required: true, message: 'Please input deadline time!' }]
+                        })(
+                            <TimePicker format={format}  onChange={this.onStartDateChange}/>
+                        )}
+                    </Form.Item><br/><br/>
                      
                         {
                             formItems
