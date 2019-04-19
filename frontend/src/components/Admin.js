@@ -1748,13 +1748,9 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-<<<<<<< HEAD
                 console.log('student',response.data);
                 
                 /* a list of students in that year */
-=======
-                console.log("plam ",response.data)
->>>>>>> 2b7e3200cabbf52ecfca6350cbfc5452ff79860b
             }
         })
     }
@@ -1763,13 +1759,9 @@ class StudentReport extends React.Component {
         API_ADMIN.POST_REPORT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-<<<<<<< HEAD
                 console.log("response",response.data);
                 
                 /* a list of assignment's name in that year */
-=======
-                console.log(response.data)
->>>>>>> 2b7e3200cabbf52ecfca6350cbfc5452ff79860b
             }
         })
     }
