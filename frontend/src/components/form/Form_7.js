@@ -3,7 +3,7 @@ import {Form, Input, Button, Row, Col} from 'antd'
 import '../../css/Form.css'
 const { TextArea } = Input;
 
-class Form_5 extends React.Component {
+class Form_7 extends React.Component {
     
     constructor(props){
         super(props)
@@ -51,36 +51,36 @@ class Form_5 extends React.Component {
                             <span className="input-label">ชื่อ-นามสกุล</span>
                             {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '50%'}}  placeholder="" />)}
                             <span className="input-label">รหัสประจำตัว</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก รหัสประจำตัว' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label">สาขาภาควิชา</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมคอมพิวเตอร์" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาภาควิชา' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมคอมพิวเตอร์" />)}
                             <span className="input-label">คณะ</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมศาสตร์" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คณะ' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมศาสตร์" />)}
                             <br/>
                             <span className="input-label">ปฏิบัติงานสหกิจศึกษา ณ  สถานประกอบการ </span>
                             {getFieldDecorator('f1_student_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการ' }],})( <Input className="event-input" style={{width: '70%'}} placeholder="" />)}
                             <br/>
                             <span className="input-label">เลขที่</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก เลขที่' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
                             <span className="input-label">ถนน</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ถนน' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
                             <span className="input-label">ซอย</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ซอย' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
                             <span className="input-label">ตำบล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำบล' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label">อำเภอ</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก อำเภอ' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
                             <span className="input-label">จังหวัด</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก จังหวัด' }],})( <Input className="event-input" style={{width: '25%'}}  placeholder="" />)}
                             <span className="input-label">รหัสไปรษณีย์</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก รหัสไปรษณีย์' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label">โทรศัพท์</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก โทรศัพท์' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
                             <span className="input-label">โทรสาร</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
                         </Form.Item>
                     </span><br/>
                     <div className="border-form-5">
@@ -88,9 +88,9 @@ class Form_5 extends React.Component {
                             <div className="border-form-5-title"><b>1. หัวข้อรายงาน (Report Title) </b><i>(อาจจะขอเปลี่ยนแปลงหรือแก้ไขเพิ่มเติมได้ในภายหลัง)</i></div><br/>
                             <Form.Item>
                                 <span className="input-label">ภาษาไทย </span>
-                                {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '82%'}}  placeholder="" />)}<br/>
+                                {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก หัวข้อรายงานภาษาไทย' }],})( <Input className="event-input" style={{width: '82%'}}  placeholder="" />)}<br/>
                                 <span className="input-label">ภาษาอังกฤษ </span>
-                                {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก JOB NO.' }],})( <Input className="event-input" style={{width: '80%'}}  placeholder="" />)}
+                                {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก หัวข้อรายงานภาษาอังกฤษ' }],})( <Input className="event-input" style={{width: '80%'}}  placeholder="" />)}
                             </Form.Item>
                         </span>
                     </div><br/><br/>
@@ -99,19 +99,19 @@ class Form_5 extends React.Component {
                         <span>
                             <div className="border-form-5-title"><b>2. รายละเอียดเนื้อหาของรายงาน </b><i>(อาจจะขอเปลี่ยนแปลงหรือแก้ไขเพิ่มเติมได้ในภายหลัง)</i></div><br/>
                             <Form.Item>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาวิชา' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 10 }} />)}
+                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก รายละเอียดเนื้อหาของรายงาน' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 10 }} />)}
                             </Form.Item>
                         </span>
                     </div><br/><br/>
 
                     <div align="right">
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาวิชา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
+                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อนิสิตผู้ปฏิบัติงานสหกิจศึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
                         <br/>
                         <span className="input-label align-right-signature">นิสิตผู้ปฏิบัติงานสหกิจศึกษา</span>
                         <br/>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาวิชา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
+                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
                         <br/>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาวิชา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
+                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่งพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
                         <br/>
                         <span className="input-label align-right-signature">พนักงานที่ปรึกษา</span>
                     </div>
@@ -130,4 +130,4 @@ class Form_5 extends React.Component {
     }
 }
 
-export default Form.create({ name: 'form_5' })(Form_5)
+export default Form.create({ name: 'form_7' })(Form_7)
