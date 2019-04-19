@@ -23,3 +23,9 @@ export const POST_UPDATE = async (params) => {
     const res = await axios.post(API_URL + "/update", params)
     return await res.data
 }
+
+export const POST_ID = async (username, id) => {
+    let params = {username: username, id: id}
+    const res = await axios.post(API_URL + "/id", params)
+    return await res.data
+}
