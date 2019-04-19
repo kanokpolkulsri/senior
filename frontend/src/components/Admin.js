@@ -1171,7 +1171,6 @@ class Schedule extends React.Component {
         .then(response => {
             if(response.code === 1){
                 this.API_GET_SCHEDULE() 
-
             }
         })
     }
@@ -1435,8 +1434,6 @@ class EachProcess extends React.Component {
         }
     }
     
-
-
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)
         .then(response => {
@@ -1453,6 +1450,42 @@ class EachProcess extends React.Component {
                 console.log('response',response.data);
             }
         })
+    }
+
+    API_POST_UPDATE = (values) => {
+        /*
+            values = {
+                "id": "20190416114450",
+                "assignmentName": "add assignment 58",
+                "assignmentDescription": "eiei",
+                "status": 0,
+                "statusDescription": "missing",
+                "submitDate": "",
+                "deadline": "2018-04-16T04:44:48.347Z",
+                "defaultForm": 0,
+                "requireIdSubmit": [],
+                "requireIdSubmitData": [],
+                "formData": [
+                    {
+                        "title": "a",
+                        "option": "short",
+                        "data": ""
+                    },
+                    {
+                        "title": "b",
+                        "option": "multiple",
+                        "data": ""
+                    }
+                ],
+                "year": 58
+            }
+        */
+       API_ADMIN.POST_UPDATE(values)
+       .then(response => {
+           if(response.code === 1){
+
+           }
+       })
     }
 
     componentDidMount = () => {
