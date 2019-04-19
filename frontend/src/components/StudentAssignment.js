@@ -17,11 +17,10 @@ class StudentAssignment extends React.Component {
     }
 
     API_POST_ID = (username, id) => {
-        API_STUDENT.POST_STUDENT(username, id)
+        API_STUDENT.POST_ID(username, id)
         .then(response => {
             if(response.code === 1){
                 console.log('response studentassi',response.data);
-                
             }
         })
     }
@@ -30,7 +29,7 @@ class StudentAssignment extends React.Component {
         API_STUDENT.POST_UPDATE(values)
         .then(response => {
             if(response.code === 1){
-                
+
                 
             }
         })
