@@ -29,11 +29,11 @@ class StudentAssignment extends React.Component {
     componentDidMount = () => {
 
     }
+    
     componentDidUpdate = (prevProps) => {
-        // if(this.props.idAssignment === prevProps.idAssignment){
-        //     this.A
-        // }
+
     }
+
     render() {
         return (
             <div></div>

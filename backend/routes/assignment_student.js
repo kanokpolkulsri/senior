@@ -34,6 +34,13 @@ router.post('/id', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 })
 
+router.post('/plam', (req, res, next) => {
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+    DB_ASSIGNMENT_STUDENT.find({id: req.body.id}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+})
+
 router.post('/student', (req, res, next) => {
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
     DB_ASSIGNMENT_STUDENT.find({username: req.body.username}).toArray()

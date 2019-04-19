@@ -25,9 +25,47 @@ router.post('/id', (req, res, next) => {
 })
 
 router.post('/update', (req, res, next) => {
+    
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
-    DB_ASSIGNMENT_ADMIN.updateOne({id: req.body.id}, {$set: req.body})
-    .then(() => res.send({code: 1}))
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+
+    let id = req.body.id
+    let body = req.body
+    let formNewData = req.body.formData
+    
+    DB_ASSIGNMENT_ADMIN.updateOne({id: id}, {$set: body})
+    .then(() => {
+        DB_ASSIGNMENT_STUDENT.find({id: id}).toArray()
+        .then(response => {
+            let listPromise = []
+            response.map(student => {
+                listPromise.push(new Promise((resolve, reject) => {
+                    let mapOldData = {}
+                    let formOldData = student.formData
+                    formOldData.map(tmpOld => {
+                        mapOldData[tmpOld.title] = tmpOld
+                    })
+                    let listUpdateData = []
+                    formNewData.map(tmpNew => {
+                        if(tmpNew.title in mapOldData){
+                            mapOldData[tmpNew.title].option = tmpNew.option
+                            listUpdateData.push(mapOldData[tmpNew.title])
+                        }else{
+                            listUpdateData.push(tmpNew)
+                        }
+                    })
+                    DB_ASSIGNMENT_STUDENT.updateOne({id: id, username: student.username}, {$set: {formData: listUpdateData}})
+                    .then(() => {
+                        resolve()
+                    })
+                }))
+            })
+
+            Promise.all(listPromise).then(() => {
+                res.send({code: 1, data: ""})
+            })
+        })
+    })
     .catch(() => res.send({code: 0}))
 })
 
