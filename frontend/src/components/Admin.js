@@ -1310,7 +1310,7 @@ class Process extends React.Component {
             const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
             element["id"] = tmp;
             element["year"] = parseInt(this.state.yearSelected)
-            
+            element["statusDescription"] = "assigned"
             this.API_POST_NEW(element)
         })
     }
@@ -1530,7 +1530,7 @@ class AddProcess extends React.Component {
                 "assignmentName" : assignmentName,
                 "assignmentDescription" : assignmentDescription,
                 "status" : 0,
-                "statusDescription" : "missing",
+                "statusDescription" : "assigned",
                 "submitDate" : "",
                 "deadline" : deadline,
                 "defaultForm" : 0,
@@ -1706,6 +1706,8 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
+                console.log('student',response.data);
+                
                 /* a list of students in that year */
             }
         })
@@ -1715,6 +1717,8 @@ class StudentReport extends React.Component {
         API_ADMIN.POST_REPORT_YEAR(year)
         .then(response => {
             if(response.code === 1){
+                console.log("response",response.data);
+                
                 /* a list of assignment's name in that year */
             }
         })
@@ -1723,6 +1727,7 @@ class StudentReport extends React.Component {
     componentDidMount = () => {
         let currentYear = (new Date()).getYear() - 60
         this.API_POST_STUDENT_YEAR(currentYear)
+        this.API_POST_REPORT_YEAR(currentYear)
     }
 
     render () {

@@ -43,6 +43,11 @@ class Report extends React.Component {
         if(this.state.token_status === "student"){
             if(this.props.match.path === "/schedule"){
                 this.refs.menuSchedule.classList.add("active")
+                 this.refs.menuAssignment.classList.remove("active")
+                this.refs.cardAssFilter.container.classList.add("hidden")
+                if(this.state.currentPage !== "")
+                    this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
+
             }else{
                 this.refs.menuAssignment.classList.add("active")
                 console.log(this.refs.cardAssFilter)
@@ -69,9 +74,10 @@ class Report extends React.Component {
     }
 
     componentDidUpdate = (prevProps,prevState) =>{
-        if(this.props.match.path !== prevProps.match.path){
+        
+        if(this.props.match.params !== prevProps.match.params){
+
             if(this.props.match.path === "/schedule"){
-                console.log(this.refs.menuSchedule.classList)
                 this.refs.menuSchedule.classList.add("active")
                 this.refs.menuAssignment.classList.remove("active")
                 this.refs.cardAssFilter.container.classList.add("hidden")
@@ -79,6 +85,7 @@ class Report extends React.Component {
                     this.refs[matchCheck[this.state.currentPage]].classList.remove("active")
 
             }else{
+                
                 this.refs.menuAssignment.classList.add("active")
                 this.refs.menuSchedule.classList.remove("active")
                 this.refs.cardAssFilter.container.classList.remove("hidden")
@@ -206,7 +213,7 @@ class Assignment extends React.Component {
                 title: 'Title',
                 dataIndex: 'assignmentName',
                 key: 'title',
-                render: (text,data) => <Link to={`/${data._id}`} className="assignment-title">{text}</Link>,
+                render: (text,data) => <Link to={`/${data.id}`} className="assignment-title">{text}</Link>,
             }, {
                 title: 'Due',
                 dataIndex: 'deadline',
@@ -214,9 +221,9 @@ class Assignment extends React.Component {
                 render: (text) => <span>{moment(text).format('l')}</span>
             }, {
                 title: 'Status',
-                dataIndex:'status',
+                dataIndex:'statusDescription',
                 key: 'status',
-                render:(data) => <span></span>
+                render:(text) => <span>{text}</span>
             }
             ],
             data : [],
@@ -228,7 +235,7 @@ class Assignment extends React.Component {
         let tmp = this.props.match.params.filter
         if(this.props.match.params.filter !== 'all'){
             let filtered = this.state.data.filter(function(item) {
-                return item['status'].replace(/\s+/g, '').toLowerCase() === tmp;
+                return item['statusDescription'].replace(/\s+/g, '').toLowerCase() === tmp;
             });
             return filtered
         }
@@ -241,7 +248,7 @@ class Assignment extends React.Component {
             if(response.code === 1){
                 console.log('response',response.data)
                 // if(this.state.data !== response.data)
-                //     this.setState({data:response.data})
+                    this.setState({data:response.data})
             }
         })
     }
@@ -302,7 +309,7 @@ class Assignment extends React.Component {
 
     render(){
         return (
-            <Table columns={this.state.columns} dataSource={this.genData()} pagination={false} />
+            <Table rowKey={record => record._id} columns={this.state.columns} dataSource={this.genData()} pagination={false} />
         )
     }
 }
