@@ -204,9 +204,9 @@ class Assignment extends React.Component {
             columns : [
             {
                 title: 'Title',
-                dataIndex: 'title',
+                dataIndex: 'assignmentName',
                 key: 'title',
-                render: text => <a href="https://kanokpolkulsri.netlify.com" className="assignment-title">{text}</a>,
+                render: (text,data) => <a href="https://kanokpolkulsri.netlify.com" className="assignment-title">{text}</a>,
             }, {
                 title: 'Due',
                 dataIndex: 'due',
@@ -298,7 +298,8 @@ class Assignment extends React.Component {
         API_STUDENT.POST_UPDATE(params)
         .then(response => {
             if(response.code === 1){
-
+                console.log('response',response.data);
+                
             }
         })
     }

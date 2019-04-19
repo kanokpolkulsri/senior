@@ -12,6 +12,7 @@ import FAQ from './components/Faq'
 import Admin from './components/Admin'
 import Error from './components/Error'
 import Navigation from './components/Navigation'
+import StudentAssignment from './components/StudentAssignment'
 
 import Form_1 from './components/form/Form_1'
 import Form_2 from './components/form/Form_2'
@@ -45,6 +46,7 @@ class App extends Component {
             <Route path='/admin/:cate/:topic' component={Admin} />
             <Route path='/admin/:cate' component={Admin} />
             <Route path='/admin' component={Admin} />
+            <Route path='/:idAssignment' component={StudentAssignment}/>
 
             <Route path='/form_1' component={Form_1} />
             <Route path='/form_2' component={Form_2} />

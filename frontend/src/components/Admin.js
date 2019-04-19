@@ -53,7 +53,6 @@ class Admin extends React.Component {
             }
             else if(this.props.match.params.cate === "process"){
                 let tmp = this.props.match.params.topic
-                console.log(tmp);
                 
                 if(tmp === null || tmp === undefined)
                     this.refs["report"].classList.add("active")
@@ -164,7 +163,6 @@ class Event extends React.Component {
             if (!err) {
               values["register"] = 0;
               values["members"] =[];
-              console.log(moment(values["date"].format('x')))
               this.API_ADD_EVENT(values)
             }
           })
@@ -172,12 +170,10 @@ class Event extends React.Component {
 
   
     onCheckChange = (idx,e) => {
-        console.log(idx,e)
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
           : checkboxList.filter(t => t !== idx);
-        console.log('You are interested in: ', nextSelected);
         this.setState({ checkboxList: nextSelected });
     }
 
@@ -190,7 +186,6 @@ class Event extends React.Component {
         "startTime":moment.utc(option.startTime),
         "endTime":moment.utc(option.endTime)});
         this.setState({currentId:option._id, currentRegister:option.register,currentMember:option.members})
-        console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
             this.refs.addButtonGroup.classList.add("hidden")
@@ -230,7 +225,6 @@ class Event extends React.Component {
         tmp["startTime"] = moment.utc(tmp["startTime"])
         tmp["endTime"] = moment.utc(tmp["endTime"])
         this.API_UPDATE_EVENT(tmp)
-        console.log(tmp);
         
     }
 
@@ -278,7 +272,6 @@ class Event extends React.Component {
         API_FEED.POST_ADD_EVENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_EVENT()
                 //request successfully
             }
@@ -290,7 +283,6 @@ class Event extends React.Component {
         API_FEED.POST_UPDATE_EVENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_EVENT()
 
                 //request successfully
@@ -303,7 +295,6 @@ class Event extends React.Component {
         API_FEED.POST_DELETE_EVENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_EVENT()
 
                 //request successfully
@@ -315,7 +306,6 @@ class Event extends React.Component {
         API_FEED.GET_EVENT()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 // const tmp = response.data.sort((a,b) => (moment(b.date).hour(moment(b.startTime).hour()).minute(moment(b.startTime).minute())).isBefore(moment(a.date).hour(moment(a.startTime).hour()).minute(moment(a.startTime).minute())))
                this.setState({data:response.data})
             }
@@ -419,13 +409,11 @@ class Announcement extends React.Component {
     }
 
     onCheckChange = (idx,e) => {
-        console.log(idx,e);
         
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
           : checkboxList.filter(t => t !== idx);
-        console.log('You are interested in: ', nextSelected);
         this.setState({ checkboxList: nextSelected });
     }
 
@@ -435,7 +423,6 @@ class Announcement extends React.Component {
         "title":option.title,
         "description":option.description});
         this.setState({currentId:option._id})
-        console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
             this.refs.addButtonGroup.classList.add("hidden")
@@ -459,7 +446,6 @@ class Announcement extends React.Component {
         
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
                 
               this.API_ADD_ANNOUNCEMENT(values)
             }
@@ -471,7 +457,6 @@ class Announcement extends React.Component {
         let tmp =this.props.form.getFieldsValue()
         tmp["_id"] = this.state.currentId;
         this.API_UPDATE_ANNOUNCEMENT(tmp)
-        console.log(tmp);
         
     }
 
@@ -510,7 +495,6 @@ class Announcement extends React.Component {
         API_FEED.POST_ADD_ANNOUNCEMENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_ANNOUNCEMENT()
 
                 //request successfully
@@ -523,7 +507,6 @@ class Announcement extends React.Component {
         API_FEED.POST_UPDATE_ANNOUNCEMENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_ANNOUNCEMENT()
 
                 //request successfully
@@ -536,7 +519,6 @@ class Announcement extends React.Component {
         API_FEED.POST_DELETE_ANNOUNCEMENT(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_ANNOUNCEMENT()
 
                 //request successfully
@@ -548,7 +530,6 @@ class Announcement extends React.Component {
         API_FEED.GET_ANNOUNCEMENT()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 
                 this.setState({data:response.data})
             }
@@ -630,16 +611,13 @@ class CompanyList extends React.Component{
 
     handleSelectChange = (value) => {
         this.setState({"category":value})
-        console.log(`selected ${value}`);
       }
       onCheckChange = (idx,e) => {
-        console.log(idx,e);
         
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
           : checkboxList.filter(t => t !== idx);
-        console.log('You are interested in: ', nextSelected);
         this.setState({ checkboxList: nextSelected });
     }
 
@@ -649,7 +627,6 @@ class CompanyList extends React.Component{
             "url":option.url,
             "category":option.category});
         this.setState({currentId:option._id})
-        console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
             this.refs.addButtonGroup.classList.add("hidden")
@@ -681,7 +658,6 @@ class CompanyList extends React.Component{
         let tmp =this.props.form.getFieldsValue()
         tmp["_id"] = this.state.currentId;
         this.API_UPDATE_COMPANY(tmp)
-        console.log(tmp);
         
     }
 
@@ -695,12 +671,10 @@ class CompanyList extends React.Component{
     }
 
     getComCat = (cat) =>{
-        console.log("test");
         let catString = cat[0];
         for(let i =1;i<cat.length;i++){
             catString += ", "+cat[i]
         }
-        console.log(catString);
         // let catSpan = <span>{catString}</span>
         return catString
     }
@@ -740,7 +714,6 @@ class CompanyList extends React.Component{
         API_FEED.POST_ADD_COMPANY(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_COMPANY()
 
                 //request successfully
@@ -766,7 +739,6 @@ class CompanyList extends React.Component{
         API_FEED.POST_DELETE_COMPANY(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.API_GET_COMPANY()
                 //request successfully
             }
@@ -777,7 +749,6 @@ class CompanyList extends React.Component{
         API_FEED.GET_COMPANY()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({data:response.data})
                 //request successfully
                 //response.data
@@ -873,13 +844,11 @@ class Faq extends React.Component {
     }
 
     onCheckChange = (idx,e) => {
-        console.log(idx,e);
         
         const { checkboxList } = this.state;
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
           : checkboxList.filter(t => t !== idx);
-        console.log('You are interested in: ', nextSelected);
         this.setState({ checkboxList: nextSelected });
     }
 
@@ -888,7 +857,6 @@ class Faq extends React.Component {
             "question":option.question,
             "answer":option.answer});
         this.setState({currentId:option._id})
-        console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
             this.refs.addButtonGroup.classList.add("hidden")
@@ -917,7 +885,6 @@ class Faq extends React.Component {
         let tmp =this.props.form.getFieldsValue()
         tmp["_id"] = this.state.currentId;
         this.API_POST_UPDATE(tmp)
-        console.log(tmp);
         
     }
 
@@ -957,7 +924,6 @@ class Faq extends React.Component {
         API_FAQ.POST_ADD(values)
         .then(response => {
             if(response.code === 1){
-              console.log(response)
               this.API_GET_FAQ()
               // request successfully
             }
@@ -969,7 +935,6 @@ class Faq extends React.Component {
         API_FAQ.POST_UPDATE(values)
         .then(response => {
             if(response.code === 1){
-              console.log(response)
               this.API_GET_FAQ()
 
               // request successfully
@@ -982,7 +947,6 @@ class Faq extends React.Component {
         API_FAQ.POST_DELETE(values)
         .then(response => {
             if(response.code === 1){
-              console.log(response)
               this.API_GET_FAQ()
 
               // request successfully
@@ -994,7 +958,6 @@ class Faq extends React.Component {
         API_FAQ.GET_FAQ()
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({data:response.data})
               
             }
@@ -1074,7 +1037,6 @@ class Schedule extends React.Component {
         const nextSelected = e.target.checked
           ? [...checkboxList, idx]
           : checkboxList.filter(t => t !== idx);
-        console.log('You are interested in: ', nextSelected);
         this.setState({ checkboxList: nextSelected });
     }
 
@@ -1084,7 +1046,6 @@ class Schedule extends React.Component {
             "description":option.description,
             "deadline":moment(option.deadline)});
         this.setState({currentId:option._id})
-        console.log(this.refs.addButtonGroup.classList);
         
         if(!this.refs.addButtonGroup.classList.contains("hidden"))
             this.refs.addButtonGroup.classList.add("hidden")
@@ -1115,7 +1076,6 @@ class Schedule extends React.Component {
         let tmp =this.props.form.getFieldsValue()
         tmp["_id"] = this.state.currentId;
         this.API_POST_UPDATE(tmp)
-        console.log(tmp);
         
     }
 
@@ -1285,8 +1245,8 @@ class Process extends React.Component {
         this.state = {
           data : [],
           year: [],
-          currentYear:this.props.match.params.year,
-          yearSelected: this.props.match.params.year,
+          currentYear: this.props.match.params.year,
+          yearSelected: parseInt(this.props.match.params.year),
           modalLoading: false,
           modalVisible: false,      
 
@@ -1301,7 +1261,6 @@ class Process extends React.Component {
         API_ADMIN.POST_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                console.log("all assignment",response.data);
                 this.setState({data:response.data})
                 /* get latest year */
             }
@@ -1323,10 +1282,9 @@ class Process extends React.Component {
         API_ADMIN.GET_YEAR_ASSIGNMENT()
         .then(response => {
             if(response.code === 1){
-                console.log("year",response.data);
                 let tmp = response.data
-                if(tmp.includes(this.state.currentYear))
-                    tmp.splice(tmp.indexOf(this.state.currentYear),1)
+                if(tmp.includes(parseInt(this.state.currentYear)))
+                    tmp.splice(tmp.indexOf(parseInt(this.state.currentYear)),1)
                 
                 this.setState({year:tmp});
             }
@@ -1349,7 +1307,6 @@ class Process extends React.Component {
             const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
             element["id"] = tmp;
             element["year"] = parseInt(this.state.yearSelected)
-            console.log('element',element);
             
             this.API_POST_NEW(element)
         })
@@ -1360,7 +1317,6 @@ class Process extends React.Component {
        API_ADMIN.POST_NEW(params)
        .then(response => {
            if(response.code === 1){
-                console.log(response);
                 this.API_POST_YEAR(this.state.yearSelected)
            }
        })
@@ -1377,10 +1333,9 @@ class Process extends React.Component {
     }
 
     componentDidMount = () => {
-        let currentYearCal = this.props.match.params.year
-        console.log("currentYearCal",currentYearCal)
+        let currentYearCal = parseInt(this.props.match.params.year)
         this.setState({currentYear:currentYearCal})
-        this.API_POST_YEAR(parseInt(currentYearCal))
+        this.API_POST_YEAR(currentYearCal)
         this.API_GET_YEAR_ASSIGNMENT() // all years for assignment
     }
 
@@ -1457,7 +1412,7 @@ class EachProcess extends React.Component {
           message.error('Image must smaller than 2MB!');
         }
         return isJPG && isLt2M;
-    }
+      }
 
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -1562,7 +1517,6 @@ class AddProcess extends React.Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             const { keys, title , option,assignmentDescription, assignmentName,deadline } = values;
-            console.log('Received values of form: ', values);
             const tmp = keys.map(key => ({"title":title[key],"option":option[key],"data":""}));
             const params = {
                 "id" : moment().format('YYYYMMDDHHmmss'),
@@ -1578,7 +1532,6 @@ class AddProcess extends React.Component {
                 "formData" : tmp,
                 "year" : parseInt(this.props.match.params.year)
             }
-            console.log(params);
             this.API_POST_NEW(params)
           }
         });
@@ -1614,7 +1567,6 @@ class AddProcess extends React.Component {
        API_ADMIN.POST_NEW(params)
        .then(response => {
            if(response.code === 1){
-                console.log(response);
                 this.props.history.push('/admin/process/assignment/'+this.props.match.params.year)
            }
        })
@@ -1629,7 +1581,6 @@ class AddProcess extends React.Component {
         const formItems = keys.map((k, index) => (
 
         <div>
-            {console.log(k)}
 
             <Form.Item required={false} key={k}>
             <span className="input-label">Question {index+1}: </span>
@@ -1749,7 +1700,6 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
             }
         })
     }
