@@ -1,7 +1,7 @@
-var express = require('express')
-var router = express.Router()
+let express = require('express')
+let router = express.Router()
 let mongo = require('mongodb')
-let withAuth = require('./middleware')
+let moment = require('moment');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -14,7 +14,16 @@ router.get('/', (req, res, next) => {
 router.post('/year', (req, res, next) => {
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
     DB_ASSIGNMENT_STUDENT.find({year: req.body.year}).toArray()
-    .then(response => res.send({code: 1, data: response}))
+    .then(response => {
+        let data = []
+        response.map(tmp => {
+            if(tmp.submitDate === "" && moment().isAfter(moment(tmp.deadline))){
+                tmp["statusDescription"] = "missing"
+            }
+            data.push(tmp)
+        })
+        res.send({code: 1, data: data})
+    })
     .catch(() => res.send({code: 0, data: ""}))
 })
 
@@ -29,8 +38,14 @@ router.post('/student', (req, res, next) => {
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
     DB_ASSIGNMENT_STUDENT.find({username: req.body.username}).toArray()
     .then(response => {
-
-        res.send({code: 1, data: response})
+        let data = []
+        response.map(tmp => {
+            if(tmp.submitDate === "" && moment().isAfter(moment(tmp.deadline))){
+                tmp["statusDescription"] = "missing"
+            }
+            data.push(tmp)
+        })
+        res.send({code: 1, data: data})
     })
     .catch(() => res.send({code: 0, data: ""}))
 })
