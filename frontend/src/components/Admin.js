@@ -1739,7 +1739,7 @@ class StudentReport extends React.Component {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                /* a list of students in that year */
+                console.log(response.data)
             }
         })
     }
@@ -1748,7 +1748,7 @@ class StudentReport extends React.Component {
         API_ADMIN.POST_REPORT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                /* a list of assignment's name in that year */
+                console.log(response.data)
             }
         })
     }
@@ -1756,6 +1756,7 @@ class StudentReport extends React.Component {
     componentDidMount = () => {
         let currentYear = (new Date()).getYear() - 60
         this.API_POST_STUDENT_YEAR(currentYear)
+        this.API_POST_REPORT_YEAR(currentYear)
     }
 
     render () {

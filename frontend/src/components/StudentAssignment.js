@@ -9,7 +9,7 @@ class StudentAssignment extends React.Component {
     }
 
     API_POST_ID = (username, id) => {
-        API_STUDENT.POST_STUDENT(username, id)
+        API_STUDENT.POST_ID(username, id)
         .then(response => {
             if(response.code === 1){
                 
@@ -29,7 +29,7 @@ class StudentAssignment extends React.Component {
     componentDidMount = () => {
 
     }
-    
+
     componentDidUpdate = (prevProps) => {
 
     }
