@@ -1,8 +1,6 @@
 import React from 'react'
-import {  Route, Switch, Link } from 'react-router-dom'
-import {
-  Form, Icon, Input, Button, Col, Row
-} from 'antd';
+import { Route, Switch, Link } from 'react-router-dom'
+import { Form, Icon, Input, Button, Col, Row } from 'antd';
 
 import '../css/Register.css';
 
@@ -55,7 +53,6 @@ class LogInForm extends React.Component {
         this.props.history.push("/")
       }else{
         console.log(response)
-
       }
     })
   }
@@ -89,7 +86,6 @@ class LogInForm extends React.Component {
       if (!err) {
         console.log('Received values of SignIn form: ', values);
         this.POST_LOGIN(values)
-
       }
     });
   }
@@ -214,7 +210,6 @@ class SignUpForm extends React.Component {
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){
-        console.log(response)
         this.props.history.push("/login")
       }
     })
