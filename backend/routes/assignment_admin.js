@@ -9,12 +9,27 @@ router.get('/', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 })
 
+router.post('/report_year', (req, res, next) => {
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.find({year: req.body.year}, {projection: {id: 1, assignmentName: 1}}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+})
+
 router.post('/id', (req, res, next) => {
     // status: 0 = missing, 1 = turned in, -1 = late
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
     DB_ASSIGNMENT_ADMIN.find({id: req.body.id}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0, data: ""}))
+})
+
+router.post('/update', (req, res, next) => {
+    res.send({id: req.body.id})
+    // const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    // DB_ASSIGNMENT_ADMIN.updateOne({id: req.body.id}, {$set: req.body})
+    // .then(() => res.send({code: 1}))
+    // .catch(() => res.send({code: 0}))
 })
 
 router.post('/year', (req, res, next) => {
