@@ -8,17 +8,8 @@ class StudentAssignment extends React.Component {
         super(props)
     }
 
-    API_POST_STUDENT_YEAR = (year) => {
-        API_STUDENT.POST_STUDENT_YEAR(year)
-        .then(response => {
-            if(response.code === 1){
-
-            }
-        })
-    }
-
-    API_POST_STUDENT= (username) => {
-        API_STUDENT.POST_STUDENT(username)
+    API_POST_ID = (username, id) => {
+        API_STUDENT.POST_STUDENT(username, id)
         .then(response => {
             if(response.code === 1){
                 
