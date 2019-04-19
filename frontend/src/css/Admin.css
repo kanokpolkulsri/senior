@@ -81,3 +81,8 @@ div .ant-row.ant-form-item{
 .btn-newas{
     margin-right: 10px;
 }
+.input-add-option{
+    border:none;
+    display:inline;
+    width:50%
+}
