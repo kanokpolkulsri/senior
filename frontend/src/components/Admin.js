@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message,Popconfirm   } from 'antd';
+    TimePicker,Checkbox,Upload, Icon, message,Popconfirm, Divider   } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
@@ -1245,7 +1245,7 @@ class Process extends React.Component {
         this.state = {
           data : [],
           year: [],
-          currentYear: this.props.match.params.year,
+          currentYear: parseInt(this.props.match.params.year),
           yearSelected: parseInt(this.props.match.params.year),
           modalLoading: false,
           modalVisible: false,      
@@ -1283,9 +1283,12 @@ class Process extends React.Component {
         .then(response => {
             if(response.code === 1){
                 let tmp = response.data
-                if(tmp.includes(parseInt(this.state.currentYear)))
-                    tmp.splice(tmp.indexOf(parseInt(this.state.currentYear)),1)
-                
+                if(!tmp.includes(this.state.currentYear))
+                    tmp.push(this.state.currentYear)
+                tmp.push(this.state.currentYear+1)
+                tmp.push(this.state.currentYear+2)
+                tmp.push(this.state.currentYear+3)
+                tmp = tmp.sort((a,b)=>b-a);
                 this.setState({year:tmp});
             }
         })
@@ -1361,8 +1364,12 @@ class Process extends React.Component {
                 <span className="breadcrumb-admin">Process > Assignments </span><br/>
                 <div className="year-blog">
                     <span>Academic year: </span>
-                    <Select defaultValue={this.state.currentYear} style={{ width: 120 }} onChange={this.handleYearChange} >
-                        <Option value={this.state.currentYear}>{this.state.currentYear}</Option>
+                    <Select 
+                        defaultValue={this.state.currentYear} 
+                        style={{ width: 120 }} 
+                        onChange={this.handleYearChange} 
+                    >
+                   
                         {this.state.year.map((option)=>
                             <Option value={option}>{option}</Option>    
                         )}

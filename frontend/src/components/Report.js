@@ -206,39 +206,21 @@ class Assignment extends React.Component {
                 title: 'Title',
                 dataIndex: 'assignmentName',
                 key: 'title',
-                render: (text,data) => <a href="https://kanokpolkulsri.netlify.com" className="assignment-title">{text}</a>,
+                render: (text,data) => <Link to={`/${data._id}`} className="assignment-title">{text}</Link>,
             }, {
                 title: 'Due',
-                dataIndex: 'due',
+                dataIndex: 'deadline',
                 key: 'due',
+                render: (text) => <span>{moment(text).format('l')}</span>
             }, {
                 title: 'Status',
-                dataIndex: 'status',
+                dataIndex:'status',
                 key: 'status',
+                render:(data) => <span></span>
             }
             ],
               
-            data : [{
-            key: '1',
-            title: 'John Brown',
-            due: 32,
-            status: 'Turned In',
-            }, {
-            key: '2',
-            title: 'Jim Green',
-            due: 42,
-            status: 'Turned In',
-            }, {
-            key: '3',
-            title: 'Joe Black',
-            due: 32,
-            status: 'Missing',
-            }, {
-            key: '4',
-            title: 'Jim Red',
-            due: 32,
-            status: 'Late',
-            }]
+            data : []
         }
     }
 
@@ -259,6 +241,7 @@ class Assignment extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log('response',response.data)
+                this.setState({data:response.data})
             }
         })
     }
