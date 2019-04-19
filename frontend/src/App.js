@@ -35,14 +35,14 @@ class App extends Component {
           <Navigation></Navigation>
           <Switch>
             <Route path='/' component={Feed} exact />
-            <Route path='/login' component={Register} />
+            {/* <Route path='/login' component={Register} />
             <Route path='/signup' component={Register} />
             <Route path='/schedule' component={Report} />
             <Route path='/assignment/:filter' component={Report} />
             <Route path='/assignment' component={Report} />
             <Route path='/review/:company' component={ReviewCompany}/>
             <Route path='/review' component={Review} />
-            <Route path='/faq' component={FAQ} />
+            <Route path='/faq' component={FAQ} /> */}
             <Route path='/admin/:cate/:topic/:year/:idProcess' component={Admin} />
             <Route path='/admin/:cate/:topic/:year' component={Admin} />
             <Route path='/admin/:cate/:topic' component={Admin} />
@@ -50,7 +50,7 @@ class App extends Component {
             <Route path='/admin' component={Admin} />
             <Route path='/:idAssignment' component={StudentAssignment}/>
 
-            <Route path='/form_1' component={Form_1} />
+            {/* <Route path='/form_1' component={Form_1} />
             <Route path='/form_2' component={Form_2} />
             <Route path='/form_3' component={Form_3} />
             <Route path='/form_4' component={Form_4} />
@@ -58,7 +58,7 @@ class App extends Component {
             <Route path='/form_6' component={Form_6} />
             <Route path='/form_7' component={Form_7} />
             <Route path='/form_8' component={Form_8} />
-            <Route path='/form_11' component={Form_11} />
+            <Route path='/form_11' component={Form_11} /> */}
        
             <Route component={Error} />
           </Switch>

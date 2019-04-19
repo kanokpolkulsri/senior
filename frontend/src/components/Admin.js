@@ -1695,11 +1695,20 @@ class StudentReport extends React.Component {
         }
     }
 
-
     API_POST_STUDENT_YEAR = (year) => {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
             if(response.code === 1){
+                /* a list of students in that year */
+            }
+        })
+    }
+
+    API_POST_REPORT_YEAR = (year) => {
+        API_ADMIN.POST_REPORT_YEAR(year)
+        .then(response => {
+            if(response.code === 1){
+                /* a list of assignment's name in that year */
             }
         })
     }
