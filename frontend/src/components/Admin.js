@@ -1263,7 +1263,9 @@ class Process extends React.Component {
         API_ADMIN.POST_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                this.setState({data:response.data})
+                const sortArr = response.data.sort((a,b) => new moment(a.deadline).format('YYYYMMDD') - new moment(b.deadline).format('YYYYMMDD'))
+                
+                this.setState({data:sortArr})
                 /* get latest year */
             }
         })
@@ -1817,7 +1819,7 @@ class StudentReport extends React.Component {
                         )}
                     </Select><br/>    
                 </div>
-                 <Table columns={this.state.columns} dataSource={this.state.data} />,
+                 <Table rowKey={record => record.username} columns={this.state.columns} dataSource={this.state.data} />,
             </div>
         )
     }
