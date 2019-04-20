@@ -185,9 +185,15 @@ class Schedule extends React.Component {
         this.API_GET_SCHEDULE()
     }
 
+  
     getSchedule = () => {
-        const tmp = this.state.Schedule.map((option) =>
-            <Step title={<span className="step-title"><span className="step-date">{`ภายใน ${moment(option.deadline).format('l')}`}</span>{option.title}</span>} description={option.description} />        )
+        const tmp = this.state.Schedule.map((option,idx) =>
+            <Step 
+                title={<span className="step-title"><span className="step-date">{`ภายใน ${moment(option.deadline).format('l')}`}</span>{option.title}</span>} 
+                description={option.description}
+                status={moment().isAfter(option.deadline)? "finish" : (idx === 0)? "process" : moment().isAfter(this.state.Schedule[idx-1]['deadline']) && moment().isBefore(option.deadline)? "process" : "wait"
+            }
+            /> )
         return tmp
     }
 

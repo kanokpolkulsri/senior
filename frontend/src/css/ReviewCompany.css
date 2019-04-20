@@ -1,3 +1,7 @@
+.review-content{
+    font-family:'sarabun';
+    font-size:20px;
+}
 .container{
     padding: 20px;
 }
@@ -19,6 +23,10 @@
 }
 .job-desc{
     margin-bottom: 15px;
+}
+.job-desc-content{
+    font-size: 20px;
+    font-family:'sarabun'
 }
 .review-topic{
     margin:15px 0px;
