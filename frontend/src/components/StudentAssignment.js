@@ -113,7 +113,7 @@ class StudentAssignment extends React.Component {
             params["formData"] = this.state.data.formData
            
             console.log(params)
-            // this.API_POST_UPDATE(params)
+            this.API_POST_UPDATE(params)
           }
         })
       }

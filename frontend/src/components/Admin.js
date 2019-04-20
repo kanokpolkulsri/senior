@@ -1,10 +1,12 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message,Popconfirm  } from 'antd';
+    TimePicker,Checkbox, Icon,Popconfirm  } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
 import StudentAnswer from './StudentAnswer'
+import EditProcessForm from './EditProcess'
+
 
 import '../css/Admin.css'
 import '../css/App.css'
@@ -129,7 +131,7 @@ class Admin extends React.Component {
                             <Route exact path="/admin/process/report/:year" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment/:year" component={Process}/>
                             <Route path="/admin/process/assignment/:year/add" component={AddProcessForm}/>
-                            <Route path="/admin/process/assignment/:year/:idProcess" component={EachProcess}/>
+                            <Route path="/admin/process/assignment/:year/:idProcess" component={EditProcessForm}/>
                             <Redirect from="/admin/process/report" to={`/admin/process/report/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/process/assignment" to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
@@ -1398,133 +1400,6 @@ class Process extends React.Component {
     }
 }
 
-class EachProcess extends React.Component {
-
-    constructor(props){
-        super(props)
-        this.state = {
-            loading: false
-        }
-    }
-
-    getBase64 = (img, callback) => {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
-      
-    beforeUpload = (file) => {
-        const isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
-          message.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-          message.error('Image must smaller than 2MB!');
-        }
-        return isJPG && isLt2M;
-      }
-
-    handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true })
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            this.getBase64(info.file.originFileObj, imageUrl => this.setState({
-            imageUrl,
-            loading: false,
-            }))
-        }
-    }
-    
-    API_POST_DELETE_ID_PROCESS = (id) => {
-        API_ADMIN.POST_DELETE(id)
-        .then(response => {
-            if(response.code === 1){
-
-            }
-        })
-    }
-
-    API_POST_ID_PROCESS = (id) => {
-        API_ADMIN.POST_ID_PROCESS(id)
-        .then(response => {
-            if(response.code === 1){
-                console.log('response',response.data);
-            }
-        })
-    }
-
-    API_POST_UPDATE = (values) => {
-        /*
-            values = {
-                "id": "20190416114450",
-                "assignmentName": "add assignment 58",
-                "assignmentDescription": "eiei",
-                "status": 0,
-                "statusDescription": "missing",
-                "submitDate": "",
-                "deadline": "2018-04-16T04:44:48.347Z",
-                "defaultForm": 0,
-                "requireIdSubmit": [],
-                "requireIdSubmitData": [],
-                "formData": [
-                    {
-                        "title": "a",
-                        "option": "short",
-                        "data": ""
-                    },
-                    {
-                        "title": "b",
-                        "option": "multiple",
-                        "data": ""
-                    }
-                ],
-                "year": 58
-            }
-        */
-       API_ADMIN.POST_UPDATE(values)
-       .then(response => {
-           if(response.code === 1){
-
-           }
-       })
-    }
-
-    componentDidMount = () => {
-        /* PALM NEEDS BAIVARN's HELP HERE */
-        let id = this.props.match.params.idProcess /* id of each process */
-        this.API_POST_ID_PROCESS(id)
-    }
-    
-    render() {
-        const uploadButton = (
-            <div>
-              <Icon type={this.state.loading ? 'loading' : 'plus'} />
-              <div className="ant-upload-text">Upload</div>
-            </div>
-          );
-          const imageUrl = this.state.imageUrl;
-        return (
-            <div>  
-                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > {this.props.match.params.idProcess}</span><br/>
-                <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    action="//jsonplaceholder.typicode.com/posts/"
-                    beforeUpload={this.beforeUpload}
-                    onChange={this.handleChange}
-                >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
-                </Upload>
-            </div>
-        )
-    }
-}
 
 let id = 1;
 
@@ -1624,7 +1499,6 @@ class AddProcess extends React.Component {
         getFieldDecorator('keys', { initialValue: [0] });
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => (
-
         <div>
 
             <Form.Item required={false} key={k}>
