@@ -124,7 +124,7 @@ class StudentAssignment extends React.Component {
         if(this.state.data.formData){
             const formItem = this.state.data.formData.map((element)=>
             <div>
-            <span className="input-label">{element.title} </span>
+            <span className="input-label">{element.title} : </span>
             {element.option === "short" || element.option === "multiple"?
                 <Form.Item>
                  {getFieldDecorator(`${element.title}`, {
@@ -177,8 +177,9 @@ class StudentAssignment extends React.Component {
                     <Col span={16}>
                         <Form onSubmit={this.handleSubmit}>
                             {this.getFormItem()}
+                            <br/><br/>
                             <Form.Item>
-                                <Button htmlType="submit">Submit Assignment</Button>
+                                <Button htmlType="submit" className="submit-btn">Submit Assignment</Button>
                             </Form.Item>
                         </Form>
                     </Col>

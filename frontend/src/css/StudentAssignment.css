@@ -7,3 +7,13 @@
 .description{
     padding-right:10px;
 }
+.submit-btn{
+    background-color: #048C8A ;
+    color:white;
+    border-color:#048C8A ;
+}
+.submit-btn:hover{
+    background-color: none;
+    color:#048C8A;
+    border-color:#048C8A ;
+}
