@@ -163,7 +163,10 @@ class StudentAssignment extends React.Component {
     render() {
         return (
             <div className="container">
-                <span className="breadcrumb-admin">Assignment > {this.state.data.assignmentName} </span><br/>
+            {
+                this.state.data !== []?
+                <div>
+                    <span className="breadcrumb-admin">Assignment > {this.state.data.assignmentName} </span><br/>
                 <span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
                 <span className="status">status: {this.state.data.status===0?"not submit":"submitted"}</span>
                 <br/><br/>
@@ -184,6 +187,11 @@ class StudentAssignment extends React.Component {
                         </Form>
                     </Col>
                 </Row>
+                </div>:
+                <div></div>
+
+            }
+                
             </div>
         )
     }

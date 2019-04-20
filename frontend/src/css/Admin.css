@@ -79,5 +79,10 @@ div .ant-row.ant-form-item{
 .input-add-option{
     border:none;
     display:inline;
-    width:50%
+    width:50%;
+}
+.link-to-formanswer{
+    vertical-align: text-top;
+    padding-left: 5px;
+    font-size: 18px;
 }

@@ -4,6 +4,7 @@ import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
+import StudentAnswer from './StudentAnswer'
 
 import '../css/Admin.css'
 import '../css/App.css'
@@ -124,10 +125,12 @@ class Admin extends React.Component {
                             <Route path="/admin/announcement/companylist" component={CompanyListForm}/>
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/schedule" component={ScheduleForm}/>
-                            <Route path="/admin/process/report" component={StudentReport}/>
+                            <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
+                            <Route exact path="/admin/process/report/:year" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment/:year" component={Process}/>
                             <Route path="/admin/process/assignment/:year/add" component={AddProcessForm}/>
                             <Route path="/admin/process/assignment/:year/:idProcess" component={EachProcess}/>
+                            <Redirect from="/admin/process/report" to={`/admin/process/report/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/process/assignment" to={`/admin/process/assignment/${(new Date()).getYear() - 60}`} component={Process}/>
                             <Redirect from="/admin/announcement" to="/admin/announcement/event"/>
                             <Redirect from="/admin" to="/admin/process/report"/>
@@ -1730,10 +1733,28 @@ class StudentReport extends React.Component {
     constructor(props) {
         super(props)
         this.state = {columns : [],
-          data : []
+          data : [],
+          year: [],
+          currentYear: parseInt(this.props.match.params.year),
+          yearSelected: parseInt(this.props.match.params.year),
         }
     }
 
+    API_GET_YEAR_ASSIGNMENT = () => {
+        API_ADMIN.GET_YEAR_ASSIGNMENT()
+        .then(response => {
+            if(response.code === 1){
+                let tmp = response.data
+                if(!tmp.includes(this.state.currentYear))
+                    tmp.push(this.state.currentYear)
+                tmp.push(this.state.currentYear+1)
+                tmp.push(this.state.currentYear+2)
+                tmp.push(this.state.currentYear+3)
+                tmp = tmp.sort((a,b)=>b-a);
+                this.setState({year:tmp});
+            }
+        })
+    }
     API_POST_STUDENT_YEAR = (year) => {
         API_STUDENT.POST_STUDENT_YEAR(year)
         .then(response => {
@@ -1752,7 +1773,7 @@ class StudentReport extends React.Component {
                 console.log("response",response.data)
                 response.data.forEach((element,idx)=>{
                     if(element['dataIndex'] !== "name")
-                        element['render'] = (text,data) => <span className={text}>{text}</span>
+                        element['render'] = (text,data) => <span className={text}>{text}{text==="late"||text==="turned in"?<Link to={`/admin/process/report/${this.state.yearSelected}/${element['dataIndex']}/${data.username}`}><Icon type="file-text" className="link-to-formanswer" /></Link> :""}</span>
                 })
 
                 this.setState({columns: response.data })
@@ -1762,16 +1783,40 @@ class StudentReport extends React.Component {
         })
     }
 
+    handleYearChange = (value) => {
+        this.setState({yearSelected:value})
+        
+        this.API_POST_STUDENT_YEAR(value)
+        this.API_POST_REPORT_YEAR(value)
+
+    }
+
     componentDidMount = () => {
-        let currentYear = (new Date()).getYear() - 60
-        this.API_POST_STUDENT_YEAR(currentYear)
-        this.API_POST_REPORT_YEAR(currentYear)
+        this.API_GET_YEAR_ASSIGNMENT()
+        let currentYearCal = parseInt(this.props.match.params.year)
+        this.setState({currentYear:currentYearCal})
+
+        this.API_POST_STUDENT_YEAR(currentYearCal)
+        this.API_POST_REPORT_YEAR(currentYearCal)
     }
 
     render () {
         return (
             <div>  
                 <span className="breadcrumb-admin">Process > Student Report </span><br/>
+                <div className="year-blog">
+                    <span>Academic year: </span>
+                    <Select 
+                        defaultValue={this.state.currentYear} 
+                        style={{ width: 120 }} 
+                        onChange={this.handleYearChange} 
+                    >
+                   
+                        {this.state.year.map((option)=>
+                            <Option value={option}>{option}</Option>    
+                        )}
+                    </Select><br/>    
+                </div>
                  <Table columns={this.state.columns} dataSource={this.state.data} />,
             </div>
         )
