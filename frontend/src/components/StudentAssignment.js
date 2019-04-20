@@ -54,9 +54,7 @@ class StudentAssignment extends React.Component {
         API_STUDENT.POST_UPDATE(values)
         .then(response => {
             if(response.code === 1){
-                console.log(response);
-                
-                
+                console.log(response)
             }
         })
     }
@@ -71,49 +69,42 @@ class StudentAssignment extends React.Component {
             let status = response.token_status
             this.setState({token_username: username, token_firstname: firstname, token_lastname: lastname, token_status: status})
             this.API_POST_ID(this.state.token_username,this.props.match.params.idAssignment)
-
-
         })   
     }
 
     normFile = (e) => {
-        console.log('Upload event:', e);
         if (Array.isArray(e)) {
           return e;
         }
+        console.log(e.fileList)
         return e && e.fileList;
-      }
-    
+    }
     
     componentDidMount = () => {
         console.log("didmount");
-        
         this.POST_CHECK_TOKEN()
     }
 
     componentDidUpdate = (prevProps,prevState) => {
         if(this.state.token_status !== prevState.token_status){
             console.log("token_change");
-            
             this.POST_CHECK_TOKEN()
         }
         else if(this.props.match.params.idAssignment !== prevProps.match.params.idAssignment){
             console.log("params change");
-            
             this.API_POST_ID(this.state.token_username,this.props.match.params.idAssignment)
         }
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         this.props.form.validateFields((err, values) => {
-          if (!err) {
-              console.log(values)
-              this.state.data.formData.map((element)=>{
+            if (!err) {
+            console.log(values)
+            this.state.data.formData.map((element) => {
                 element.data = values[element.title]
-              })
-              console.log(this.state.data.formData);
-              
+            })
+            console.log(this.state.data.formData)
             let params = this.state.data
                
             params["status"] = 1
@@ -121,14 +112,15 @@ class StudentAssignment extends React.Component {
             params["submitDate"] = moment()
             params["formData"] = this.state.data.formData
            
-            this.API_POST_UPDATE(params)
+            console.log(params)
+            // this.API_POST_UPDATE(params)
           }
-        });
+        })
       }
 
       getFormItem = () => {
-        const { getFieldDecorator } = this.props.form;
-        console.log(this.state.data.formData);
+        const { getFieldDecorator } = this.props.form
+        console.log(this.state.data.formData)
         if(this.state.data.formData){
             const formItem = this.state.data.formData.map((element)=>
             <div>
@@ -154,27 +146,17 @@ class StudentAssignment extends React.Component {
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,
                 })(
-                    <Upload name="logo" action="/upload.do" listType="picture">
+                    <Upload name="logo" listType="picture">
                     <Button>
                         <Icon type="upload" /> Click to upload
                     </Button>
                     </Upload>
-
                 )}
               </Form.Item>}
             </div>
-           
-            
-            
             )
-            
-             
-
-            
-          
           return formItem
         }
-         
         return <div></div>
       }
 
@@ -202,8 +184,6 @@ class StudentAssignment extends React.Component {
                         </Form>
                     </Col>
                 </Row>
-               
-
             </div>
         )
     }
