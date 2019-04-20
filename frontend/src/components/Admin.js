@@ -1729,18 +1729,8 @@ const AddProcessForm = Form.create({ name: 'addprocess_form' })(AddProcess);
 class StudentReport extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {columns : [{
-            title: 'Name',
-            dataIndex: 'name',
-          },  {
-            title: 'Assignment',
-            dataIndex: 'assignment',
-          }],
-          data : [{
-            key: '1',
-            assignment:'aaaaaaaaaaaaa',
-            name: 'Thanjira Sukkree',
-          }]
+        this.state = {columns : [],
+          data : []
         }
     }
 
@@ -1749,7 +1739,7 @@ class StudentReport extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log('student',response.data);
-                
+                this.setState({data:response.data})
                 /* a list of students in that year */
             }
         })
@@ -1759,8 +1749,14 @@ class StudentReport extends React.Component {
         API_ADMIN.POST_REPORT_YEAR(year)
         .then(response => {
             if(response.code === 1){
-                console.log("response",response.data);
-                
+                console.log("response",response.data)
+                response.data.forEach((element,idx)=>{
+                    if(element['dataIndex'] !== "name")
+                        element['render'] = (text,data) => <span className={text}>{text}</span>
+                })
+
+                this.setState({columns: response.data })
+
                 /* a list of assignment's name in that year */
             }
         })

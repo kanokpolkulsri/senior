@@ -120,3 +120,10 @@ input.ant-input,textarea.ant-input{
   display: flex;
   margin-bottom:10px;
 }
+
+.missing,.late{
+  color:red;
+}
+.assigned{
+  color: #048C8A;
+}

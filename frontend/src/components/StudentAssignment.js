@@ -4,7 +4,7 @@ import moment from 'moment'
 import '../css/StudentAssignment.css';
 import '../css/App.css'
 
-import { Upload, message, Button, Icon, Input , Form, Row, Col} from 'antd'
+import { Upload, Button, Icon, Input , Form, Row, Col} from 'antd'
 
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
