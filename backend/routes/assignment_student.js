@@ -14,26 +14,37 @@ router.get('/', (req, res, next) => {
 router.post('/student_year', (req, res, next) => {
 
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
-
+    const DB_REGISTER = req.app.locals.DB_REGISTER
+    
     DB_ASSIGNMENT_STUDENT.aggregate([{ $match : { 'year' : req.body.year } },{ $group : { _id : "$username", job : { $push : { id : "$id", status : "$status", statusDescription : "$statusDescription", submitDate : "$submitDate", deadline : "$deadline"  }  } } }]).toArray()
     .then(response => {
+        let listPromise = []
         let data = []
         response.map(tmpRes => {
-            let tmpJobList = {name: tmpRes._id}
-            let job = tmpRes.job
-            job.map(tmpJob => {
-                if(tmpJob.submitDate !== ""){
-                    tmpJobList[tmpJob.id] = tmpJob.statusDescription
-                }else if(tmpJob.submitDate === "" && moment().isAfter(moment(tmpJob.deadline))){
-                    tmpJobList[tmpJob.id] = "missing"
-                }else{
-                    tmpJobList[tmpJob.id] = "assigned"
-                }
-            })
-            data.push(tmpJobList)
+            listPromise.push(new Promise((resolve, reject) => {
+                let username = tmpRes._id
+                let job = tmpRes.job
+                let tmpJobList = {username: username}
+                job.map(tmpJob => {
+                    if(tmpJob.submitDate !== ""){
+                        tmpJobList[tmpJob.id] = tmpJob.statusDescription
+                    }else if(tmpJob.submitDate === "" && moment().isAfter(moment(tmpJob.deadline))){
+                        tmpJobList[tmpJob.id] = "missing"
+                    }else{
+                        tmpJobList[tmpJob.id] = "assigned"
+                    }
+                })
+                DB_REGISTER.find({username: username}, {projection: {firstname: 1, lastname: 1}}).toArray()
+                .then(response => {
+                    tmpJobList["name"] = response[0].firstname + " " + response[0].lastname
+                    data.push(tmpJobList)
+                    resolve()
+                }) 
+            }))
         })
-        res.send({code: 1, data: data})
+        Promise.all(listPromise).then(() => res.send({code: 1, data: data}))
     })
+    .catch(() => res.send({code: 0, data: ""}))
 })
 
 router.post('/id', (req, res, next) => {
