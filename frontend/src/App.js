@@ -23,6 +23,7 @@ import Form_6 from './components/form/Form_6'
 import Form_7 from './components/form/Form_7'
 import Form_8 from './components/form/Form_8'
 import Form_11 from './components/form/Form_11'
+import Form_Review from './components/form/Form_Review'
 
 class App extends Component {
 
@@ -59,7 +60,9 @@ class App extends Component {
             <Route exact path='/form_7' component={Form_7} />
             <Route exact path='/form_8' component={Form_8} />
             <Route exact path='/form_11' component={Form_11} />
-       
+            <Route exact path='/form_review' component={Form_Review} />
+
+
             <Route path='/:idAssignment' component={StudentAssignment}/>
 
 
