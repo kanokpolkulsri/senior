@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 
-import { Upload, Button, Icon, Input , Row, Col} from 'antd'
+import {  Input , Row, Col} from 'antd'
 import '../css/StudentAnswer.css'
 
 

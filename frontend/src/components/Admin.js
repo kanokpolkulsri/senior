@@ -127,6 +127,7 @@ class Admin extends React.Component {
                             <Route path="/admin/announcement/companylist" component={CompanyListForm}/>
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/schedule" component={ScheduleForm}/>
+
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
                             <Route exact path="/admin/process/report/:year" component={StudentReport}/>
                             <Route exact path="/admin/process/assignment/:year" component={Process}/>

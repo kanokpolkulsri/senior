@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col, Select,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox,Upload, Icon, message  } from 'antd';
-import {  Route, Switch, Link, Redirect} from 'react-router-dom'
+    TimePicker, Icon } from 'antd';
+import {   Link } from 'react-router-dom'
 import moment from 'moment'
 
 import '../css/Admin.css'
