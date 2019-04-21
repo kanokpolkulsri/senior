@@ -43,7 +43,7 @@ class Form_2 extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                     <Form.Item>
                         <span className="input-label">ชื่อสถานประกอบการ </span>
-                        {getFieldDecorator('f1_student_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการ' }],})( <Input className="event-input" style={{width: '80%'}} placeholder="" />)}
+                        {getFieldDecorator('f2_companyName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการ' }],})( <Input className="event-input" style={{width: '80%'}} placeholder="" />)}
                     </Form.Item>
                     <span>
                         <b>หัวข้อที่จะหารือในระหว่างการนิเทศ</b> ได้แก่
@@ -60,16 +60,16 @@ class Form_2 extends React.Component {
                         <Form.Item className="tab">
                             <span className="input-label">1. ขอพบนิสิตก่อนโดยลำพัง</span>
                             <span className="input-label tab">วันที่ </span>
-                            {getFieldDecorator('f2_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
+                            {getFieldDecorator('f2_nisit_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
                             <span className="input-label tab">เวลา </span>
-                            {getFieldDecorator('f2_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format} onChange={this.onStartDateChange}/>)}
+                            {getFieldDecorator('f2_nisit_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format} onChange={this.onStartDateChange}/>)}
                         </Form.Item>
                         <Form.Item className="tab">
                             <span className="input-label">2. ขอพบ Job Supervisor โดยลำพัง</span>
                             <span className="input-label tab">วันที่ </span>
-                            {getFieldDecorator('f2_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
+                            {getFieldDecorator('f2_sup_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
                             <span className="input-label tab">เวลา </span>
-                            {getFieldDecorator('f2_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format}  onChange={this.onStartDateChange}/>)}
+                            {getFieldDecorator('f2_sup_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format}  onChange={this.onStartDateChange}/>)}
                         </Form.Item>
                         <Form.Item className="tab">
                             <span className="input-label">3. เยี่ยมชมสถานประกอบการ (แล้วแต่ความเหมาะสมและความสะดวกของสถานประกอบการ)</span>
@@ -79,30 +79,30 @@ class Form_2 extends React.Component {
                         <b>คณะผู้นิเทศสหกิจศึกษา</b> ของมหาวิทยาลัยฯ ประกอบด้วย
                         <Form.Item>
                             <span className="input-label tab">1. ชื่อ-นามสกุล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_1_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
                             <span className="input-label">ตำแหน่ง</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_1_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label tab">2. ชื่อ-นามสกุล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_2_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
                             <span className="input-label">ตำแหน่ง</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_2_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label tab">3. ชื่อ-นามสกุล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_3_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
                             <span className="input-label">ตำแหน่ง</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_3_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label tab">4. ชื่อ-นามสกุล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_4_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
                             <span className="input-label">ตำแหน่ง</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f2_4_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                             <br/>
                         </Form.Item>
                         <span className="tab">สถานประกอบการได้รับทราบกำหนดการนิเทศงานนิสิตสหกิจศึกษา ในวันที่ </span>
-                        {getFieldDecorator('f2_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
+                        {getFieldDecorator('f2_company_date', {rules: [{ required: true, message: 'กรุณากรอก วันที่' }],})( <DatePicker className="date-input" style={{width: '15%'}} onChange={this.onChange} />)}
                         <span className="tab">เวลา </span>
-                        {getFieldDecorator('f2_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format}  onChange={this.onStartDateChange}/>)}
+                        {getFieldDecorator('f2_comp_time', {rules: [{ required: true, message: 'กรุณากรอก เวลา' }],})( <TimePicker className="date-input" style={{width: '15%'}} format={format}  onChange={this.onStartDateChange}/>)}
                         <span className="tab">ตลอดจนขั้นตอนรายละเอียดการนิเทศงานดังกล่าวข้างต้นโดยชัดเจนแล้ว และใคร่ขอแจ้งให้โครงการฯ ทราบว่า</span>
                     </span>
 
