@@ -17,6 +17,11 @@ export const GET_DATA_ID_COMPANY = async (id) => {
     return await res.data
 }
 
+export const POST_ADD = async (params) => {
+    const res = await axios.post(API_URL+"/add", params)
+    return await res.data
+}
+
 export const POST_UPDATE = async (params) => {
     const res = await axios.post(API_URL+"/update", params)
     return await res.data
