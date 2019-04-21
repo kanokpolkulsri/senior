@@ -1,26 +1,54 @@
 import React from 'react'
 import {Form, Input, Button, Row, Col} from 'antd'
 import '../../css/Form.css'
+import moment from 'moment'
+
+const API_TOKEN = require('../../api/Token')
+const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 
 class Form_4 extends React.Component {
     
     constructor(props){
         super(props)
         this.state = {
+            defaultForm: 4,
             token_username: "",
             token_status: ""
         }
     }
 
-    componentDidMount = () => {
-
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let status = response.token_status
+            this.setState({token_username: username, token_status: status})
+        })
     }
+
+    POST_UPDATE_FORM = (values) => {
+        let params = {username: this.state.token_username, defaultForm: this.state.defaultForm, formData: values, status: 1, statusDescription: "turnedin", submitDate: moment()}
+        API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
+    }
+
+    componentDidMount = () => {
+        this.POST_CHECK_TOKEN()
+    }
+
+
 
     handleSubmit = (e) => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values)
+            this.POST_UPDATE_FORM(values)
           }
         })
     }
