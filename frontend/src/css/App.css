@@ -121,7 +121,7 @@ input.ant-input,textarea.ant-input{
   margin-bottom:10px;
 }
 
-.missing,.late{
+.missing,.late,.late a{
   color:red;
 }
 .assigned{
