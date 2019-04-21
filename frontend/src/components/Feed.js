@@ -154,7 +154,8 @@ class Feed extends React.Component {
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
-            this.setState({token_username: username})
+            let status = response.token_status
+            this.setState({token_username: username, token_status: status})
         })
     }
 

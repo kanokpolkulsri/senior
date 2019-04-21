@@ -6,7 +6,10 @@ class Form_3 extends React.Component {
     
     constructor(props){
         super(props)
-        this.state = {}
+        this.state = {
+            token_username: "",
+            token_status: ""
+        }
     }
 
     componentDidMount = () => {

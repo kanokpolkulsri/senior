@@ -51,25 +51,25 @@ class Form_8 extends React.Component {
                     <span>
                         <Form.Item>
                             <span className="input-label">ชื่อ-นามสกุล</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '50%'}}  placeholder="" />)}
+                            {getFieldDecorator('f4_fullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '50%'}}  placeholder="" />)}
                             <span className="input-label">รหัสประจำตัว</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก รหัสประจำตัว' }],})( <Input className="event-input" style={{width: '26%'}}  placeholder="" />)}
+                            {getFieldDecorator('f4_id', {rules: [{ required: true, message: 'กรุณากรอก รหัสประจำตัว' }],})( <Input className="event-input" style={{width: '26%'}}  placeholder="" />)}
                             <br/>
                             <span className="input-label">สาขาภาควิชา</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก สาขาภาควิชา' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมคอมพิวเตอร์" />)}
+                            {getFieldDecorator('f4_department', {rules: [{ required: true, message: 'กรุณากรอก สาขาภาควิชา' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมคอมพิวเตอร์" />)}
                             <span className="input-label">คณะ</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คณะ' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมศาสตร์" />)}
+                            {getFieldDecorator('f4_faculty', {rules: [{ required: true, message: 'กรุณากรอก คณะ' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="วิศวกรรมศาสตร์" />)}
                             <br/>
                             <span className="input-label">ชื่อสถานประกอบการ </span>
-                            {getFieldDecorator('f1_student_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการ' }],})( <Input className="event-input" style={{width: '82%'}} placeholder="" />)}
+                            {getFieldDecorator('f4_companyName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการ' }],})( <Input className="event-input" style={{width: '82%'}} placeholder="" />)}
                             <br/>
                             <span className="input-label">ชื่อ-นามสกุลผู้ประเมิน </span>
-                            {getFieldDecorator('f1_student_thaiFullName', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุลผู้ประเมิน' }],})( <Input className="event-input" style={{width: '82%'}} placeholder="" />)}
+                            {getFieldDecorator('f5_sup_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุลผู้ประเมิน' }],})( <Input className="event-input" style={{width: '82%'}} placeholder="" />)}
                             <br/>
                             <span className="input-label">ตำแหน่ง</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f5_sup_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                             <span className="input-label">แผนก</span>
-                            {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก แผนก' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                            {getFieldDecorator('f5_sup_division', {rules: [{ required: true, message: 'กรุณากรอก แผนก' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                         </Form.Item>
                     </span><br/>
 
@@ -88,7 +88,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_1', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 2 */}
@@ -101,7 +101,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_2', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 </Form.Item>
@@ -123,7 +123,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_3', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 4 */}
@@ -136,7 +136,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_4', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 5 */}
@@ -149,7 +149,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_5', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 6 */}
@@ -162,7 +162,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_6', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 7 */}
@@ -173,7 +173,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_7', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 8 */}
@@ -186,7 +186,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_8', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 9 */}
@@ -197,7 +197,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_9', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 10 */}
@@ -209,7 +209,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_10', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 </Form.Item>
@@ -234,7 +234,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_11', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 12 */}
@@ -247,7 +247,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_12', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 13 */}
@@ -259,7 +259,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_13', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 14 */}
@@ -270,7 +270,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_14', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                             </Form.Item>
@@ -290,7 +290,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_15', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 16 */}
@@ -301,7 +301,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_16', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 17 */}
@@ -314,7 +314,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_17', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                                 {/* 18 */}
@@ -325,7 +325,7 @@ class Form_8 extends React.Component {
                                     </div>
                                     <div className="sup-score-box">
                                         <span><center><b>20 คะแนน</b></center></span>
-                                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
+                                        {getFieldDecorator('f8_18', {rules: [{ required: true, message: 'กรุณากรอก คะแนน' }],})( <Input className="sup-score-input" placeholder="" />)}
                                     </div>
                                 </div>
                             </Form.Item>
@@ -336,18 +336,18 @@ class Form_8 extends React.Component {
                     <div className="border-form-5-comments-box">
                     <span>
                         <div className="border-form-5-comments-title"><b><center>จุดเด่นของนิสิต (Strength)</center></b></div>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก จุดเด่นของนิสิต' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />)}
+                        {getFieldDecorator('f8_19', {rules: [{ required: true, message: 'กรุณากรอก จุดเด่นของนิสิต' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />)}
                         </span>
                     </div>
                     <div className="border-form-5-comments-box none-border-left">
                     <span>
                         <div className="border-form-5-comments-title"><b><center>ข้อควรปรับปรุงของนิสิต (Improvement)</center></b></div>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ข้อควรปรับปรุงของนิสิต' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />)}
+                        {getFieldDecorator('f8_20', {rules: [{ required: true, message: 'กรุณากรอก ข้อควรปรับปรุงของนิสิต' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />)}
                     </span>
                     </div><br/><br/>
                     <span><b>หากนิสิตผู้นี้สำเร็จการศึกษาแล้ว ท่านจะรับเข้าทำงานในสถานประกอบการนี้หรือไม่ </b><i>หากมีโอกาสเลือก</i><br/>
                     <b>Once this student graduats, will you be interested to offer him/her a job?</b></span><br/>
-                    {getFieldDecorator('radio-group')(
+                    {getFieldDecorator('radiogroup')(
                         <RadioGroup>
                             <Radio value={1}>รับ (Yes)</Radio>
                             <Radio value={2}>ไม่แน่ใจ (Not sure)</Radio>
@@ -357,14 +357,14 @@ class Form_8 extends React.Component {
                     <br/><br/>
                     <Form.Item>
                         <span><b>ข้อคิดเห็นเพิ่มเติม (Other comments)</b></span>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ข้อคิดเห็นเพิ่มเติม' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 10 }} />)}
+                        {getFieldDecorator('f8_21', {rules: [{ required: true, message: 'กรุณากรอก ข้อคิดเห็นเพิ่มเติม' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 10 }} />)}
                     </Form.Item>
                     <br/><br/>
 
                     <div align="right">
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ชื่อพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
+                        {getFieldDecorator('f8_sup_sign', {rules: [{ required: true, message: 'กรุณากรอก ชื่อพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
                         <br/>
-                        {getFieldDecorator('f1_student_postcode', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่งพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
+                        {getFieldDecorator('f8_sup_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่งพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
                         <br/>
                         <span className="input-label align-right-signature">พนักงานที่ปรึกษา</span>
                     </div>
