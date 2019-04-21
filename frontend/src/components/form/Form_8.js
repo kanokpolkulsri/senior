@@ -19,12 +19,23 @@ class Form_8 extends React.Component {
         }
     }
 
+    POST_FORM_DATA = (username) => {
+        let params = {username: username, defaultForm: this.state.defaultForm}
+        API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
+    }
+
     POST_CHECK_TOKEN = () => {
         let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
             let username = response.token_username
             let status = response.token_status
+            this.POST_FORM_DATA(username)
             this.setState({token_username: username, token_status: status})
         })
     }
@@ -34,7 +45,7 @@ class Form_8 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
-                console.log("yeah!")
+                this.props.history.push("/assignment/assigned")
             }
         })
     }
