@@ -347,7 +347,7 @@ class Form_8 extends React.Component {
                     </div><br/><br/>
                     <span><b>หากนิสิตผู้นี้สำเร็จการศึกษาแล้ว ท่านจะรับเข้าทำงานในสถานประกอบการนี้หรือไม่ </b><i>หากมีโอกาสเลือก</i><br/>
                     <b>Once this student graduats, will you be interested to offer him/her a job?</b></span><br/>
-                    {getFieldDecorator('radio-group')(
+                    {getFieldDecorator('radiogroup')(
                         <RadioGroup>
                             <Radio value={1}>รับ (Yes)</Radio>
                             <Radio value={2}>ไม่แน่ใจ (Not sure)</Radio>

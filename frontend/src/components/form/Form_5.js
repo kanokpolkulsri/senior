@@ -98,7 +98,7 @@ class Form_5 extends React.Component {
                                 {getFieldDecorator('f5_5', {rules: [{ required: true, message: 'กรุณากรอก E-mail' }],})( <Input className="event-input" style={{width: '22%'}}  placeholder="" />)}
                                 <br/>การติดต่อประสานงานกับมหาวิทยาลัย (การนิเทศงานนิสิต และอื่นๆ) ขอมอบให้<br/>
                                 <Form.Item>
-                                    {getFieldDecorator('radio-group')(
+                                    {getFieldDecorator('radiogroup')(
                                     <RadioGroup>
                                         <Radio value={1}>ไม่ขัดข้องและยินดีต้อนรับคณะนิเทศงานสหกิจศึกษาในวันและเวลาดังกล่าว</Radio><br/>
                                         <Radio value={2}>ไม่สะดวกที่จะต้อนรับในวันและเวลาดังกล่าว</Radio>

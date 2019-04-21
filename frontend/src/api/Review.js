@@ -7,8 +7,23 @@ export const GET_DATA = async () => {
     return await res.data
 }
 
+export const GET_ALL_COMPANY_NAME = async () => {
+    const res = await axios.get(API_URL + '/all_company_name')
+    return await res.data
+}
+
 export const GET_DATA_ID_COMPANY = async (id) => {
     const res = await axios.get(API_URL+"/"+id)
+    return await res.data
+}
+
+export const POST_UPDATE = async (params) => {
+    const res = await axios.post(API_URL+"/update", params)
+    return await res.data
+}
+
+export const POST_DELETE = async (params) => {
+    const res = await axios.post(API_URL+"/delete", params)
     return await res.data
 }
 

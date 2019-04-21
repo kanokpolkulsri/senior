@@ -282,6 +282,15 @@ class Review extends React.Component {
         })
     }
 
+    API_GET_ALL_COMPANY_NAME = () => {
+        API_REVIEW.GET_ALL_COMPANY_NAME()
+        .then(response => {
+            if(response.code === 1){
+                
+            }
+        })
+    }
+
     componentDidMount = () => {
         this.API_GET_DATA()
     }

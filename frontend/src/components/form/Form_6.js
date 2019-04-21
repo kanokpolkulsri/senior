@@ -6,7 +6,10 @@ class Form_6 extends React.Component {
     
     constructor(props){
         super(props)
-        this.state = {}
+        this.state = {
+            token_username: "",
+            token_status: ""
+        }
     }
 
     componentDidMount = () => {
@@ -63,13 +66,13 @@ class Form_6 extends React.Component {
                         {/* table */}
                         
                         <div align="right">
-                            {getFieldDecorator('f6_1', {rules: [{ required: true, message: 'กรุณากรอก ชื่อนิสิตผู้ปฏิบัติงานสหกิจศึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
+                            {getFieldDecorator('f6_nisit_sign', {rules: [{ required: true, message: 'กรุณากรอก ชื่อนิสิตผู้ปฏิบัติงานสหกิจศึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
                             <br/>
                             <span className="input-label align-right-signature">นิสิตผู้ปฏิบัติงานสหกิจศึกษา</span>
                             <br/>
-                            {getFieldDecorator('f6_2', {rules: [{ required: true, message: 'กรุณากรอก ชื่อพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
+                            {getFieldDecorator('f6_sup_name', {rules: [{ required: true, message: 'กรุณากรอก ชื่อพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}
                             <br/>
-                            {getFieldDecorator('f6_3', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่งพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
+                            {getFieldDecorator('f6_sup_position', {rules: [{ required: true, message: 'กรุณากรอก ตำแหน่งพนักงานที่ปรึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ตำแหน่ง" />)}
                             <br/>
                             <span className="input-label align-right-signature">พนักงานที่ปรึกษา</span>
                         </div>
