@@ -26,6 +26,9 @@ class Form_8 extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response.data)
+                if(this.state.token_status !== "admin" && response.data[0].status === 1)
+                    this.props.history.push("/")
+
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
                 this.setState({readonly:readonlyVal}) 
