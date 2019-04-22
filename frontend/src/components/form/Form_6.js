@@ -3,6 +3,7 @@ import {Form, Input, Button, Row, Col} from 'antd'
 import '../../css/Form.css'
 import moment from 'moment'
 
+const { TextArea } = Input
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 
@@ -110,7 +111,7 @@ class Form_6 extends React.Component {
                         </Form.Item>
                         <br/><br/>
                         <center><b>แผนปฏิบัติงานสหกิจศึกษา</b></center><br/><br/>
-                        {/* table */}
+                        {getFieldDecorator('f6_plan', {valuePropName:this.state.readonly, rule: [{ required: true, message: 'กรุณากรอก จุดเด่นของนิสิต' }],})( <TextArea placeholder="" autosize={{ minRows: 2, maxRows: 6 }} />)}
                         
                         <div align="right">
                             {getFieldDecorator('f6_nisit_sign', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อนิสิตผู้ปฏิบัติงานสหกิจศึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="ชื่อ-นามสกุล" />)}

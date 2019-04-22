@@ -19,7 +19,8 @@ class Form_4 extends React.Component {
             defaultForm: 4,
             token_username: "",
             token_status: "student",
-            readonly: "value"
+            readonly: "value",
+            formField: {}
         }
     }
 
@@ -68,24 +69,23 @@ class Form_4 extends React.Component {
         this.POST_CHECK_TOKEN()
     }
 
-    handleFile = async (e, field) => {
+    handleFile = (e) => {
+        let newField = e.target.name
+        let newFormField = this.state.formField
+        let pathFile = ""
         let file = e.target.files[0]
-        this.setState({file: file})
-        this.uploadNowAndGetPathFile(file, field)
-    }
-
-    uploadNowAndGetPathFile = (file, field) => {
         let formData = new FormData()
         formData.append('file', file)
         axios.post(API_URL, formData, {})
         .then(response => {
+            
             if(response.status === 200){
                 let filename = response.data.filename
-                let pathFile = ""
                 if(filename !== undefined){
-                    pathFile = prePath + response.data.filename
+                    pathFile = prePath + filename
+                    newFormField[newField] = pathFile
+                    this.setState({formField: newFormField})
                 }
-                this.props.form.setFieldsValue({field: pathFile})
             }
         })
     }
@@ -95,7 +95,12 @@ class Form_4 extends React.Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values)
-            // this.POST_UPDATE_FORM(values)
+            const params = {}
+            let formField = this.state.formField
+            Object.keys(values).forEach(key => params[key] = values[key])
+            Object.keys(formField).forEach(key => params[key] = formField[key])
+            
+            this.POST_UPDATE_FORM(params)
           }
         })
     }
@@ -180,7 +185,8 @@ class Form_4 extends React.Component {
                             {getFieldDecorator('f4_emergency_10', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
                             <br/><b><u>แผนที่แสดงตำแหน่งที่พักอาศัย</u></b><br/>
                             เพื่อความสะดวกในการนิเทศงานของคณาจารย์ โปรดระบุชื่อถนนและสถานที่สำคัญใกล้เคียงที่สามารถเข้าใจโดยง่าย<br/>
-                            {getFieldDecorator('f4_map', {rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <input type ="file" name="file" onChange={(e)=>this.handleFile(e, "f4_map")} />)}
+                            <input type ="file" name="f4_map" onChange={(e)=>this.handleFile(e)} />
+                            {/* add img src to pathFile */}
                             
                             
                         </Form.Item>

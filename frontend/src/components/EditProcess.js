@@ -23,9 +23,6 @@ class EditProcessForm extends React.Component {
         }
     }
 
-    
-
-
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)
         .then(response => {
