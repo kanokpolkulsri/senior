@@ -102,7 +102,7 @@ router.post('/form_data', (req, res, next) => {
     let username = req.body.username
     let defaultForm = req.body.defaultForm
     const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
-    DB_ASSIGNMENT_STUDENT.find({defaultForm: defaultForm, username: username}, {projection: {formData: 1}}).toArray()
+    DB_ASSIGNMENT_STUDENT.find({defaultForm: defaultForm, username: username}, {projection: {formData: 1, status: 1}}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0}))
 })

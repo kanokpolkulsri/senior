@@ -3,6 +3,11 @@ import {Form, Input, Button, Row, Col} from 'antd'
 import '../../css/Form.css'
 import moment from 'moment'
 
+import axios from 'axios'
+const Config = require('../../Config')
+const prePath = Config.API_URL + "/images/"
+const API_URL = Config.API_URL + "/upload"
+
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 
@@ -63,14 +68,34 @@ class Form_4 extends React.Component {
         this.POST_CHECK_TOKEN()
     }
 
+    handleFile = async (e, field) => {
+        let file = e.target.files[0]
+        this.setState({file: file})
+        this.uploadNowAndGetPathFile(file, field)
+    }
 
+    uploadNowAndGetPathFile = (file) => {
+        let formData = new FormData()
+        formData.append('file', file)
+        axios.post(API_URL, formData, {})
+        .then(response => {
+            if(response.status === 200){
+                let filename = response.data.filename
+                let pathFile = ""
+                if(filename !== undefined){
+                    pathFile = prePath + response.data.filename
+                }
+                this.props.form.setFieldsValue({f4_map: pathFile})
+            }
+        })
+    }
 
     handleSubmit = (e) => {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values)
-            this.POST_UPDATE_FORM(values)
+            // this.POST_UPDATE_FORM(values)
           }
         })
     }
@@ -155,7 +180,9 @@ class Form_4 extends React.Component {
                             {getFieldDecorator('f4_emergency_10', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <Input className="event-input" style={{width: '20%'}}  placeholder="" />)}
                             <br/><b><u>แผนที่แสดงตำแหน่งที่พักอาศัย</u></b><br/>
                             เพื่อความสะดวกในการนิเทศงานของคณาจารย์ โปรดระบุชื่อถนนและสถานที่สำคัญใกล้เคียงที่สามารถเข้าใจโดยง่าย<br/>
-                            {/* upload button */}
+                            {getFieldDecorator('f4_map', {rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <input type ="file" name="file" onChange={(e)=>this.handleFile(e, "f4_map")} />)}
+                            
+                            
                         </Form.Item>
 
                         <div align="right">
