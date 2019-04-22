@@ -39,3 +39,13 @@ export const POST_ID = async (username, id) => {
     const res = await axios.post(API_URL + "/id", params)
     return await res.data
 }
+
+export const POST_DATA_PREVIOUS_FORM = async (params) => {
+    const res = await axios.post(API_URL + "/data_previous_form", params)
+    return await res.data
+}
+
+export const POST_SEND_EMAIT_TO_SUP = async (params) => {
+    const res = await axios.post(API_URL + "/post_send_email_to_sup", params)
+    return await res.data
+}

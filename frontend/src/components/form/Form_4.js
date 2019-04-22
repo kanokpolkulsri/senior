@@ -20,7 +20,8 @@ class Form_4 extends React.Component {
             token_username: "",
             token_status: "student",
             readonly: "value",
-            formField: {}
+            formField: {},
+            nameUploadedFile: "",
         }
     }
 
@@ -30,11 +31,11 @@ class Form_4 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log(response.data)
+                // console.log(response.data)
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
         
-                this.setState({readonly:readonlyVal}) 
+                this.setState({readonly:readonlyVal, formField: {'f4_map': response.data[0].formData.f4_map}, nameUploadedFile: response.data[0].formData.f4_map !== "" ? response.data[0].formData.f4_map.split('/')[4] : ""})
             }
         })
     }
@@ -99,7 +100,7 @@ class Form_4 extends React.Component {
             let formField = this.state.formField
             Object.keys(values).forEach(key => params[key] = values[key])
             Object.keys(formField).forEach(key => params[key] = formField[key])
-            console.log('Received values of form: ', params)
+            // console.log('Received values of form: ', params)
             this.POST_UPDATE_FORM(params)
           }
         })
@@ -186,7 +187,7 @@ class Form_4 extends React.Component {
                             <br/><b><u>แผนที่แสดงตำแหน่งที่พักอาศัย</u></b><br/>
                             เพื่อความสะดวกในการนิเทศงานของคณาจารย์ โปรดระบุชื่อถนนและสถานที่สำคัญใกล้เคียงที่สามารถเข้าใจโดยง่าย<br/>
                             <input type ="file" name="f4_map" onChange={(e)=>this.handleFile(e)} />
-                            {/* add img src to pathFile */}
+                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map}>{this.state.nameUploadedFile}</a></span>
                             
                             
                         </Form.Item>
