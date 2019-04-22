@@ -103,6 +103,7 @@ class StudentAssignment extends React.Component {
             console.log(values)
             this.state.data.formData.map((element) => {
                 element.data = values[element.title]
+                return
             })
             console.log(this.state.data.formData)
             let params = this.state.data

@@ -16,12 +16,14 @@ import StudentAssignment from './components/StudentAssignment'
 
 import Form_1 from './components/form/Form_1'
 import Form_2 from './components/form/Form_2'
+// import Form_3 from './components/form/Form_3'
 import Form_4 from './components/form/Form_4'
 import Form_5 from './components/form/Form_5'
 import Form_6 from './components/form/Form_6'
 import Form_7 from './components/form/Form_7'
 import Form_8 from './components/form/Form_8'
 import Form_11 from './components/form/Form_11'
+import Form_Review from './components/form/Form_Review'
 
 class App extends Component {
 
@@ -45,6 +47,9 @@ class App extends Component {
             <Route path='/review/:company' component={ReviewCompany}/>
             <Route path='/review' component={Review} />
             <Route path='/faq' component={FAQ} />
+
+
+            
             <Route path='/admin/:cate/:topic/:year/:idProcess/:idStudent' component={Admin} />
             <Route path='/admin/:cate/:topic/:year/:idProcess' component={Admin} />
             <Route path='/admin/:cate/:topic/:year' component={Admin} />
@@ -52,15 +57,18 @@ class App extends Component {
             <Route path='/admin/:cate' component={Admin} />
             <Route path='/admin' component={Admin} />
 
-            <Route path="/form_1" component={Form_1} />
-            <Route path='/form_2' component={Form_2} />
-            <Route path='/form_4' component={Form_4} />
-            <Route path='/form_5' component={Form_5} />
-            <Route path='/form_6' component={Form_6} />
-            <Route path='/form_7' component={Form_7} />
-            <Route path='/form_8' component={Form_8} />
-            <Route path='/form_11' component={Form_11} />
-       
+            <Route exact path='/form1' component={Form_1} />
+            <Route exact path='/form2' component={Form_2} />
+            {/* <Route exact path='/form_3' component={Form_3} /> */}
+            <Route exact path='/form4' component={Form_4} />
+            <Route exact path='/form5' component={Form_5} />
+            <Route exact path='/form6' component={Form_6} />
+            <Route exact path='/form7' component={Form_7} />
+            <Route exact path='/form8' component={Form_8} />
+            <Route exact path='/form11' component={Form_11} />
+            <Route exact path='/formreview' component={Form_Review} />
+
+
             <Route path='/:idAssignment' component={StudentAssignment}/>
 
             <Route component={Error} />
