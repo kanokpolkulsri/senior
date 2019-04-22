@@ -74,7 +74,7 @@ class Form_4 extends React.Component {
         this.uploadNowAndGetPathFile(file, field)
     }
 
-    uploadNowAndGetPathFile = (file) => {
+    uploadNowAndGetPathFile = (file, field) => {
         let formData = new FormData()
         formData.append('file', file)
         axios.post(API_URL, formData, {})
@@ -85,7 +85,7 @@ class Form_4 extends React.Component {
                 if(filename !== undefined){
                     pathFile = prePath + response.data.filename
                 }
-                this.props.form.setFieldsValue({f4_map: pathFile})
+                this.props.form.setFieldsValue({field: pathFile})
             }
         })
     }
