@@ -111,7 +111,6 @@ router.post('/post_send_email_to_sup', (req, res, next) => {
     let supervisorEmail = req.body.email
     let supervisorName = req.body.supervisorName
     let supervisorLink = "TEST_LINK"
-    res.send({code:1, response: "yeah"})
     
     let nodemailer = require('nodemailer')
     let transporter = nodemailer.createTransport({
@@ -126,7 +125,7 @@ router.post('/post_send_email_to_sup', (req, res, next) => {
         to: supervisorEmail,
         subject: 'Evaultion Form for the internship student - Kasetsart university',
         text: `
-Dear `+supervisorName+`,
+Dear K.`+supervisorName+`,
 
 We have got your email from our internship student whose name is...
 This is a process for you to evaluate the internship student's scores. You are able to submit only once, please carefully consider it.
@@ -134,16 +133,17 @@ Please submit your evaluation following this link `+supervisorLink+`
 This email is an auto message system, please do not reply. 
 
 Best regards,
-Internship Evaluation System
-Department of Computer Engineering and Software Engineering
+An Internship an Co-operative Management System
 Kasetsart university
     
         `
     }
     transporter.sendMail(mailOptions, function(error, info){
     if (error) {
+        res.send({code:0, response: ""})
         console.log(error)
     } else {
+        res.send({code:1, response: "success"})
         console.log('Email sent: ' + info.response)
     }
     })

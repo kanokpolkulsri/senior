@@ -16,3 +16,8 @@ export const POST_ADD = async (params) => {
     const res = await axios.post(API_URL+'/add', params)
     return await res.data
 }
+
+export const POST_SEND_EMAIL_REGISTER = async (params) => {
+    const res = await axios.post(API_URL+'/email_regis', params)
+    return await res.data
+}

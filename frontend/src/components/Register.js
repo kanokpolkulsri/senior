@@ -210,7 +210,13 @@ class SignUpForm extends React.Component {
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){
-        this.props.history.push("/login")
+        let params = {firstname: values.firstname, lastname: values.lastname, email: values.email}
+        API_REGISTER.POST_SEND_EMAIL_REGISTER(params)
+        .then(tmp => {
+          if(tmp.code === 1){
+            this.props.history.push("/login")
+          }
+        })
       }
     })
   }

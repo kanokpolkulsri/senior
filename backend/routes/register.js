@@ -63,4 +63,42 @@ router.post('/forget', (req, res, next) => {
   .catch(() => res.send({"forget": false}))
 })
 
+router.post('/email_regis', (req, res, next) => {
+  let firstname = req.body.firstname
+  let lastname = req.body.lastname
+  let email = req.body.email
+
+  let nodemailer = require('nodemailer')
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'kanokpol.k@ku.th',
+            pass: 'Mypassword.1'
+        }
+    })
+    let mailOptions = {
+        from: 'kanokpol.k@ku.th',
+        to: email,
+        subject: 'Evaultion Form for the internship student - Kasetsart university',
+        text: `
+Dear K.`+firstname+ " " + lastname+`,
+
+Congratulations! Your registration is successful!
+
+Best regards,
+An Internship an Co-operative Management System
+Kasetsart university
+    
+        `
+    }
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error)
+    } else {
+        console.log('Email sent: ' + info.response)
+    }
+    })
+    res.send({code:1, data: "success"})
+})
+
 module.exports = router;
