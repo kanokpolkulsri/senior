@@ -19,7 +19,7 @@ class EditProcessForm extends React.Component {
         this.state = {
             loading: false,
             data: [{assignmentName:""}],
-            id:1
+            id: 1
         }
     }
 

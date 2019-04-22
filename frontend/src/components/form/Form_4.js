@@ -94,12 +94,12 @@ class Form_4 extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values)
+            // console.log('Received values of form: ', values)
             const params = {}
             let formField = this.state.formField
             Object.keys(values).forEach(key => params[key] = values[key])
             Object.keys(formField).forEach(key => params[key] = formField[key])
-            
+            console.log('Received values of form: ', params)
             this.POST_UPDATE_FORM(params)
           }
         })
