@@ -33,7 +33,10 @@ class Form_6 extends React.Component {
         .then(response => {
             let username = response.token_username
             let status = response.token_status
-            this.POST_FORM_DATA(username)
+            /*
+                check student or admin
+                this.POST_FORM_DATA(username)
+            */
             this.setState({token_username: username, token_status: status})
         })
     }
