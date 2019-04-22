@@ -11,14 +11,15 @@ router.get('/', (req, res, next) => {
 
 router.post('/report_year', (req, res, next) => {
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
-    DB_ASSIGNMENT_ADMIN.find({year: req.body.year}, {projection: {id: 1, assignmentName: 1}}).toArray()
+    DB_ASSIGNMENT_ADMIN.find({year: req.body.year}, {projection: {id: 1, assignmentName: 1, defaultForm: 1}}).toArray()
     .then(response => {
-        let columns = [{title: "name", dataIndex: "name"}]
+        let columns = [{title: "name", dataIndex: "name", defaultForm: "name"}]
         let data = response
         data.map(tmp => {
             let tmpList = {
                 title: tmp.assignmentName,
-                dataIndex: tmp.id
+                dataIndex: tmp.id,
+                defaultForm: tmp.defaultForm
             }
             columns.push(tmpList)
         })

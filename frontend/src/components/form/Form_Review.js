@@ -303,7 +303,7 @@ class Form_Review extends React.Component {
                 
                     })
                     values.jobDescriptionContent = this.state.data.jobDescriptionContent
-                    this.state.data.comments
+                    // this.state.data.comments
 
                 }
                 // this.state.status === 1? this.API_POST_UPDATE(values): this.API_POST_ADD(values)

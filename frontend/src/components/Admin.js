@@ -6,6 +6,14 @@ import moment from 'moment'
 import AssignmentModal from './Modal'
 import StudentAnswer from './StudentAnswer'
 import EditProcessForm from './EditProcess'
+import Form_1 from './form/Form_1'
+import Form_2 from './form/Form_2'
+import Form_4 from './form/Form_4'
+import Form_5 from './form/Form_5'
+import Form_6 from './form/Form_6'
+import Form_7 from './form/Form_7'
+import Form_8 from './form/Form_8'
+import Form_11 from './form/Form_11'
 
 
 import '../css/Admin.css'
@@ -127,6 +135,16 @@ class Admin extends React.Component {
                             <Route path="/admin/announcement/companylist" component={CompanyListForm}/>
                             <Route path="/admin/faq" component={FaqForm}/>
                             <Route path="/admin/schedule" component={ScheduleForm}/>
+
+                            <Route path="/admin/process/report/:year/form1/:idStudent" component={Form_1}/>
+                            <Route path="/admin/process/report/:year/form2/:idStudent" component={Form_2}/>
+                            <Route path="/admin/process/report/:year/form4/:idStudent" component={Form_4}/>
+                            <Route path="/admin/process/report/:year/form5/:idStudent" component={Form_5}/>
+                            <Route path="/admin/process/report/:year/form6/:idStudent" component={Form_6}/>
+                            <Route path="/admin/process/report/:year/form7/:idStudent" component={Form_7}/>
+                            <Route path="/admin/process/report/:year/form8/:idStudent" component={Form_8}/>
+                            <Route path="/admin/process/report/:year/form11/:idStudent" component={Form_11}/>
+
 
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
                             <Route exact path="/admin/process/report/:year" component={StudentReport}/>

@@ -85,4 +85,26 @@ router.post('/update', (req, res, next) => {
     .catch(() => res.send({code: 0}))
 })
 
+router.post('/update_form', (req, res, next) => {
+    let username = req.body.username
+    let defaultForm = req.body.defaultForm
+    let formData = req.body.formData
+    let status = req.body.status
+    let statusDescription = req.body.statusDescription
+    let submitDate = req.body.submitDate
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+    DB_ASSIGNMENT_STUDENT.updateOne({defaultForm: defaultForm, username: username}, {$set: {formData: formData, status: status, statusDescription: statusDescription, submitDate: submitDate}})
+    .then(() => res.send({code: 1}))
+    .catch(() => res.send({code: 0}))
+})
+
+router.post('/form_data', (req, res, next) => {
+    let username = req.body.username
+    let defaultForm = req.body.defaultForm
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+    DB_ASSIGNMENT_STUDENT.find({defaultForm: defaultForm, username: username}, {projection: {formData: 1}}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0}))
+})
+
 module.exports = router
