@@ -63,7 +63,7 @@ class App extends Component {
             <Route exact path='/form7' component={Form_7} />
             <Route exact path='/form8' component={Form_8} />
             <Route exact path='/form11' component={Form_11} />
-            <Route exact path='/formreview' component={Form_Review} />
+            <Route exact path='/writeReview' component={Form_Review} />
 
 
             <Route path='/:idAssignment' component={StudentAssignment}/>

@@ -5,6 +5,8 @@ import '../../css/Form.css'
 const Option = Select.Option;
 const { TextArea } = Input;
 const API_REVIEW = require('../../api/Review')
+const API_TOKEN = require('../../api/Token')
+const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 const VariableConfig = require('../../api/VariableConfig')
 
 
@@ -13,6 +15,7 @@ class Form_Review extends React.Component {
     constructor(props){
         super(props)
         this.state = {
+            defaultForm: 12,
             data: [],
             companyList: [],
             searchValue: undefined,
@@ -21,13 +24,16 @@ class Form_Review extends React.Component {
             transSelect:[],
             jobSelect:[],
             status:0,
+            token_username: "",
+            token_status: "student",
+            readonly: "value",
+            dataCompany:[]
         }
 
     }
 
     componentDidMount = () => {
-        console.log("didmount");
-        
+        this.POST_CHECK_TOKEN()        
         this.API_GET_ALL_COMPANY_NAME()
     }
 
@@ -105,6 +111,27 @@ class Form_Review extends React.Component {
         });
     }
 
+    POST_FORM_DATA = (username) => {
+        let params = {username: username, defaultForm: this.state.defaultForm}
+        API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+                let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                this.setState({readonly:readonlyVal})
+                response.data = response.data[0].formData
+                
+                this.setState({data:response.data,status:1})
+                this.props.form.setFieldsValue({companyName:response.data.companyName,
+                companyBackground:response.data.companyBackground,
+                payment:response.data.payment,
+                activities:response.data.activities,
+                transportationTitle: response.data.transportationTitle,
+                transportation: response.data.transportationTitle})
+                this.setState({companyName: response.data.companyName, transSelect: response.data.transportationTitle })
+            }
+        })
+    }
 
     API_GET_ALL_COMPANY_NAME = () => {
         API_REVIEW.GET_ALL_COMPANY_NAME()
@@ -284,6 +311,24 @@ class Form_Review extends React.Component {
         })
     }
 
+    POST_CHECK_TOKEN = () => {
+        let token = {'token': window.localStorage.getItem('token_senior_project')}
+        API_TOKEN.POST_CHECK_TOKEN(token)
+        .then(response => {
+            let username = response.token_username
+            let status = response.token_status
+            if(status === "admin"){
+                this.POST_FORM_DATA(this.props.match.params.idStudent)
+            }
+            else if(status === "student"){
+                this.POST_FORM_DATA(username)
+            }
+
+            this.setState({token_username: username, token_status: status})
+
+        })
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -333,6 +378,7 @@ class Form_Review extends React.Component {
             <Form.Item required={false} key={index}>
                 <span className="tag trans-tag">{k}</span>       
             {getFieldDecorator(`${k}`, {
+            valuePropName:this.state.readonly,
               initialValue: this.state.data.transportation?this.state.data.transportation[k.toLowerCase()]:"",
               rules: [{
                 required: false,
@@ -349,6 +395,7 @@ class Form_Review extends React.Component {
             <Form.Item required={true} key={index}>
                 <span className="">{k}:</span>       
             {getFieldDecorator(`${k}`, {
+                valuePropName:this.state.readonly,
               rules: [{
                 required: false,
                 whitespace: true,
@@ -409,12 +456,12 @@ class Form_Review extends React.Component {
                     <span>
                         <Form.Item>
                             <span className="input-label">Company Name</span>
-                            {getFieldDecorator('companyName', {rules: [{ required: true, message: 'please select company' }],})( <Input className="event-input" style={{width: '50%'}}  placeholder="" disabled={true}/>)}<br/>
+                            {getFieldDecorator('companyName', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please select company' }],})( <Input className="event-input" style={{width: '50%'}}  placeholder="" disabled={true}/>)}<br/>
                             <span className="input-label">Company Background</span>
-                            {getFieldDecorator('companyBackground', {rules: [{ required: true, message: 'please input company background' }],})( <TextArea className="event-input" style={{width: '55%'}}  placeholder=""  autosize />)}
+                            {getFieldDecorator('companyBackground', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please input company background' }],})( <TextArea className="event-input" style={{width: '55%'}}  placeholder=""  autosize />)}
                             <br/>
                             <span className="input-label">Job Description</span>
-                            {getFieldDecorator('jobDescriptionTitle')(<Select
+                            {getFieldDecorator('jobDescriptionTitle',{valuePropName:this.state.readonly,})(<Select
                                 mode="multiple"
                                 style={{ width: '30%' }}
                                 placeholder=""
@@ -424,10 +471,10 @@ class Form_Review extends React.Component {
                             </Select>)}
                             {jobDescItems}           
                             <span className="input-label">Payment</span>
-                            {getFieldDecorator('payment', {rules: [{ required: true, message: 'please input payment' }],})( <Input className="event-input" style={{width: '10%'}}  placeholder=""  />)}
+                            {getFieldDecorator('payment', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please input payment' }],})( <Input className="event-input" style={{width: '10%'}}  placeholder=""  />)}
                             <br/>
                             <span className="input-label">Transportation Options</span>
-                            {getFieldDecorator('transportationTitle')(<Select
+                            {getFieldDecorator('transportationTitle',{valuePropName:this.state.readonly,})(<Select
                                 mode="tags"
                                 style={{ width: '30%' }}
                                 placeholder="Bus,BTS,MRT"
@@ -437,19 +484,22 @@ class Form_Review extends React.Component {
                             </Select>)}
                             {tranItems}
                             <span className="input-label">Activity</span>
-                            {getFieldDecorator('activities', {rules: [{ required: false, message: 'please input activity' }],})( <TextArea className="event-input" style={{width: '55%'}} placeholder="" autosize/>)}
+                            {getFieldDecorator('activities', {valuePropName:this.state.readonly,rules: [{ required: false, message: 'please input activity' }],})( <TextArea className="event-input" style={{width: '55%'}} placeholder="" autosize/>)}
                             <br/>
                             <span className="input-label">Comments</span>
-                            {getFieldDecorator('star', {rules: [{ required: true, message: 'please rate your internship experience' }],})( <Rate count={3} />)}
-                            {getFieldDecorator('comments', {rules: [{ required: true, message: 'please input some comment or feedback' }],})( <TextArea className="event-input" style={{width: '40%'}} placeholder="" autosize/>)}
+                            {getFieldDecorator('star', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please rate your internship experience' }],})( <Rate count={3} />)}
+                            {getFieldDecorator('comments', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please input some comment or feedback' }],})( <TextArea className="event-input" style={{width: '40%'}} placeholder="" autosize/>)}
                             <br/>
                         </Form.Item>
                     </span><br/>
+                    {       
+                    this.state.token_status === "student"?
                     <Form.Item>
                         <center>
                         <Button htmlType="submit" className="submit-btn">Submit Assignment</Button><br/>
                         </center>
-                    </Form.Item>
+                    </Form.Item>:<div></div>
+                    }
                     </Form>
                     </Col>
                 </Row>

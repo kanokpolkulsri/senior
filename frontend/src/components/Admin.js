@@ -144,6 +144,7 @@ class Admin extends React.Component {
                             <Route path="/admin/process/report/:year/form7/:idStudent" component={Form_7}/>
                             <Route path="/admin/process/report/:year/form8/:idStudent" component={Form_8}/>
                             <Route path="/admin/process/report/:year/form11/:idStudent" component={Form_11}/>
+                            <Route path="/admin/process/report/:year/writeReview/:idStudent" component={Form_11}/>
 
 
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>

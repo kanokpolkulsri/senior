@@ -46,10 +46,7 @@ class Form_1 extends React.Component {
                 this.POST_FORM_DATA(username)
             }
 
-               
-
             this.setState({token_username: username, token_status: status})
-
 
         })
     }
