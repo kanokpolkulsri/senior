@@ -292,7 +292,7 @@ class Form_Review extends React.Component {
                 const trans = values.transportation.map((key)=>({key:values[key]}))
                 values.transportation = trans
                 
-                if(this.state.status ===1){
+                if(this.state.status === 1){
                     values.jobDescriptionContent.forEach((key)=> {
                         if(this.state.data.jobDescriptionContent.key){
                             this.state.data.jobDescriptionContent.key += "\n"+ values[key]   
@@ -303,10 +303,20 @@ class Form_Review extends React.Component {
                 
                     })
                     values.jobDescriptionContent = this.state.data.jobDescriptionContent
-                    // this.state.data.comments
-
+                    const comment = {"star":values["star"],"content":values["comments"]}
+                    let comments = this.state.data.comments
+                    comments.push(comment)
+                    values.comments = comment
                 }
-                // this.state.status === 1? this.API_POST_UPDATE(values): this.API_POST_ADD(values)
+                else if(this.state.status === 0){
+                    values.jobDescriptionContent.forEach((key)=> {
+                        values.jobDescriptionContent.key = values[key]
+                    })
+                    const comment = {"star":values["star"],"content":values["comments"]}
+                    values.comment = []
+                    values.comments.push(comment)
+                }
+                this.state.status === 1? this.API_POST_UPDATE(values): this.API_POST_ADD(values)
             }
         })
 
