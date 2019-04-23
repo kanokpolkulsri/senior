@@ -98,3 +98,13 @@
 .rvc.even-comment{
     background-color: #eee;
 }
+.anticon.icon-from-antd{
+    vertical-align: 0;
+    margin-top:-10px;
+}
+
+@media only screen and (max-width: 767px) {
+    .short-desc{
+        display: none;
+    }
+}
