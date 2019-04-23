@@ -73,3 +73,18 @@
 .ant-col-15.ant-col-offset-3{
     text-align: right;
 }
+.nav{
+    display: block;
+}
+.nav-small{
+    display:none;
+}
+
+@media only screen and (max-width: 600px) {
+    .nav{
+        display: none;
+    }
+    .nav-small{
+        display:block;
+    }
+}

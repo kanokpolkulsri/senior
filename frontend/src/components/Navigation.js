@@ -1,6 +1,10 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Row, Col,Divider } from 'antd';
+import { NavLink ,Link} from 'react-router-dom'
+import { Row, Col,Divider,Icon } from 'antd';
+// import slide from 'react-burger-menu'
+// import { slide as Menu } from 'react-burger-menu'
+
+
 
 import '../css/Navigation.css';
 import "antd/dist/antd.css";
@@ -16,7 +20,9 @@ class Navigation extends React.Component {
             token_username: "",
             token_firstname: "",
             token_lastname: "",
-            token_status: ""
+            token_status: "",
+            menuOpen: false,
+
         }
     }
 
@@ -68,6 +74,15 @@ class Navigation extends React.Component {
         this.checkPath(prevState)
     }
 
+    openMenu() {
+        this.setState({ menuOpen: true })
+      }
+    
+      closeMenu() {
+        this.setState({ menuOpen: false })
+      }
+    
+
     render() {
         let headerClass = this.state.checkFeed? "index":"not-index";
         return (
@@ -78,24 +93,20 @@ class Navigation extends React.Component {
                 </Col>
                 <Col span={14} offset={4}>
                     <div className="nav"> 
-                {
-                    console.log("token_status",this.state.token_status)
-                    
-                }
-                        <NavLink className="nav-menu" to='/'>Announcement</NavLink>
+                    <NavLink className="nav-menu announcement" to='/'>Announcement</NavLink>
                         <Divider className="divider" type="vertical" />
-                        <NavLink className="nav-menu" to='/Review'>Review</NavLink>
+                        <NavLink className="nav-menu review" to='/Review'>Review</NavLink>
                         <Divider className="divider" type="vertical" />
-                        <NavLink className="nav-menu" to='/FAQ'>FAQs</NavLink>
+                        <NavLink className="nav-menu faq" to='/FAQ'>FAQs</NavLink>
                         {
                             this.state.token_status === "student"? 
                             <span>
                                 <Divider className="divider" type="vertical" />
-                                <NavLink className="nav-menu" to='/schedule'>My Assignment</NavLink>
+                                <NavLink className="nav-menu student" to='/schedule'>My Assignment</NavLink>
                             </span> : this.state.token_status === "admin"? 
                             <span>
                                 <Divider className="divider" type="vertical" />
-                                <NavLink className="nav-menu" to='/admin'>Admin</NavLink>
+                                <NavLink className="nav-menu admin" to='/admin'>Admin</NavLink>
                             </span> : <span></span>   
                         }
                         
@@ -105,10 +116,54 @@ class Navigation extends React.Component {
                            <span className="username"><span className="username">{this.state.token_firstname}</span> <span className="login-btn" onClick={this.logout}>log out</span></span>
 
                        } 
+                       
+                    </div> 
+                    <div className="nav-small"> 
+                    <NavLink className="nav-menu announcement" to='/'><Icon type="notification" /></NavLink>
+                        <NavLink className="nav-menu review" to='/Review'><Icon type="solution" /></NavLink>
+                        <NavLink className="nav-menu faq" to='/FAQ'><Icon type="question" /></NavLink>
+                        {
+                            this.state.token_status === "student"? 
+                            <span>
+                                <NavLink className="nav-menu student" to='/schedule'><Icon type="folder" /></NavLink>
+                            </span> : this.state.token_status === "admin"? 
+                            <span>
+                                <NavLink className="nav-menu admin" to='/admin'><Icon type="setting" /></NavLink>
+                            </span> : <span></span>   
+                        }
+                        
+                       {
+                           this.state.token_username === ""? 
+                           <NavLink className="" to='/Login'><Icon type="login" /></NavLink>:
+                           <span className="" onClick={this.logout}><Icon type="logout" /></span>
+
+                       } 
+                       
                     </div> 
                 </Col> 
        
              </Row>
+
+             {/* <Menu right>
+                     <Link to="/" className="menu-item">Announcement</Link> 
+                     <Link to="/review" className="menu-item">Review</Link> 
+                     <Link to="/FAQ" className="menu-item">FAQs</Link> 
+                     <Link to="/review" className="menu-item">Review</Link> 
+                    {
+                    this.state.token_status === "student"? 
+                     <Link to="/schedule" className="menu-item">My Assignment</Link> :
+                    this.state.token_status === "admin"?
+                     <Link to="/admin" className="menu-item">Schedule</Link> :
+                    ""
+                    }
+                    {
+                    this.state.token_username === ""? 
+                     <Link to="/Login" className="menu-item">Log in</Link> :
+                     <span onClick={ () => {this.closeMenu(); this.logout()}}>Log out</span> 
+                    }
+            </Menu> */}
+
+        
           
             </div>  
         )
