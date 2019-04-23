@@ -40,6 +40,7 @@ router.post('/add', (req, res, next) => {
 });
 
 router.post('/update', (req, res, next) => {
+  console.log(req.body)
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.updateOne({companyName: req.body.companyName}, {$set: req.body})
   .then(() => res.send({code: 1}))
