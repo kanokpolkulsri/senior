@@ -78,7 +78,7 @@ class StudentAnswer extends React.Component {
         <div>
         {
             this.state.data?
-            <span className="breadcrumb-admin">Assignment > {this.state.data.assignmentName} </span>: <span></span>
+            <span className="breadcrumb-admin">Assignment > {this.state.data.assignmentName} > Student</span>: <span></span>
         }
          <div className="container student-answer-container">
         {
