@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox, Icon,Popconfirm  } from 'antd';
+    TimePicker,Checkbox, Icon,Popconfirm, Affix  } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
@@ -42,7 +42,8 @@ class Admin extends React.Component {
             topic: "",
             form: this.props.form,
             process:["test"],
-            token_status: ""
+            token_status: "",
+            bottom:0
         }
     }
 
@@ -101,6 +102,7 @@ class Admin extends React.Component {
             <div>  
              
                 <Row>
+                <Affix offsetBottom={this.state.bottom}>
                     <Col span={5}>
                         <div className="col-menu">
                             <span className="menu-header"><i className="material-icons">assignment</i>  Announcement</span>
@@ -127,6 +129,8 @@ class Admin extends React.Component {
                             </ul>
                         </div>
                     </Col>
+                    </Affix>
+
                     <Col span={18} className="admin-workarea" >
 
                         <Switch>
@@ -155,6 +159,8 @@ class Admin extends React.Component {
                             <Route path="/admin/process/assignment/:year/form8" component={Form_8}/>
                             <Route path="/admin/process/assignment/:year/form11" component={Form_11}/>
                             <Route path="/admin/process/assignment/:year/writeReview" component={Form_Review}/>
+
+                    
 
 
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
@@ -1343,8 +1349,12 @@ class Process extends React.Component {
         }, 3000);
         selectedRow.forEach((element,idx)=>{
             delete element["_id"];
-            const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
-            element["id"] = tmp;
+            console.log("element",element);
+            if(element["defaultForm"] === 0){
+                const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
+                element["id"] = tmp;
+            }
+     
             element["year"] = parseInt(this.state.yearSelected)
             element["statusDescription"] = "assigned"
             this.API_POST_NEW(element)
@@ -1575,7 +1585,7 @@ class AddProcess extends React.Component {
 
         return (
             <div>  
-                <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > New Assignment</span><br/>
+                <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process</Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > New Assignment</span><br/>
                 <Row>
                 <Col span={16}> 
                 <Form onSubmit={this.handleSubmit}>

@@ -89,7 +89,7 @@ class Form_8 extends React.Component {
                 let username = this.props.match.params.username
                 let supervisor = this.props.match.params.supervisor
                 let id = this.props.match.params.id
-                if(supervisor == "supervisor" && id === "123"){
+                if(supervisor === "supervisor" && id === "123"){
                     this.POST_FORM_DATA(username)
                 }
             }
@@ -127,14 +127,23 @@ class Form_8 extends React.Component {
             <div className="container">
                 <Row>
                     <Col span={30}>
-                    <div>
-                        <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
+                    {
+                        (this.props.location.pathname.includes("/assignment/") && this.state.token_status==="admin")?
+                        <div>
+                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/"> Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
                         <span className="input-label">Assignment Deadline: </span>
                         <DatePicker className="event-date" onChange={this.onChange} />
                         <span className="input-label">Time: </span>
                         <TimePicker format={format}  onChange={this.onStartDateChange}/> 
                         <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
-                    </div>
+                        </div>
+                       :
+                       (this.props.location.pathname.includes("/report/") && this.state.token_status==="admin")?
+                       <div>
+                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
+                        </div>
+                       :<span></span>
+                    }
                     <br/>
                     <br/>
                     <span>
@@ -492,7 +501,7 @@ class Form_8 extends React.Component {
                         </span>
                     </div><br/><br/>
                     {
-                        this.state.token_status === "student"?
+                        this.props.match.params.supervisor === "supervisor"?
                         <Form.Item>
                         <center>
                             <Button htmlType="submit">ยืนยันข้อมูล</Button><br/>

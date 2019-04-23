@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import {   Link } from 'react-router-dom'
 
 import {  Input , Row, Col} from 'antd'
 import '../css/StudentAnswer.css'
@@ -7,6 +8,7 @@ import '../css/StudentAnswer.css'
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
 const { TextArea } = Input
+
 
 class StudentAnswer extends React.Component {
 
@@ -78,14 +80,14 @@ class StudentAnswer extends React.Component {
         <div>
         {
             this.state.data?
-            <span className="breadcrumb-admin">Assignment > {this.state.data.assignmentName} > Student</span>: <span></span>
+            <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process</Link> ><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment</Link> > {this.state.data.assignmentName} > {this.props.match.params.idStudent} </span>: <span></span>
         }
          <div className="container student-answer-container">
         {
             this.state.data !== []?
             <div>
             <span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
-            <span className="status">status: {this.state.data.status===0?"not submit":"submitted"}</span>
+            <span className="status">status: {this.state.data.statusDescription}</span>
             <br/><br/>
             <span className="assignment-title bold">{this.state.data.assignmentName}</span>
             <br/><br/>
