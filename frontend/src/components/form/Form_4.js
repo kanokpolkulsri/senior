@@ -23,17 +23,15 @@ class Form_4 extends React.Component {
             dateData:moment(),
             timeData:moment(),
             data:[],
-            id:""
+            id:"",
+            nameUploadedFile: "",
+            formField: {}
         }
     }
 
-
-
     onDateChange = (date)=>{
         this.setState({dateData:date})
-        
     }
-
 
     getCurrentId = (year) => {
         console.log("defaultform",this.state.defaultForm,"year",year);
@@ -53,10 +51,10 @@ class Form_4 extends React.Component {
 
     updateDeadline = () => {
         let newDeadline = this.state.dateData.set({'hour':this.state.timeData.hour(),'minute':this.state.timeData.minute()})
-        console.log("newDeadline",newDeadline);
+        // console.log("newDeadline",newDeadline);
         
         let params = {id: this.state.id, year: parseInt(this.props.match.params.year), deadline: newDeadline}
-        console.log("params",params);
+        // console.log("params",params);
         
         API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
         .then(response => {
@@ -68,7 +66,7 @@ class Form_4 extends React.Component {
 
     onTimeChange = (time) => {
         this.setState({timeData:time})
-        console.log("time",moment(time));
+        // console.log("time",moment(time));
         
     }
 
@@ -248,7 +246,7 @@ class Form_4 extends React.Component {
                             <br/><b><u>แผนที่แสดงตำแหน่งที่พักอาศัย</u></b><br/>
                             เพื่อความสะดวกในการนิเทศงานของคณาจารย์ โปรดระบุชื่อถนนและสถานที่สำคัญใกล้เคียงที่สามารถเข้าใจโดยง่าย<br/>
                             <input type ="file" name="f4_map" onChange={(e)=>this.handleFile(e)} />
-                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map}>{this.state.nameUploadedFile}</a></span>
+                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map !== undefined ? this.state.formField.f4_map : "#"}>{this.state.nameUploadedFile}</a></span>
                             
                         </Form.Item>
                         <div align="right">

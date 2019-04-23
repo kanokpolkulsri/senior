@@ -56,7 +56,7 @@ i.fa{
 }
 .sort{
     width: 400px;
-    position: fixed;
+    position: absolute;
     right: 30px;
 }
 .ant-select-selection-selected-value{
@@ -106,20 +106,29 @@ div.tag-check.ant-tag-checkable{
     border-color: #048C8A;
 }
 
+@media only screen and (min-width: 861px) {
+    .cut-less-than-861{
+        display: none
+    }
+    .cut-more-tham-861{
+        display: block;
+    }
+}
+
 @media only screen and (max-width: 860px) {
     .col-menu{
         display: none;
     }
-    .container{
-        width: 900px;
+    .cut-less-than-861{
+        display: block;
+    }
+    .cut-more-than-861{
+        display: none;
     }
 }
 @media only screen and (max-width: 575px) {
     .col-menu{
         display: none;
-    }
-    .container{
-        width: 500px;
     }
 }
 
@@ -127,8 +136,14 @@ div.tag-check.ant-tag-checkable{
     .col-menu{
         display: none;
     }
-    .container{
-        width: 445px;
-        padding: 0 0 0 0;
+}
+
+@media only screen and (max-width: 414px) {
+    .col-menu{
+        display: none;
+    }
+    .review-container{
+        position: absolute;
+        left: 10;
     }
 }

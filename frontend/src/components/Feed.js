@@ -242,7 +242,7 @@ class Feed extends React.Component {
             <div>
                 <div className="header-feed">
                     <div className="feed-head-text">
-                        <p className="feed-logo"> INTERNSHIP PROGRAM </p>
+                        <p className="feed-logo"> AN INTERNSHIP AND CO-OPERATIVE MANAGEMENT SYSTEM </p>
                         <p className="feed-head-detail">Department of Computer Engineering <br/>
                         Kasetsart University
                         </p>

@@ -27,13 +27,9 @@ class Form_11 extends React.Component {
         }
     }
 
-
-
     onDateChange = (date)=>{
         this.setState({dateData:date})
-        
     }
-
 
     getCurrentId = (year) => {
         console.log("defaultform",this.state.defaultForm,"year",year);
@@ -45,8 +41,6 @@ class Form_11 extends React.Component {
                 console.log("Resss",response.data[0])
                 let data = response.data[0]
                 this.setState({dateData:moment(data.deadline),timeData:moment(data.deadline),id:data.id})
-         
-
             }
         })
     }
@@ -80,9 +74,26 @@ class Form_11 extends React.Component {
         .then(response => {
             if(response.code === 1){
                 
-                forms.setFieldsValue(response.data[0].formData)
-                let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal,data:response.data[0]}) 
+                if(response.data[0].formData.f4_companyName === ""){
+                    // if no data from previous form
+                    API_ASSIGNMENT_STUDENT.POST_DATA_PREVIOUS_FORM(params)
+                    .then(tmp => {
+                        let params = {}
+                        let tmpObj = tmp.data
+                        let responseObj = response.data[0].formData
+                        Object.keys(response.data[0].formData).forEach(key => params[key] = responseObj[key])
+                        Object.keys(tmp.data).forEach(key => params[key] = tmpObj[key])
+                        // console.log(params)
+                        forms.setFieldsValue(params)
+                        let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                        this.setState({readonly:readonlyVal}) 
+                    })                    
+                }else{
+                    // console.log(response.data[0].formData)
+                    forms.setFieldsValue(response.data[0].formData)
+                    let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                    this.setState({readonly:readonlyVal}) 
+                }
             }
         })
     }
