@@ -80,7 +80,7 @@ class StudentAnswer extends React.Component {
         <div>
         {
             this.state.data?
-            <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process</Link> ><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment</Link> > {this.state.data.assignmentName} > {this.props.match.params.idStudent} </span>: <span></span>
+            <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process</Link> ><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment</Link> > {this.state.data.assignmentName} > {this.props.match.params.idStudent} </span>: <span></span>
         }
          <div className="container student-answer-container">
         {

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Row, Col, Select, Table,Form , Input, Button, DatePicker,
-    TimePicker,Checkbox, Icon,Popconfirm  } from 'antd';
+    TimePicker,Checkbox, Icon,Popconfirm, Affix  } from 'antd';
 import {  Route, Switch, Link, Redirect} from 'react-router-dom'
 import moment from 'moment'
 import AssignmentModal from './Modal'
@@ -42,7 +42,8 @@ class Admin extends React.Component {
             topic: "",
             form: this.props.form,
             process:["test"],
-            token_status: ""
+            token_status: "",
+            bottom:0
         }
     }
 
@@ -101,6 +102,7 @@ class Admin extends React.Component {
             <div>  
              
                 <Row>
+                <Affix offsetBottom={this.state.bottom}>
                     <Col span={5}>
                         <div className="col-menu">
                             <span className="menu-header"><i className="material-icons">assignment</i>  Announcement</span>
@@ -127,6 +129,8 @@ class Admin extends React.Component {
                             </ul>
                         </div>
                     </Col>
+                    </Affix>
+
                     <Col span={18} className="admin-workarea" >
 
                         <Switch>

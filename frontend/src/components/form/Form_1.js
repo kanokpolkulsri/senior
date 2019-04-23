@@ -18,13 +18,29 @@ class Form_1 extends React.Component {
             defaultForm: 1,
             token_username: "",
             token_status: "student",
-            readonly: "value"
+            readonly: "value",
+            deadline: moment(),
+            dateData:moment(),
+            timeData:moment(),
+            dateDeadline:moment(),
+            timeDeadline:moment()
         }
     }
 
     updateDeadline = () => {
+        
+        //let deadline = this.state.dateDeadline.set({'hour':this.state.timeDeadline.hour(),'minute':this.state.timeDeadline.minute()})
+    }
+
+    onDateChange = (date)=>{
+        this.setState({dateDeadline:date})
+    }
+
+    onTimeChange = (time) => {
+        this.setState({timeDeadline:time})
 
     }
+
 
     POST_FORM_DATA = (username) => {
         let params = {username: username, defaultForm: this.state.defaultForm}
@@ -46,7 +62,7 @@ class Form_1 extends React.Component {
         .then(response => {
             let username = response.token_username
             let status = response.token_status
-           
+        
             if(status === "admin"){
                 if(this.props.location.pathname.includes("/report/"))
                     this.POST_FORM_DATA(this.props.match.params.idStudent)
@@ -104,15 +120,15 @@ class Form_1 extends React.Component {
                         <div>
                         <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/"> Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
                         <span className="input-label">Assignment Deadline: </span>
-                        <DatePicker className="event-date" onChange={this.onChange} />
+                        <DatePicker value={this.state.dateData} className="event-date" onChange={this.onDateChange} />
                         <span className="input-label">Time: </span>
-                        <TimePicker format={format}  onChange={this.onStartDateChange}/> 
+                        <TimePicker value={this.state.timeData} format={format}  onChange={this.onTimeChange}/> 
                         <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
                         </div>
                        :
                        (this.props.location.pathname.includes("/report/") && this.state.token_status==="admin")?
                        <div>
-                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
+                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
                         </div>
                        :<span></span>
                     }
