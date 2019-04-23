@@ -98,14 +98,23 @@ class Form_6 extends React.Component {
             <div className="container">
                 <Row>
                     <Col span={30}>
-                    <div>
-                        <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
+                    {
+                        (this.props.location.pathname.includes("/assignment/") && this.state.token_status==="admin")?
+                        <div>
+                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/"> Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
                         <span className="input-label">Assignment Deadline: </span>
                         <DatePicker className="event-date" onChange={this.onChange} />
                         <span className="input-label">Time: </span>
                         <TimePicker format={format}  onChange={this.onStartDateChange}/> 
                         <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
-                    </div>
+                        </div>
+                       :
+                       (this.props.location.pathname.includes("/report/") && this.state.token_status==="admin")?
+                       <div>
+                        <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
+                        </div>
+                       :<span></span>
+                    }
                     <br/>
                     <br/>
                     <span>
