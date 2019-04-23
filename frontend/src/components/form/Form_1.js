@@ -1,11 +1,12 @@
 import React from 'react'
-import {Form, Input, Button, Row, Col} from 'antd'
+import {Form, Input, Button, Row, Col,DatePicker,TimePicker} from 'antd'
 import '../../css/Form.css'
 import moment from 'moment'
 
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
+const format = 'HH:mm'
 
 class Form_1 extends React.Component {
     
@@ -17,6 +18,10 @@ class Form_1 extends React.Component {
             token_status: "student",
             readonly: "value"
         }
+    }
+
+    updateDeadline = () => {
+        
     }
 
     POST_FORM_DATA = (username) => {
@@ -41,16 +46,22 @@ class Form_1 extends React.Component {
             let status = response.token_status
            
             if(status === "admin"){
-                this.POST_FORM_DATA(this.props.match.params.idStudent)
+                if(this.props.location.pathname.includes("/report/"))
+                    this.POST_FORM_DATA(this.props.match.params.idStudent)
+                else if(this.props.location.pathname.includes("/assignment/")){
+                    
+                    let readonlyVal = status === "admin"? "readOnly":"value"
+                    console.log(readonlyVal);
+
+                    this.setState({readonly:readonlyVal}) 
+                }
+                    
             }
             else if(status === "student"){
                 this.POST_FORM_DATA(username)
             }
 
-               
-
             this.setState({token_username: username, token_status: status})
-
 
         })
     }
@@ -86,6 +97,9 @@ class Form_1 extends React.Component {
             <div className="container">
                 <Row>
                     <Col span={30}>
+                    <DatePicker className="event-date" onChange={this.onChange} />
+                    <TimePicker format={format}  onChange={this.onStartDateChange}/>
+                    <Button onClick={this.updateDeadline}>Save an update</Button>
                     <Form onSubmit={this.handleSubmit}>
                     <span><center><b><u>ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</u></b></center></span>
                     <br/>

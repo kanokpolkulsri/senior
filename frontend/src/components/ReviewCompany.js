@@ -26,10 +26,17 @@ class ReviewCompany extends React.Component {
     genJobDesc = () => {
         let collapse=[]
         let i = 1;
+        // console.log( this.state.company.jobDescriptionContent);
+        
         if(this.state.company.jobDescriptionTitle){
             for (var k in this.state.company.jobDescriptionContent){
+                // console.log("k",k);
+                
                 collapse.push(<Panel header={k} key={i}> 
-                    <p className="review-content">{this.state.company.jobDescriptionContent[k]}</p></Panel>)
+                    <p className="review-content">
+                    {this.state.company.jobDescriptionContent[k].map((job)=>
+                        <p>{job.content}</p>)}
+                    </p></Panel>)
                 i++;
             }
         }
@@ -86,20 +93,21 @@ class ReviewCompany extends React.Component {
         return comment
     }
     genPreviousIntern = () =>{
-        let intern = []
+        let interns = []
+        // console.log();
         if(this.state.company.previousIntern)
             for (var i = 0; i<this.state.company.previousIntern.length;i++){
-                let internTmp  =this.state.company.previousIntern[i]
+                let internTmp  = this.state.company.previousIntern[i]
                 let year = <span className="year">{internTmp.year}</span>
-                const cpe = internTmp.cpe.map((option,idx)=>
-                    <div> <span className="tag cpe-tag">CPE</span><p className="intern-name">{option}</p></div>
+                const intern = internTmp.members.map((option)=>
+                    <div><p className="intern-name">{option}</p></div>
                 );
-                const ske = internTmp.ske.map((option,idx)=>
-                    <div> <span className="tag ske-tag">SKE</span><p className="intern-name">{option}</p></div>
-                );
-                intern.push(<div className="previous-intern-year">{year}{cpe}{ske}</div>)
+                // const ske = internTmp.ske.map((option,idx)=>
+                //     <div> <span className="tag ske-tag">SKE</span><p className="intern-name">{option}</p></div>
+                // );
+                interns.push(<div className="previous-intern-year">{year}{intern}</div>)
             }
-        return intern
+        return interns
     }
 
     callback = (key) => {
