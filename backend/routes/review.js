@@ -41,8 +41,7 @@ router.post('/add', (req, res, next) => {
 
 router.post('/update', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
-  req.body._id = mongo.ObjectID(req.body._id)
-  DB_REVIEW.updateOne({_id: req.body._id}, {$set: req.body})
+  DB_REVIEW.updateOne({companyName: req.body.companyName}, {$set: req.body})
   .then(() => res.send({code: 1}))
   .catch(() => res.send({code: 0}))
 });

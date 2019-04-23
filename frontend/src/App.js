@@ -64,7 +64,7 @@ class App extends Component {
             <Route exact path='/form5' component={Form_5} />
             <Route exact path='/form6' component={Form_6} />
             <Route exact path='/form7' component={Form_7} />
-            <Route exact path='/form8' component={Form_8} />
+            <Route exact path='/form8/:supervisor/:username/:id' component={Form_8} />
             <Route exact path='/form11' component={Form_11} />
             <Route exact path='/formreview' component={Form_Review} />
 

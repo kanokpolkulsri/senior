@@ -56,13 +56,13 @@ class Form_5 extends React.Component {
         .then(response => {
             if(response.code === 1){
                 // this.props.history.push("/assignment/assigned")
-                this.POST_SEND_EMAI_TO_SUP(values.f5_15, values.f5_sup_name)
+                this.POST_SEND_EMAI_TO_SUP(values.f5_15, values.f5_sup_name, this.state.token_username)
             }
         })
     }
 
-    POST_SEND_EMAI_TO_SUP = (email, supervisorName) => {
-        let params = {email: email, supervisorName: supervisorName}
+    POST_SEND_EMAI_TO_SUP = (email, supervisorName, username) => {
+        let params = {email: email, supervisorName: supervisorName, username: username}
         API_ASSIGNMENT_STUDENT.POST_SEND_EMAIT_TO_SUP(params)
         .then(response => {
             if(response.code === 1){

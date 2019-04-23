@@ -51,6 +51,7 @@ class Form_8 extends React.Component {
     }
 
     POST_CHECK_TOKEN = () => {
+        console.log("idStudent ", this.props.match.params.idStudent)
         let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
@@ -60,6 +61,13 @@ class Form_8 extends React.Component {
                 this.POST_FORM_DATA(this.props.match.params.idStudent)
             }else if(status === "student"){
                 this.POST_FORM_DATA(username)
+            }else{
+                let username = this.props.match.params.username
+                let supervisor = this.props.match.params.supervisor
+                let id = this.props.match.params.id
+                if(supervisor == "supervisor" && id === "123"){
+                    this.POST_FORM_DATA(username)
+                }
             }
             this.setState({token_username: username, token_status: status})
         })

@@ -110,7 +110,8 @@ router.post('/form_data', (req, res, next) => {
 router.post('/post_send_email_to_sup', (req, res, next) => {
     let supervisorEmail = req.body.email
     let supervisorName = req.body.supervisorName
-    let supervisorLink = "TEST_LINK"
+    let studentUsername = req.body.username
+    let supervisorLink = "http://internship.cpe.s3-website-ap-southeast-1.amazonaws.com/form8/supervisor/"+studentUsername+"/123"
     
     let nodemailer = require('nodemailer')
     let transporter = nodemailer.createTransport({
@@ -140,13 +141,12 @@ Kasetsart university
     }
     transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-        res.send({code:0, response: ""})
         console.log(error)
     } else {
-        res.send({code:1, response: "success"})
         console.log('Email sent: ' + info.response)
     }
     })
+    res.send({code:1, data: "success"})
 })
 
 router.post('/data_previous_form', (req, res, next) => {

@@ -125,7 +125,7 @@ class Form_4 extends React.Component {
                     <b>ผู้ให้ข้อมูล : <u>นิสิต</u></b><br/>
                     <b>เรียนหัวหน้าโครงการสหกิจศึกษามหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตบางเขน</b>
                     </span>
-                        
+                    
                     <Form onSubmit={this.handleSubmit}>
                     <span>
                         <Form.Item>
@@ -189,9 +189,7 @@ class Form_4 extends React.Component {
                             <input type ="file" name="f4_map" onChange={(e)=>this.handleFile(e)} />
                             <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map}>{this.state.nameUploadedFile}</a></span>
                             
-                            
                         </Form.Item>
-
                         <div align="right">
                             {getFieldDecorator('f4_nisit_sign', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'กรุณากรอก ชื่อนิสิตผู้ปฏิบัติงานสหกิจศึกษา' }],})( <Input className="event-input" style={{width: '15%'}}  placeholder="" />)}
                             <br/>
