@@ -74,7 +74,7 @@ class ReviewCompany extends React.Component {
         if(this.state.company.comments)
             for (var i = 0; i < this.state.company.comments.length; i++){
                 comment.push( <div className="comment-block col-11">
-                <img className="comment-img col-2" alt="commect-img" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"></img>
+                <img className="comment-img col-3" alt="commect-img" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"></img>
                 <div className="comment-content col-8 ">
                     <StarRatings
                     rating={this.state.company.comments[i].star}

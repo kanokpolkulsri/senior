@@ -38,7 +38,7 @@ router.post('/id', (req, res, next) => {
 
 router.post('/deadline_defaultform_year', (req, res, next) => {
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
-    DB_ASSIGNMENT_ADMIN.find({defaultForm: req.body.defaultForm, year: req.body.year}, {projection: {deadline: 1}}).toArray()
+    DB_ASSIGNMENT_ADMIN.find({defaultForm: req.body.defaultForm, year: req.body.year}, {projection: {deadline: 1, id: 1}}).toArray()
     .then(response => res.send({code: 1, data: response}))
     .catch(() => res.send({code: 0, data: ""}))
 })
