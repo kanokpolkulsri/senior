@@ -177,7 +177,7 @@ class Form_Review extends React.Component {
 
     API_POST_UPDATE = (values) => {
         console.log("update api",values);
-        values["_id"] = this.state._id
+        // values["_id"] = this.state._id
         /*
             values = {
                 "_id": "***** must have ******"
@@ -394,11 +394,11 @@ class Form_Review extends React.Component {
                 // Object.keys(values).forEach(key => params[key] = values[key])
                 // Object.keys(formField).forEach(key => params[key] = formField[key])
                 // console.log(params)
-
-                console.log(values)
+                let valuesUpdate = Object.assign({},values)
+                // console.log(values)
                 let trans = {}
                 values.transportation.forEach((key)=>{trans[key] = values[key]})
-                console.log(trans)
+                // console.log(trans)
                 values.transportation = trans
                 if(this.state.studentStatus === 1){
                     this.state.data.comments.forEach((comment)=>{
@@ -409,7 +409,10 @@ class Form_Review extends React.Component {
                     })
                     values["comments"] = this.state.data.comments
                     let checkJob = false;
-                    let jobTmp = this.state.data.jobDescriptionTitle
+                    // console.log("jobContent",this.state.data.jobDescriptionContent);
+                    
+                    let jobTmp = Object.assign({},this.state.data.jobDescriptionContent)
+
                     values.jobDescriptionTitle.forEach((key)=> {
                         if(jobTmp[key]){
                             jobTmp[key].forEach((job)=>{
@@ -419,7 +422,8 @@ class Form_Review extends React.Component {
                                 }
                                 
                             })
-                            jobTmp[key].push({"username":this.state.token_username,"content":values[key]})
+                            if(!checkJob)
+                                jobTmp[key].push({"username":this.state.token_username,"content":values[key]})
                         }
                         else{
                             jobTmp[key] = [{"username":this.state.token_username,"content":values[key]}]
@@ -427,6 +431,10 @@ class Form_Review extends React.Component {
                 
                     })
                     values.jobDescriptionContent = jobTmp
+                    // console.log('this.state.job',this.state.data.jobDescriptionTitle);
+                    // console.log('jobTmp',jobTmp);
+                    
+                    
                 }
                 else{
                     let year = parseInt("25"+this.state.token_username.substring(0,2)) - 540
@@ -441,7 +449,9 @@ class Form_Review extends React.Component {
                         if(!check)
                             this.state.data["previousIntern"].push({"year":year.toString(),"members":[this.state.token_firstname+" "+this.state.token_lastname]})
                        values["previousIntern"] = this.state.data["previousIntern"]
-                        values.jobDescriptionContent.forEach((key)=> {
+                    // console.log("values.jobContent",  values.jobDescriptionContent);
+                    
+                       values.jobDescriptionContent.forEach((key)=> {
                             if(this.state.data.jobDescriptionContent[key]){
                                 this.state.data.jobDescriptionContent[key].push({"username":this.state.token_username ,"content":values[key]})  
                             }

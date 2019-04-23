@@ -26,8 +26,12 @@ class ReviewCompany extends React.Component {
     genJobDesc = () => {
         let collapse=[]
         let i = 1;
+        // console.log( this.state.company.jobDescriptionContent);
+        
         if(this.state.company.jobDescriptionTitle){
             for (var k in this.state.company.jobDescriptionContent){
+                // console.log("k",k);
+                
                 collapse.push(<Panel header={k} key={i}> 
                     <p className="review-content">
                     {this.state.company.jobDescriptionContent[k].map((job)=>

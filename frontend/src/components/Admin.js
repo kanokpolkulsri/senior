@@ -14,7 +14,7 @@ import Form_6 from './form/Form_6'
 import Form_7 from './form/Form_7'
 import Form_8 from './form/Form_8'
 import Form_11 from './form/Form_11'
-
+import Form_Review from './form/Form_Review'
 
 import '../css/Admin.css'
 import '../css/App.css'
@@ -144,7 +144,17 @@ class Admin extends React.Component {
                             <Route path="/admin/process/report/:year/form7/:idStudent" component={Form_7}/>
                             <Route path="/admin/process/report/:year/form8/:idStudent" component={Form_8}/>
                             <Route path="/admin/process/report/:year/form11/:idStudent" component={Form_11}/>
-                            <Route path="/admin/process/report/:year/writeReview/:idStudent" component={Form_11}/>
+                            <Route path="/admin/process/report/:year/writeReview/:idStudent" component={Form_Review}/>
+
+                            <Route path="/admin/process/assignment/:year/form1" component={Form_1}/>
+                            <Route path="/admin/process/assignment/:year/form2" component={Form_2}/>
+                            <Route path="/admin/process/assignment/:year/form4" component={Form_4}/>
+                            <Route path="/admin/process/assignment/:year/form5" component={Form_5}/>
+                            <Route path="/admin/process/assignment/:year/form6" component={Form_6}/>
+                            <Route path="/admin/process/assignment/:year/form7" component={Form_7}/>
+                            <Route path="/admin/process/assignment/:year/form8" component={Form_8}/>
+                            <Route path="/admin/process/assignment/:year/form11" component={Form_11}/>
+                            <Route path="/admin/process/assignment/:year/writeReview" component={Form_Review}/>
 
 
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
