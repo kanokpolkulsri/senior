@@ -114,3 +114,72 @@ button.regis-form-button:hover{
 .arrow-left{
     transform: rotate(180deg);
 }
+
+@media only screen and (max-width: 414px) {
+    .login-block{
+        width: 413px;
+        height: 100%;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        margin: 0 0;
+    }
+    .green-block{
+        width: 413px;
+        height: 100%;
+        justify-content: flex-start;
+        vertical-align: top;
+        position: relative;
+        background-color: #048C8A;
+        color: white;
+        padding: 130px 100px;
+    }
+    .green-circle{
+        display: none;
+    }
+    .white-block{
+        width: 413px;
+        height: 100%;
+        padding: 90px;
+        justify-content: flex-start;
+        vertical-align: top;
+        display: inline-block;
+    }
+}   
+
+@media only screen and (max-width: 768px) and (min-width: 415px) {
+    .regis-container{
+        position: relative;
+        width:100%;
+        height: 100%;
+        margin-left: -30px;
+    }
+    .login-block{
+        width: 100%;
+        height: 380px;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        margin: 80px 25px;
+    }
+    .green-block{
+        width: 100%;
+        height: 100%;
+        justify-content: flex-start;
+        vertical-align: top;
+        position: relative;
+        background-color: #048C8A;
+        display: inline-block;
+        color: white;
+        padding: 130px 100px;
+    }
+    .green-circle{
+        display: none;
+    }
+    .white-block{
+        width: 100%;
+        height: 100%;
+        padding: 90px;
+        justify-content: flex-start;
+        vertical-align: top;
+        display: inline-block;
+    }
+} 
