@@ -256,9 +256,10 @@ class Feed extends React.Component {
                         {this.getEvent()}
                     </Slider>
                     {/* </div> */}
+                    <br/><br/>
                     <p className="feed-title">Announcement</p>
                         {this.getAnnouncement()}
-                     
+                    <br/>
                     <p className="feed-title">Company Lists</p>
                     <span className="job-desc-text">Job Description:</span> {tagList.map(tag => (
                         <CheckableTag
@@ -275,8 +276,6 @@ class Feed extends React.Component {
                         <div className="set-of-company">
                             {this.genCompany()}
                         </div>
-                  
-                      
                 </div>
               
             </div>      

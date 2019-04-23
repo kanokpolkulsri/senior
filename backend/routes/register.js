@@ -34,12 +34,7 @@ router.post('/add', (req, res, next) => {
   let username = req.body.username
   let year = req.body.year
 
-  DB_REGISTER.find({username: req.body.username}).toArray()
-  .then(response => {
-    if(response !== []){
-      res.send({code: 2, data: req.body.username + " already exists."})
-    }else{
-      DB_REGISTER.insertOne(req.body)
+  DB_REGISTER.insertOne(req.body)
       .then(() => {
         DB_ASSIGNMENT_ADMIN.find({year: year}).toArray()
         .then(response => {
@@ -58,10 +53,6 @@ router.post('/add', (req, res, next) => {
         .catch(() => res.send({code: 0, data: ""}))
       })
       .catch(() => res.send({code: 0, data: ""}))
-    }
-  })
-  .catch(() => res.send({code:0, data: ""}))
-  
   
 })
 

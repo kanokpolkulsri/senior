@@ -210,9 +210,11 @@ class SignUpForm extends React.Component {
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){
+        console.log("add successfully")
         let params = {firstname: values.firstname, lastname: values.lastname, email: values.email}
         API_REGISTER.POST_SEND_EMAIL_REGISTER(params)
         .then(tmp => {
+          console.log(tmp)
           if(tmp.code === 1){
             this.props.history.push("/login")
           }
@@ -221,6 +223,7 @@ class SignUpForm extends React.Component {
         message.error(response.data)
       }
     })
+    .catch(() => message.error("Registration is failed."))
   }
 
   handleSubmit = (e) => {
@@ -270,7 +273,7 @@ class SignUpForm extends React.Component {
               rules: [
                 { required: true, message: 'Please input your Student ID!' },
                 {validator: this.validateStudentID,}
-            ]})(<Input placeholder="Student ID" />)}
+            ]})(<Input placeholder="Student ID e.g., 5810502500" />)}
         </Form.Item>
         <Button onClick={this.signupBackNext} className="signup-next-button login-form-button">
           Next <i className="material-icons">arrow_right_alt</i>

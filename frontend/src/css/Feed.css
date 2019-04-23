@@ -218,3 +218,12 @@ Button.event-btn.clicked i.material-icons::after{
     color:#415C71;
     border: 1px solid #415C71;
 }
+
+@media only screen and (max-width: 414px) {
+    .event-date {
+      background-color: lightblue;
+    }
+    .feed-content.container{
+        padding: 20;
+    }
+}
