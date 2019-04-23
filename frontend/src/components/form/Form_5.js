@@ -123,7 +123,16 @@ class Form_5 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
-                // console.log(params);
+                this.POST_SEND_EMAIL_TO_SUP(values.f5_15, values.f5_sup_name)
+            }
+        })
+    }
+
+    POST_SEND_EMAIL_TO_SUP = (email, supervisorName) => {
+        let params = {email: email, supervisorName: supervisorName, username: this.state.token_username}
+        API_ASSIGNMENT_STUDENT.POST_SEND_EMAIL_TO_SUP(params)
+        .then(response => {
+            if(response.code === 1){
                 this.props.history.push("/assignment/assigned")
             }
         })
@@ -138,6 +147,7 @@ class Form_5 extends React.Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             // console.log('Received values of form: ', values)
+            // console.log(values)
             this.POST_UPDATE_FORM(values)
           }
         })

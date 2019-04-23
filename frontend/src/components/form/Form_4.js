@@ -80,7 +80,7 @@ class Form_4 extends React.Component {
                 
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal,data:response.data[0]}) 
+                this.setState({readonly:readonlyVal, data:response.data[0], formField: {'f4_map': response.data[0].formData.f4_map}, nameUploadedFile: response.data[0].formData.f4_map !== "" ? response.data[0].formData.f4_map.split('/')[4] : ""}) 
             }
         })
     }
@@ -246,7 +246,7 @@ class Form_4 extends React.Component {
                             <br/><b><u>แผนที่แสดงตำแหน่งที่พักอาศัย</u></b><br/>
                             เพื่อความสะดวกในการนิเทศงานของคณาจารย์ โปรดระบุชื่อถนนและสถานที่สำคัญใกล้เคียงที่สามารถเข้าใจโดยง่าย<br/>
                             <input type ="file" name="f4_map" onChange={(e)=>this.handleFile(e)} />
-                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map !== undefined ? this.state.formField.f4_map : "#"}>{this.state.nameUploadedFile}</a></span>
+                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.f4_map}>{this.state.nameUploadedFile}</a></span>
                             
                         </Form.Item>
                         <div align="right">
