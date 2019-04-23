@@ -32,7 +32,7 @@ class Review extends React.Component {
             searchValue: undefined,
             paymentValue: undefined,
             jobDescValue: undefined,
-            transValue: undefined
+            transValue: undefined,
            
         }
         this.lastFetchId = 0
@@ -102,10 +102,9 @@ class Review extends React.Component {
       //sort search filter
       searchFilter = () => {
         let tmp = this.state.allreview
-        if(this.state.searchValue !== undefined)
+        if(this.state.searchValue !== undefined){
             tmp = tmp.filter(element => element.companyName === this.state.searchValue)
-        
-            
+        }
         
         var lowRange
         var highRange
@@ -216,10 +215,10 @@ class Review extends React.Component {
 
     genResult = () => {
         let result = this.state.currentReview.map((option,idx) => 
-            <div className="company">
+            <div className="rv company">
             <Row>
                 <Col span={6}> 
-                    <img src={option.logo} className="company-logo" href="#"/>
+                    <img src={option.logo} className="rv company-logo" href="#"/>
                 </Col>
                 <Col span={18}> 
                     <div className="company-detail">
@@ -311,7 +310,6 @@ class Review extends React.Component {
                         >
                         {options}
                     </Select>
-                        {/* {data.map(d => <Option key={d.value}>{d.text}</Option>)} */}
                     </div>
                     <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
                     <div className="menu-content">
