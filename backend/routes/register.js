@@ -33,26 +33,36 @@ router.post('/add', (req, res, next) => {
 
   let username = req.body.username
   let year = req.body.year
-  
-  DB_REGISTER.insertOne(req.body)
-  .then(() => {
-    DB_ASSIGNMENT_ADMIN.find({year: year}).toArray()
-    .then(response => {
-      let listPromise = []
-      response.map(tmp => {
-        listPromise.push(new Promise((resolve, reject) => {
-          delete tmp["_id"]
-          tmp["username"] = username
-          DB_ASSIGNMENT_STUDENT.insertOne(tmp)
-          .then(() => {resolve()})
-          .catch(() => {resolve()})
-        }))
+
+  DB_REGISTER.find({username: req.body.username}).toArray()
+  .then(response => {
+    if(response !== []){
+      res.send({code: 2, data: req.body.username + " already exists."})
+    }else{
+      DB_REGISTER.insertOne(req.body)
+      .then(() => {
+        DB_ASSIGNMENT_ADMIN.find({year: year}).toArray()
+        .then(response => {
+          let listPromise = []
+          response.map(tmp => {
+            listPromise.push(new Promise((resolve, reject) => {
+              delete tmp["_id"]
+              tmp["username"] = username
+              DB_ASSIGNMENT_STUDENT.insertOne(tmp)
+              .then(() => {resolve()})
+              .catch(() => {resolve()})
+            }))
+          })
+          Promise.all(listPromise).then(() => res.send({code: 1, data: {username: username}}))
+        })
+        .catch(() => res.send({code: 0, data: ""}))
       })
-      Promise.all(listPromise).then(() => res.send({code: 1, data: {username: username}}))
-    })
-    .catch(() => res.send({code: 0, data: ""}))
+      .catch(() => res.send({code: 0, data: ""}))
+    }
   })
-  .catch(() => res.send({code: 0, data: ""}))
+  .catch(() => res.send({code:0, data: ""}))
+  
+  
 })
 
 router.post('/forget', (req, res, next) => {

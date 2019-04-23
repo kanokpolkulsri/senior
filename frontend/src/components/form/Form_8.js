@@ -8,6 +8,7 @@ const { TextArea } = Input
 const RadioGroup = Radio.Group;
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const format = 'HH:mm'
 
 class Form_8 extends React.Component {
@@ -18,7 +19,28 @@ class Form_8 extends React.Component {
             defaultForm: 8,
             token_username: "",
             token_status: "student",
-            readonly: "value"        }
+            readonly: "value"
+        }
+    }
+
+    getCurrentId = (year) => {
+        let params = {defaultForm: this.state.defaultForm, year: year}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
+    }
+
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     POST_FORM_DATA = (username) => {
@@ -479,7 +501,7 @@ class Form_8 extends React.Component {
                         </span>
                     </div><br/><br/>
                     {
-                        this.state.token_status === "student"?
+                        this.props.match.params.supervisor === "supervisor"?
                         <Form.Item>
                         <center>
                             <Button htmlType="submit">ยืนยันข้อมูล</Button><br/>

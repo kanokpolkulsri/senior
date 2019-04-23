@@ -87,7 +87,7 @@ class StudentAnswer extends React.Component {
             this.state.data !== []?
             <div>
             <span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
-            <span className="status">status: {this.state.data.status===0?"not submit":"submitted"}</span>
+            <span className="status">status: {this.state.data.statusDescription}</span>
             <br/><br/>
             <span className="assignment-title bold">{this.state.data.assignmentName}</span>
             <br/><br/>

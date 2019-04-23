@@ -160,6 +160,8 @@ class Admin extends React.Component {
                             <Route path="/admin/process/assignment/:year/form11" component={Form_11}/>
                             <Route path="/admin/process/assignment/:year/writeReview" component={Form_Review}/>
 
+                    
+
 
                             <Route path="/admin/process/report/:year/:idProcess/:idStudent" component={StudentAnswer}/>
                             <Route exact path="/admin/process/report/:year" component={StudentReport}/>
@@ -1347,8 +1349,12 @@ class Process extends React.Component {
         }, 3000);
         selectedRow.forEach((element,idx)=>{
             delete element["_id"];
-            const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
-            element["id"] = tmp;
+            console.log("element",element);
+            if(element["defaultForm"] === 0){
+                const tmp = moment().add(idx,'seconds').format('YYYYMMDDHHmmss')
+                element["id"] = tmp;
+            }
+     
             element["year"] = parseInt(this.state.yearSelected)
             element["statusDescription"] = "assigned"
             this.API_POST_NEW(element)

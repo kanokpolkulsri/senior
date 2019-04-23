@@ -7,8 +7,8 @@ import moment from 'moment'
 
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const format = 'HH:mm'
-
 
 class Form_1 extends React.Component {
     
@@ -22,23 +22,54 @@ class Form_1 extends React.Component {
             deadline: moment(),
             dateData:moment(),
             timeData:moment(),
-            dateDeadline:moment(),
-            timeDeadline:moment()
+            data:[],
+            id:""
         }
     }
 
-    updateDeadline = () => {
-        
-        //let deadline = this.state.dateDeadline.set({'hour':this.state.timeDeadline.hour(),'minute':this.state.timeDeadline.minute()})
-    }
+
 
     onDateChange = (date)=>{
-        this.setState({dateDeadline:date})
+        this.setState({dateData:date})
+        
+    }
+
+
+    getCurrentId = (year) => {
+        console.log("defaultform",this.state.defaultForm,"year",year);
+        
+        let params = {defaultForm: this.state.defaultForm, year: parseInt(year)}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("Resss",response.data[0])
+                let data = response.data[0]
+                this.setState({dateData:moment(data.deadline),timeData:moment(data.deadline),id:data.id})
+         
+
+            }
+        })
+    }
+
+    updateDeadline = () => {
+        let newDeadline = this.state.dateData.set({'hour':this.state.timeData.hour(),'minute':this.state.timeData.minute()})
+        console.log("newDeadline",newDeadline);
+        
+        let params = {id: this.state.id, year: parseInt(this.props.match.params.year), deadline: newDeadline}
+        console.log("params",params);
+        
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     onTimeChange = (time) => {
-        this.setState({timeDeadline:time})
-
+        this.setState({timeData:time})
+        console.log("time",moment(time));
+        
     }
 
 
@@ -48,10 +79,10 @@ class Form_1 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                // console.log(response.data)
+                
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal}) 
+                this.setState({readonly:readonlyVal,data:response.data[0]}) 
             }
         })
     }
@@ -70,7 +101,7 @@ class Form_1 extends React.Component {
                     
                     let readonlyVal = status === "admin"? "readOnly":"value"
                     console.log(readonlyVal);
-
+                    this.getCurrentId(this.props.match.params.year)
                     this.setState({readonly:readonlyVal}) 
                 }
                     
@@ -86,6 +117,8 @@ class Form_1 extends React.Component {
 
     POST_UPDATE_FORM = (values) => {
         let params = {username: this.state.token_username, defaultForm: this.state.defaultForm, formData: values, status: 1, statusDescription: "turned in", submitDate: moment()}
+        params["status"] = 1
+        params["statusDescription"] = moment().isSameOrBefore(this.state.data.deadline)? "turned in":"late"
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
@@ -120,17 +153,22 @@ class Form_1 extends React.Component {
                         <div>
                         <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/"> Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
                         <span className="input-label">Assignment Deadline: </span>
-                        <DatePicker value={this.state.dateData} className="event-date" onChange={this.onDateChange} />
+                        <DatePicker ref="datePicker" selected={this.state.dateData} className="event-date datePicker" onChange={this.onDateChange} />
                         <span className="input-label">Time: </span>
-                        <TimePicker value={this.state.timeData} format={format}  onChange={this.onTimeChange}/> 
+                        <TimePicker ref="timePicker" selected={this.state.timeData} format={format}  onChange={this.onTimeChange}/> 
                         <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
                         </div>
                        :
                        (this.props.location.pathname.includes("/report/") && this.state.token_status==="admin")?
                        <div>
                         <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
+                        <span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
+                        <span className="status">status: {this.state.data.statusDescription}</span>
                         </div>
-                       :<span></span>
+                   
+                       : <div><span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
+                       <span className="status">status: {this.state.data.statusDescription}</span>
+                           </div>
                     }
                    
                    <br/>

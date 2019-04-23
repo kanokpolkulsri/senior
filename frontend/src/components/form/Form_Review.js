@@ -13,8 +13,8 @@ const { TextArea } = Input;
 const API_REVIEW = require('../../api/Review')
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const VariableConfig = require('../../api/VariableConfig')
-
 
 class Form_Review extends React.Component {
     
@@ -39,8 +39,28 @@ class Form_Review extends React.Component {
             studentStatus:0,
             _id:"",
             formField: {},
+            logoPathName: ""
         }
+    }
 
+    getCurrentId = (year) => {
+        let params = {defaultForm: this.state.defaultForm, year: year}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
+    }
+
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     componentDidMount = () => {
@@ -51,8 +71,11 @@ class Form_Review extends React.Component {
     handleChange = (value) => {
         if(value === "addCompany")
             this.addCompany()
-        else
+        else{
             this.API_GET_DATA_ID_COMPANY(value)
+            this.refs["addCompanyBlock"].classList.add("hidden")
+
+        }
       }
       
     handleBlur = () => {
@@ -133,7 +156,6 @@ class Form_Review extends React.Component {
                 const status = response.data[0].status;
                 this.setState({data:response.data[0].formData,status:1,studentStatus:status,_id:response.data[0]._id})
                 response.data = response.data[0].formData
-
                 let comment = response.data.comments.filter(comment => comment["username"] === username)
                 this.props.form.setFieldsValue({companyName:response.data.companyName,
                 companyBackground:response.data.companyBackground,
@@ -145,8 +167,7 @@ class Form_Review extends React.Component {
                 transportation: response.data.transportationTitle,
                 comments:comment[0].content,
                 star:comment[0]["star"]})
-                this.setState({companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle })
-         
+                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle })
             }
         })
     }
@@ -154,171 +175,41 @@ class Form_Review extends React.Component {
     API_GET_ALL_COMPANY_NAME = () => {
         API_REVIEW.GET_ALL_COMPANY_NAME()
         .then(response => {
-            console.log(response);
-            
+            // console.log(response);
             if(response.code === 1){
                 this.setState({companyList:response.data})
             }
         })
     }
 
-
     POST_UPDATE_FORM = (values) => {
         let params = {username: this.state.token_username, defaultForm: this.state.defaultForm, formData: values, status: 1, statusDescription: "turned in", submitDate: moment()}
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
-                console.log(params);
-    
-                // this.props.history.push("/assignment/assigned")
+                // console.log(params);
+                this.props.history.push("/assignment/assigned")
             }
         })
     }
 
     API_POST_UPDATE = (values) => {
-        console.log("update api",values);
-        // values["_id"] = this.state._id
-        /*
-            values = {
-                "_id": "***** must have ******"
-                "companyName" : "Thomson Reuters",
-                "companyBackground" : "Refinitiv",
-                "jobDescriptionTitle" : [ 
-                    "application", 
-                    "network", 
-                    "datascience", 
-                    "iot"
-                ],
-                "jobDescriptionContent" : {
-                    "application" : "Chatbot content",
-                    "network" : "Frontend Development content",
-                    "datascience" : "Backend Development content",
-                    "iot" : "Business Process Improvement content"
-                },
-                "payment" : 500,
-                "star" : 3,
-                "logo" : "logo.png",
-                "transportationTitle" : [ 
-                    "bts", 
-                    "mrt", 
-                    "bus"
-                ],
-                "transportation" : {
-                    "bts" : "BTS Saladang แล้วเดินผ่านลานจอดรถไปด้านหลังสีลมคอมเพล็กซ์ เดินตรงไปในซอย...",
-                    "mrt" : "MRT Silom จะไกลกว่าเดินจาก BTS เล็กน้อย เปิดกูเกิ้ลแมปเอานะ...",
-                    "bus" : "Bus..."
-                },
-                "activities" : "กิจกรรมมีให้ทำเยอะมากๆๆๆ toastmaster อันนี้ช่วยฝึก public speaking ได้ดีมากๆ ให้ออกไปพูดตามหัวข้อข้างหน้าภาษาอังกฤษ UCD101 อันนี้สอนเกี่ยวกับ user centered design bootcamp อันนี้เค้าจะจำลอง startup ในบริษัท ให้เสนอไอเดีย รวมทีมละก็ตีๆๆไอเดียให้มันเวิร์กแล้ว pitch ขอทุนจากบริษัท เหมือนแข่งสตาร์ทอัพเลยย",
-                "previousIntern" : [ 
-                    {
-                        "year" : "2018",
-                        "cpe" : [ 
-                            "Thanjira Sukkree"
-                        ],
-                        "ske" : [ 
-                            "Piromsurang Rungserichai"
-                        ]
-                    }, 
-                    {
-                        "year" : "2017",
-                        "cpe" : [ 
-                            "Thanjira Sukkree"
-                        ],
-                        "ske" : [ 
-                            "Piromsurang Rungserichai"
-                        ]
-                    }
-                ],
-                "comments" : [ 
-                    {
-                        "star" : 3,
-                        "content" : "อยู่สีลมเลยมีที่ให้เลือกกินเยอะ ร้านอาหารแถวบอเยอะมากๆ แล้วก็ได้กินฟรีบ่อยมาก มีโอกาสได้รู้จักเพื่อนอินเทิร์นเยอะ เพราะมีกิจกรรมร่วมกันตลอด"
-                    }, 
-                    {
-                        "star" : 2,
-                        "content" : "เพื่อนดี แต่งานชิวเกิน  ถ้าอยากได้ความรู้โปรแกรมมิ่งมากๆอาจจะไม่ชอบ"
-                    }
-                ]
+        // console.log("update api",values);
+        API_REVIEW.POST_UPDATE(values)
+        .then(response => {
+            if(response.code === 1){
+                // this.props.history.push("/assignment/assigned")
+                // console.log("update",response);
             }
-        */
-       API_REVIEW.POST_UPDATE(values)
-       .then(response => {
-           if(response.code === 1){
-                console.log("update",response);
-                
-           }
-       })
+        })
     }
 
     API_POST_ADD = (values) => {
-        console.log("add",values);
-        
-        /*
-            values = {
-                "companyName" : "Thomson Reuters",
-                "companyBackground" : "Refinitiv",
-                "jobDescriptionTitle" : [ 
-                    "application", 
-                    "network", 
-                    "datascience", 
-                    "iot"
-                ],
-                "jobDescriptionContent" : {
-                    "application" : "Chatbot content",
-                    "network" : "Frontend Development content",
-                    "datascience" : "Backend Development content",
-                    "iot" : "Business Process Improvement content"
-                },
-                "payment" : 500,
-                "star" : 3,
-                "logo" : "logo.png",
-                "transportationTitle" : [ 
-                    "bts", 
-                    "mrt", 
-                    "bus"
-                ],
-                "transportation" : {
-                    "bts" : "BTS Saladang แล้วเดินผ่านลานจอดรถไปด้านหลังสีลมคอมเพล็กซ์ เดินตรงไปในซอย...",
-                    "mrt" : "MRT Silom จะไกลกว่าเดินจาก BTS เล็กน้อย เปิดกูเกิ้ลแมปเอานะ...",
-                    "bus" : "Bus..."
-                },
-                "activities" : "กิจกรรมมีให้ทำเยอะมากๆๆๆ toastmaster อันนี้ช่วยฝึก public speaking ได้ดีมากๆ ให้ออกไปพูดตามหัวข้อข้างหน้าภาษาอังกฤษ UCD101 อันนี้สอนเกี่ยวกับ user centered design bootcamp อันนี้เค้าจะจำลอง startup ในบริษัท ให้เสนอไอเดีย รวมทีมละก็ตีๆๆไอเดียให้มันเวิร์กแล้ว pitch ขอทุนจากบริษัท เหมือนแข่งสตาร์ทอัพเลยย",
-                "previousIntern" : [ 
-                    {
-                        "year" : "2018",
-                        "cpe" : [ 
-                            "Thanjira Sukkree"
-                        ],
-                        "ske" : [ 
-                            "Piromsurang Rungserichai"
-                        ]
-                    }, 
-                    {
-                        "year" : "2017",
-                        "cpe" : [ 
-                            "Thanjira Sukkree"
-                        ],
-                        "ske" : [ 
-                            "Piromsurang Rungserichai"
-                        ]
-                    }
-                ],
-                "comments" : [ 
-                    {
-                        "star" : 3,
-                        "content" : "อยู่สีลมเลยมีที่ให้เลือกกินเยอะ ร้านอาหารแถวบอเยอะมากๆ แล้วก็ได้กินฟรีบ่อยมาก มีโอกาสได้รู้จักเพื่อนอินเทิร์นเยอะ เพราะมีกิจกรรมร่วมกันตลอด"
-                    }, 
-                    {
-                        "star" : 2,
-                        "content" : "เพื่อนดี แต่งานชิวเกิน  ถ้าอยากได้ความรู้โปรแกรมมิ่งมากๆอาจจะไม่ชอบ"
-                    }
-                ]
-            }
-        */
+        // console.log("add",values);
         API_REVIEW.POST_ADD(values)
         .then(response => {
             if(response.code === 1){
-
+                // this.props.history.push("/assignment/assigned")
             }
         })
     }
@@ -327,7 +218,6 @@ class Form_Review extends React.Component {
         API_REVIEW.GET_DATA_ID_COMPANY(id)
         .then(response => {
             if(response.code === 1){
-                console.log(response)
                 this.setState({data:response.data,status:1})
                 this.setState({_id:response.data._id})
                 this.props.form.setFieldsValue({companyName:response.data.companyName,
@@ -337,9 +227,7 @@ class Form_Review extends React.Component {
                 
                 transportationTitle: response.data.transportationTitle,
                 transportation: response.data.transportationTitle})
-                this.setState({companyName: response.data.companyName, transSelect: response.data.transportationTitle })
-                
-               
+                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle })
             }
         })
     }
@@ -354,8 +242,7 @@ class Form_Review extends React.Component {
             let status = response.token_status
             if(status === "admin"){
                 this.POST_FORM_DATA(this.props.match.params.idStudent)
-            }
-            else if(status === "student"){
+            }else if(status === "student"){
                 this.POST_FORM_DATA(username)
             }
 
@@ -388,14 +275,9 @@ class Form_Review extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // plam to add path logo
-                // const params = {}
-                // let formField = this.state.formField
-                // Object.keys(values).forEach(key => params[key] = values[key])
-                // Object.keys(formField).forEach(key => params[key] = formField[key])
-                // console.log(params)
+                console.log("values ", values)
+                values['logo'] = this.state.formField.logo
                 let valuesUpdate = Object.assign({},values)
-                // console.log(values)
                 let trans = {}
                 values.transportation.forEach((key)=>{trans[key] = values[key]})
                 // console.log(trans)
@@ -433,10 +315,7 @@ class Form_Review extends React.Component {
                     values.jobDescriptionContent = jobTmp
                     // console.log('this.state.job',this.state.data.jobDescriptionTitle);
                     // console.log('jobTmp',jobTmp);
-                    
-                    
-                }
-                else{
+                }else{
                     let year = parseInt("25"+this.state.token_username.substring(0,2)) - 540
                     if(this.state.status === 1){
                         let check = false
@@ -449,23 +328,22 @@ class Form_Review extends React.Component {
                         if(!check)
                             this.state.data["previousIntern"].push({"year":year.toString(),"members":[this.state.token_firstname+" "+this.state.token_lastname]})
                        values["previousIntern"] = this.state.data["previousIntern"]
-                    // console.log("values.jobContent",  values.jobDescriptionContent);
-                    
-                       values.jobDescriptionContent.forEach((key)=> {
+                        // console.log("values.jobContent",  values.jobDescriptionContent);
+
+                       values.jobDescriptionTitle.forEach((key)=> {
                             if(this.state.data.jobDescriptionContent[key]){
                                 this.state.data.jobDescriptionContent[key].push({"username":this.state.token_username ,"content":values[key]})  
                             }
                             else{
                                 this.state.data.jobDescriptionContent[key] = [{"username":this.state.token_username,"content":values[key]}]
                             }
-                    
                         })
                         values.jobDescriptionContent = this.state.data.jobDescriptionContent
                         const comment = {"star":values["star"],"content":values["comments"],"username":this.state.token_username}
                         this.state.data.comments.push(comment)
                         values.comments = this.state.data.comments
-                    }
-                    else if(this.state.status === 0){
+
+                    }else if(this.state.status === 0){
                         values.jobDescriptionContent.forEach((key)=> {
                             values.jobDescriptionContent[key] = [{"username":this.state.token_username,"content":values[key]}]
                         })
@@ -585,10 +463,12 @@ class Form_Review extends React.Component {
                             <span className="input-label">Company Background</span>
                             {getFieldDecorator('companyBackground', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please input company background' }],})( <TextArea className="event-input" style={{width: '55%'}}  placeholder=""  autosize />)}
                             <br/>
-                            {/* plam */}
-                            {/* <span className="input-label">Logo</span>
+
+                            <span className="input-label">Logo</span>
                             <input type ="file" name="logo" onChange={(e)=>this.handleFile(e)} />
-                            <br/> */}
+                            <span>ไฟล์อัพโหลด : <a href={this.state.formField.logo}>{this.state.logoPathName}</a></span>
+                            <br/>
+
                             <span className="input-label">Job Description</span>
                             {getFieldDecorator('jobDescriptionTitle',{valuePropName:this.state.readonly,})(<Select
                                 mode="multiple"

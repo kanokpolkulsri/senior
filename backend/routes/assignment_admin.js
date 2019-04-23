@@ -36,6 +36,39 @@ router.post('/id', (req, res, next) => {
     .catch(() => res.send({code: 0, data: ""}))
 })
 
+router.post('/deadline_defaultform_year', (req, res, next) => {
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    DB_ASSIGNMENT_ADMIN.find({defaultForm: req.body.defaultForm, year: req.body.year}, {projection: {deadline: 1, id: 1}}).toArray()
+    .then(response => res.send({code: 1, data: response}))
+    .catch(() => res.send({code: 0, data: ""}))
+})
+
+router.post('/update_deadline_formreview', (req, res, next) => {
+    const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+
+    let id = req.body.id
+    let year = req.body.year
+    let deadline = req.body.deadline
+
+    DB_ASSIGNMENT_ADMIN.updateOne({id: id, year: year}, {$set: {deadline: deadline}})
+    .then(response => {
+        if(response.result.n >= 1){
+            DB_ASSIGNMENT_STUDENT.updateOne({id: id, year: year}, {$set: {deadline: deadline}})
+            .then(tmp => {
+                if(tmp.result.n >= 0){
+                    res.send({code: 1, data: ""})
+                }else{
+                    res.send({code: 0, data: ""})
+                }
+            })
+        }else{
+            res.send({code: 1, data: ""})
+        }
+    })
+    .catch(() => res.send({code: 0, data: ""}))
+})
+
 router.post('/update', (req, res, next) => {
     
     const DB_ASSIGNMENT_ADMIN = req.app.locals.DB_ASSIGNMENT_ADMIN

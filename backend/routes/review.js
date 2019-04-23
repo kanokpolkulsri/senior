@@ -40,7 +40,13 @@ router.post('/add', (req, res, next) => {
 });
 
 router.post('/update', (req, res, next) => {
-  console.log(req.body)
+  let star = 0
+  let comments = req.body.comments
+  let commentLength = comments.length
+  comments.map(tmp => {
+    star += tmp.star
+  })
+  req.body.star = star/commentLength
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.updateOne({companyName: req.body.companyName}, {$set: req.body})
   .then(() => res.send({code: 1}))

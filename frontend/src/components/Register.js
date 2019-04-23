@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch, Link } from 'react-router-dom'
-import { Form, Icon, Input, Button, Col, Row } from 'antd';
+import { Form, Icon, Input, Button, Col, Row, message } from 'antd';
 
 import '../css/Register.css';
 
@@ -217,6 +217,8 @@ class SignUpForm extends React.Component {
             this.props.history.push("/login")
           }
         })
+      }else if(response.code === 2){
+        message.error(response.data)
       }
     })
   }

@@ -8,6 +8,7 @@ const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const format = 'HH:mm'
 
 class Form_5 extends React.Component {
@@ -18,9 +19,60 @@ class Form_5 extends React.Component {
             defaultForm: 5,
             token_username: "",
             token_status: "student",
-            readonly: "value"
+            readonly: "value",
+            deadline: moment(),
+            dateData:moment(),
+            timeData:moment(),
+            data:[],
+            id:""
         }
     }
+
+
+
+    onDateChange = (date)=>{
+        this.setState({dateData:date})
+        
+    }
+
+
+    getCurrentId = (year) => {
+        console.log("defaultform",this.state.defaultForm,"year",year);
+        
+        let params = {defaultForm: this.state.defaultForm, year: parseInt(year)}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("Resss",response.data[0])
+                let data = response.data[0]
+                this.setState({dateData:moment(data.deadline),timeData:moment(data.deadline),id:data.id})
+         
+
+            }
+        })
+    }
+
+    updateDeadline = () => {
+        let newDeadline = this.state.dateData.set({'hour':this.state.timeData.hour(),'minute':this.state.timeData.minute()})
+        console.log("newDeadline",newDeadline);
+        
+        let params = {id: this.state.id, year: parseInt(this.props.match.params.year), deadline: newDeadline}
+        console.log("params",params);
+        
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
+    }
+
+    onTimeChange = (time) => {
+        this.setState({timeData:time})
+        console.log("time",moment(time));
+        
+    }
+
 
     POST_FORM_DATA = (username) => {
         let params = {username: username, defaultForm: this.state.defaultForm}
@@ -28,10 +80,10 @@ class Form_5 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                // console.log(response.data)
+                
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal}) 
+                this.setState({readonly:readonlyVal,data:response.data[0]}) 
             }
         })
     }
@@ -42,33 +94,36 @@ class Form_5 extends React.Component {
         .then(response => {
             let username = response.token_username
             let status = response.token_status
+        
             if(status === "admin"){
-                this.POST_FORM_DATA(this.props.match.params.idStudent)
+                if(this.props.location.pathname.includes("/report/"))
+                    this.POST_FORM_DATA(this.props.match.params.idStudent)
+                else if(this.props.location.pathname.includes("/assignment/")){
+                    
+                    let readonlyVal = status === "admin"? "readOnly":"value"
+                    console.log(readonlyVal);
+                    this.getCurrentId(this.props.match.params.year)
+                    this.setState({readonly:readonlyVal}) 
+                }
+                    
             }
             else if(status === "student"){
                 this.POST_FORM_DATA(username)
             }
+
             this.setState({token_username: username, token_status: status})
+
         })
     }
 
     POST_UPDATE_FORM = (values) => {
         let params = {username: this.state.token_username, defaultForm: this.state.defaultForm, formData: values, status: 1, statusDescription: "turned in", submitDate: moment()}
+        params["status"] = 1
+        params["statusDescription"] = moment().isSameOrBefore(this.state.data.deadline)? "turned in":"late"
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
-                // this.props.history.push("/assignment/assigned")
-                this.POST_SEND_EMAI_TO_SUP(values.f5_15, values.f5_sup_name, this.state.token_username)
-            }
-        })
-    }
-
-    POST_SEND_EMAI_TO_SUP = (email, supervisorName, username) => {
-        let params = {email: email, supervisorName: supervisorName, username: username}
-        API_ASSIGNMENT_STUDENT.POST_SEND_EMAIT_TO_SUP(params)
-        .then(response => {
-            if(response.code === 1){
-                console.log(response.data)
+                // console.log(params);
                 this.props.history.push("/assignment/assigned")
             }
         })
@@ -83,7 +138,6 @@ class Form_5 extends React.Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             // console.log('Received values of form: ', values)
-
             this.POST_UPDATE_FORM(values)
           }
         })
@@ -100,18 +154,24 @@ class Form_5 extends React.Component {
                         <div>
                         <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/"> Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
                         <span className="input-label">Assignment Deadline: </span>
-                        <DatePicker className="event-date" onChange={this.onChange} />
+                        <DatePicker ref="datePicker" selected={this.state.dateData} className="event-date datePicker" onChange={this.onDateChange} />
                         <span className="input-label">Time: </span>
-                        <TimePicker format={format}  onChange={this.onStartDateChange}/> 
+                        <TimePicker ref="timePicker" selected={this.state.timeData} format={format}  onChange={this.onTimeChange}/> 
                         <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
                         </div>
                        :
                        (this.props.location.pathname.includes("/report/") && this.state.token_status==="admin")?
                        <div>
                         <span className="breadcrumb-admin"><Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/">Process </Link> > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/report"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ > {this.props.match.params.idStudent}</span><br/>
+                        <span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
+                        <span className="status">status: {this.state.data.statusDescription}</span>
                         </div>
-                       :<span></span>
+                   
+                       : <div><span className="">Due {moment(this.state.data.deadline).format('llll')}</span>
+                       <span className="status">status: {this.state.data.statusDescription}</span>
+                           </div>
                     }
+                   
                     <br/>
                     <br/>
                     <span>
