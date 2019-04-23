@@ -4,13 +4,9 @@ import moment from 'moment'
 import {  Input , Row, Col} from 'antd'
 import '../css/StudentAnswer.css'
 
-
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
-
 const { TextArea } = Input
-
-
 
 class StudentAnswer extends React.Component {
 
@@ -65,8 +61,8 @@ class StudentAnswer extends React.Component {
                      element.option === "short"?  
                      <Input className="question event-input" value={element.data} placeholder={element.title} /> :
                      element.option === "multiple"?
-                     <TextArea className="event-input" value={element.data} placeholder={element.title} onBlur={this.handleConfirmBlur}  autosize />:
-                    <div>upload</div>
+                     <TextArea className="event-input" value={element.data} placeholder={element.title} onBlur={this.handleConfirmBlur}  autosize /> :
+                     <span className="upload-span"><a href={element.data}>{element.data !== "" ? element.data : "no file(s)"}</a></span>    
             }
             <br/><br/>
             </div>
@@ -101,7 +97,6 @@ class StudentAnswer extends React.Component {
                 <Col span={16}>
                         {this.getFormItem()}
                         <br/><br/>
-                    
                 </Col>
             </Row>
             </div>:

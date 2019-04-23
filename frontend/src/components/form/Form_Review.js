@@ -2,6 +2,12 @@ import React from 'react'
 import {Form, Input, Button, Row, Col, Select, Icon, Divider,  Rate} from 'antd'
 import '../../css/Form.css'
 import moment from 'moment'
+
+import axios from 'axios'
+const Config = require('../../Config')
+const prePath = Config.API_URL + "/images/"
+const API_URL = Config.API_URL + "/upload"
+
 const Option = Select.Option;
 const { TextArea } = Input;
 const API_REVIEW = require('../../api/Review')
@@ -31,7 +37,8 @@ class Form_Review extends React.Component {
             readonly: "value",
             dataCompany:[],
             studentStatus:0,
-            _id:""
+            _id:"",
+            formField: {},
         }
 
     }
@@ -353,7 +360,27 @@ class Form_Review extends React.Component {
             }
 
             this.setState({token_username: username, token_status: status, token_firstname: firstname, token_lastname: lastname})
+        })
+    }
 
+    handleFile = (e) => {
+        let newField = e.target.name
+        let newFormField = this.state.formField
+        let pathFile = ""
+        let file = e.target.files[0]
+        let formData = new FormData()
+        formData.append('file', file)
+        axios.post(API_URL, formData, {})
+        .then(response => {
+            
+            if(response.status === 200){
+                let filename = response.data.filename
+                if(filename !== undefined){
+                    pathFile = prePath + filename
+                    newFormField[newField] = pathFile
+                    this.setState({formField: newFormField})
+                }
+            }
         })
     }
 
@@ -361,6 +388,13 @@ class Form_Review extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                // plam to add path logo
+                // const params = {}
+                // let formField = this.state.formField
+                // Object.keys(values).forEach(key => params[key] = values[key])
+                // Object.keys(formField).forEach(key => params[key] = formField[key])
+                // console.log(params)
+
                 console.log(values)
                 let trans = {}
                 values.transportation.forEach((key)=>{trans[key] = values[key]})
@@ -541,6 +575,10 @@ class Form_Review extends React.Component {
                             <span className="input-label">Company Background</span>
                             {getFieldDecorator('companyBackground', {valuePropName:this.state.readonly,rules: [{ required: true, message: 'please input company background' }],})( <TextArea className="event-input" style={{width: '55%'}}  placeholder=""  autosize />)}
                             <br/>
+                            {/* plam */}
+                            {/* <span className="input-label">Logo</span>
+                            <input type ="file" name="logo" onChange={(e)=>this.handleFile(e)} />
+                            <br/> */}
                             <span className="input-label">Job Description</span>
                             {getFieldDecorator('jobDescriptionTitle',{valuePropName:this.state.readonly,})(<Select
                                 mode="multiple"

@@ -107,4 +107,119 @@ router.post('/form_data', (req, res, next) => {
     .catch(() => res.send({code: 0}))
 })
 
+router.post('/post_send_email_to_sup', (req, res, next) => {
+    let supervisorEmail = req.body.email
+    let supervisorName = req.body.supervisorName
+    let studentUsername = req.body.username
+    let supervisorLink = "http://internship.cpe.s3-website-ap-southeast-1.amazonaws.com/form8/supervisor/"+studentUsername+"/123"
+    
+    let nodemailer = require('nodemailer')
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'kanokpol.k@ku.th',
+            pass: 'Mypassword.1'
+        }
+    })
+    let mailOptions = {
+        from: 'kanokpol.k@ku.th',
+        to: supervisorEmail,
+        subject: 'Evaultion Form for the internship student - Kasetsart university',
+        text: `
+Dear K.`+supervisorName+`,
+
+We have got your email from our internship student whose name is...
+This is a process for you to evaluate the internship student's scores. You are able to submit only once, please carefully consider it.
+Please submit your evaluation following this link `+supervisorLink+`
+This email is an auto message system, please do not reply. 
+
+Best regards,
+An Internship an Co-operative Management System
+Kasetsart university
+    
+        `
+    }
+    transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error)
+    } else {
+        console.log('Email sent: ' + info.response)
+    }
+    })
+    res.send({code:1, data: "success"})
+})
+
+router.post('/data_previous_form', (req, res, next) => {
+    let username = req.body.username
+    let defaultForm = req.body.defaultForm
+    const DB_ASSIGNMENT_STUDENT = req.app.locals.DB_ASSIGNMENT_STUDENT
+    if(defaultForm === 6 || defaultForm === 11){
+        DB_ASSIGNMENT_STUDENT.find({defaultForm: 4, username: username}, {projection: {formData: 1}}).toArray()
+        .then(response => {
+            let formData = response[0].formData
+            let data = {
+                f4_fullName: formData.f4_fullName,
+                f4_id: formData.f4_id,
+                f4_department: formData.f4_department,
+                f4_faculty: formData.f4_faculty,
+                f4_companyName: formData.f4_companyName,
+            }
+            res.send({code: 1, data: data})
+        })
+        .catch(() => res.send({code: 0}))
+    }else if(defaultForm === 7){
+        DB_ASSIGNMENT_STUDENT.find({defaultForm: 4, username: username}, {projection: {formData: 1}}).toArray()
+        .then(response => {
+            let formData = response[0].formData
+            let data = {
+                f4_fullName: formData.f4_fullName,
+                f4_id: formData.f4_id,
+                f4_department: formData.f4_department,
+                f4_faculty: formData.f4_faculty,
+                f4_companyName: formData.f4_companyName,
+            }
+            DB_ASSIGNMENT_STUDENT.find({defaultForm: 5, username: username}, {projection: {formData: 1}}).toArray()
+            .then(tmp => {
+                let tmpData = tmp[0].formData
+                let newData = data
+                newData["f5_address"] = tmpData.f5_address
+                newData["f5_amphur"] = tmpData.f5_amphur
+                newData["f5_call"] = tmpData.f5_call
+                newData["f5_phone"] = tmpData.f5_phone
+                newData["f5_postcode"] = tmpData.f5_postcode
+                newData["f5_province"] = tmpData.f5_province
+                newData["f5_soi"] = tmpData.f5_soi
+                newData["f5_street"] = tmpData.f5_street
+                newData["f5_tambon"] = tmpData.f5_tambon
+                res.send({code: 1, data: newData})
+            })
+            .catch(() => res.send({code: 0}))
+        })
+        .catch(() => res.send({code: 0}))
+    }else if(defaultForm === 8){
+        DB_ASSIGNMENT_STUDENT.find({defaultForm: 4, username: username}, {projection: {formData: 1}}).toArray()
+        .then(response => {
+            let formData = response[0].formData
+            let data = {
+                f4_fullName: formData.f4_fullName,
+                f4_id: formData.f4_id,
+                f4_department: formData.f4_department,
+                f4_faculty: formData.f4_faculty,
+                f4_companyName: formData.f4_companyName,
+            }
+            DB_ASSIGNMENT_STUDENT.find({defaultForm: 5, username: username}, {projection: {formData: 1}}).toArray()
+            .then(tmp => {
+                let tmpData = tmp[0].formData
+                let newData = data
+                newData["f5_sup_name"] = tmpData.f5_sup_name
+                newData["f5_sup_position"] = tmpData.f5_sup_position
+                newData["f5_sup_division"] = tmpData.f5_sup_division
+                res.send({code: 1, data: newData})
+            })
+            .catch(() => res.send({code: 0}))
+        })
+        .catch(() => res.send({code: 0}))
+    }
+})
+
 module.exports = router

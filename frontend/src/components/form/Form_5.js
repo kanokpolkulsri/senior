@@ -26,7 +26,7 @@ class Form_5 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log(response.data)
+                // console.log(response.data)
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
                 this.setState({readonly:readonlyVal}) 
@@ -55,6 +55,18 @@ class Form_5 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
+                // this.props.history.push("/assignment/assigned")
+                this.POST_SEND_EMAI_TO_SUP(values.f5_15, values.f5_sup_name, this.state.token_username)
+            }
+        })
+    }
+
+    POST_SEND_EMAI_TO_SUP = (email, supervisorName, username) => {
+        let params = {email: email, supervisorName: supervisorName, username: username}
+        API_ASSIGNMENT_STUDENT.POST_SEND_EMAIT_TO_SUP(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
                 this.props.history.push("/assignment/assigned")
             }
         })
@@ -68,7 +80,8 @@ class Form_5 extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values)
+            // console.log('Received values of form: ', values)
+
             this.POST_UPDATE_FORM(values)
           }
         })
@@ -155,20 +168,20 @@ class Form_5 extends React.Component {
                                         <br/>
                                         <div className="tab">
                                             <span className="input-label">ชื่อ-นามสกุล </span>
-                                            {getFieldDecorator('f5_6', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '70%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_6', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก ชื่อ-นามสกุล' }],})( <Input className="event-input" style={{width: '70%'}}  placeholder="" />)}
                                             <br/>
                                             <span className="input-label">ตำแหน่ง</span>
-                                            {getFieldDecorator('f5_7', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_7', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก ตำแหน่ง' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                                             <span className="input-label">แผนก</span>
-                                            {getFieldDecorator('f5_8', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก แผนก' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_8', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก แผนก' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                                             <br/>
                                             <span className="input-label">โทรศัพท์</span>
-                                            {getFieldDecorator('f5_9', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก โทรศัพท์' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_9', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก โทรศัพท์' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                                             <span className="input-label">โทรสาร</span>
-                                            {getFieldDecorator('f5_10', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก โทรสาร' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_10', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก โทรสาร' }],})( <Input className="event-input" style={{width: '30%'}}  placeholder="" />)}
                                             <br/>
                                             <span className="input-label">E-mail</span>
-                                            {getFieldDecorator('f5_11', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก E-mail' }],})( <Input className="event-input" style={{width: '70%'}}  placeholder="" />)}
+                                            {getFieldDecorator('f5_11', {valuePropName:this.state.readonly, rules: [{ required: false, message: 'กรุณากรอก E-mail' }],})( <Input className="event-input" style={{width: '70%'}}  placeholder="" />)}
                                         </div>
                                     </RadioGroup>
                                     )}
@@ -188,7 +201,7 @@ class Form_5 extends React.Component {
                                 <br/>
                                 <span className="input-label">แผนก</span>
                                 {getFieldDecorator('f5_sup_division', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก แผนก' }],})( <Input className="event-input" style={{width: '40%'}}  placeholder="" />)}
-                                <span className="input-label">E-mail</span>
+                                <span className="input-label">* E-mail</span>
                                 {getFieldDecorator('f5_15', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก E-mail' }],})( <Input className="event-input" style={{width: '35%'}}  placeholder="" />)}
                                 <br/>
                                 <span className="input-label">โทรศัพท์</span>
@@ -226,6 +239,7 @@ class Form_5 extends React.Component {
                         <Form.Item>
                         <center>
                             <Button htmlType="submit">ยืนยันข้อมูล</Button><br/>
+                            <span>หมายเหตุ: แบบฟอร์มนี้มีผลต่อการประเมินของนิสิต กรุณาตรวจสอบก่อนกรอกข้อมูลอย่างละเอียด</span>
                             {/* <span>หมายเหตุ: ข้อมูลไม่สามารถแก้ภายหลังได้ กรุณาตรวจสอบข้อมูลก่อนยืนยันข้อมูล</span> */}
                         </center>
                         </Form.Item>:<div></div>

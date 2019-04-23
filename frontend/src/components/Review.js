@@ -218,7 +218,7 @@ class Review extends React.Component {
             <div className="company">
             <Row>
                 <Col span={6}> 
-                    <div className="company-logo"></div>
+                    <img src={option.logo} className="company-logo" href="#"/>
                 </Col>
                 <Col span={18}> 
                     <div className="company-detail">

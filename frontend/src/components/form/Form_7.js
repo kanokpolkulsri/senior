@@ -25,10 +25,26 @@ class Form_7 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log(response.data)
-                forms.setFieldsValue(response.data[0].formData)
-                let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal}) 
+                if(response.data[0].formData.f4_companyName === "" || response.data[0].formData.f5_address === ""){
+                    // if no data from previous form
+                    API_ASSIGNMENT_STUDENT.POST_DATA_PREVIOUS_FORM(params)
+                    .then(tmp => {
+                        let params = {}
+                        let tmpObj = tmp.data
+                        let responseObj = response.data[0].formData
+                        Object.keys(response.data[0].formData).forEach(key => params[key] = responseObj[key])
+                        Object.keys(tmp.data).forEach(key => params[key] = tmpObj[key])
+                        // console.log(params)
+                        forms.setFieldsValue(params)
+                        let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                        this.setState({readonly:readonlyVal}) 
+                    })                    
+                }else{
+                    // console.log(response.data[0].formData)
+                    forms.setFieldsValue(response.data[0].formData)
+                    let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                    this.setState({readonly:readonlyVal}) 
+                }
             }
         })
     }
@@ -67,7 +83,7 @@ class Form_7 extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values)
+            // console.log('Received values of form: ', values)
             this.POST_UPDATE_FORM(values)
           }
         })

@@ -84,7 +84,7 @@ class LogInForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of SignIn form: ', values);
+        // console.log('Received values of SignIn form: ', values);
         this.POST_LOGIN(values)
       }
     });
@@ -210,7 +210,13 @@ class SignUpForm extends React.Component {
     API_REGISTER.POST_ADD(values)
     .then(response => {
       if(response.code === 1){
-        this.props.history.push("/login")
+        let params = {firstname: values.firstname, lastname: values.lastname, email: values.email}
+        API_REGISTER.POST_SEND_EMAIL_REGISTER(params)
+        .then(tmp => {
+          if(tmp.code === 1){
+            this.props.history.push("/login")
+          }
+        })
       }
     })
   }
@@ -223,7 +229,7 @@ class SignUpForm extends React.Component {
       console.log(err,values);
       
       if (!err) {
-        console.log('Received values of SignUp form: ', values);
+        // console.log('Received values of SignUp form: ', values);
         this.POST_ADD(values)
       }
     });

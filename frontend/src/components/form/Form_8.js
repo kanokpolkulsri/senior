@@ -25,18 +25,33 @@ class Form_8 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log(response.data)
-                if(this.state.token_status !== "admin" && response.data[0].status === 1)
-                    this.props.history.push("/")
-
-                forms.setFieldsValue(response.data[0].formData)
-                let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal}) 
+                // console.log(response.data)
+                if(response.data[0].formData.f4_companyName === "" || response.data[0].formData.f5_sup_division === ""){
+                    // if no data from previous form
+                    API_ASSIGNMENT_STUDENT.POST_DATA_PREVIOUS_FORM(params)
+                    .then(tmp => {
+                        let params = {}
+                        let tmpObj = tmp.data
+                        let responseObj = response.data[0].formData
+                        Object.keys(response.data[0].formData).forEach(key => params[key] = responseObj[key])
+                        Object.keys(tmp.data).forEach(key => params[key] = tmpObj[key])
+                        // console.log(params)
+                        forms.setFieldsValue(params)
+                        let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                        this.setState({readonly:readonlyVal}) 
+                    })                    
+                }else{
+                    // console.log(response.data[0].formData)
+                    forms.setFieldsValue(response.data[0].formData)
+                    let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
+                    this.setState({readonly:readonlyVal}) 
+                }
             }
         })
     }
 
     POST_CHECK_TOKEN = () => {
+        console.log("idStudent ", this.props.match.params.idStudent)
         let token = {'token': window.localStorage.getItem('token_senior_project')}
         API_TOKEN.POST_CHECK_TOKEN(token)
         .then(response => {
@@ -44,9 +59,15 @@ class Form_8 extends React.Component {
             let status = response.token_status
             if(status === "admin"){
                 this.POST_FORM_DATA(this.props.match.params.idStudent)
-            }
-            else if(status === "student"){
+            }else if(status === "student"){
                 this.POST_FORM_DATA(username)
+            }else{
+                let username = this.props.match.params.username
+                let supervisor = this.props.match.params.supervisor
+                let id = this.props.match.params.id
+                if(supervisor == "supervisor" && id === "123"){
+                    this.POST_FORM_DATA(username)
+                }
             }
             this.setState({token_username: username, token_status: status})
         })
@@ -70,7 +91,7 @@ class Form_8 extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values)
+            // console.log('Received values of form: ', values)
             this.POST_UPDATE_FORM(values)
           }
         })

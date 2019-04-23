@@ -6,6 +6,11 @@ import '../css/App.css'
 
 import { Upload, Button, Icon, Input , Form, Row, Col} from 'antd'
 
+import axios from 'axios'
+const Config = require('../Config')
+const prePath = Config.API_URL + "/images/"
+const API_URL = Config.API_URL + "/upload"
+
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
 const { TextArea } = Input
@@ -37,6 +42,8 @@ class StudentAssignment extends React.Component {
             token_lastname: "",
             token_status: "",
             data:[],
+            formField: {},
+            nameUploadedFile: "",
         }
     }
 
@@ -55,6 +62,27 @@ class StudentAssignment extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
+            }
+        })
+    }
+
+    handleFile = (e) => {
+        let newField = e.target.name
+        let newFormField = this.state.formField
+        let pathFile = ""
+        let file = e.target.files[0]
+        let formData = new FormData()
+        formData.append('file', file)
+        axios.post(API_URL, formData, {})
+        .then(response => {
+            
+            if(response.status === 200){
+                let filename = response.data.filename
+                if(filename !== undefined){
+                    pathFile = prePath + filename
+                    newFormField[newField] = pathFile
+                    this.setState({formField: newFormField})
+                }
             }
         })
     }
@@ -105,15 +133,24 @@ class StudentAssignment extends React.Component {
                 element.data = values[element.title]
                 return
             })
-            console.log(this.state.data.formData)
+            // console.log(this.state.data.formData)
+            let formField = this.state.formField
+            // console.log("formField ", formField)
+            let formData = this.state.data.formData    
+            formData.map(tmp => {
+                if(tmp.title in formField){
+                    tmp.data = formField[tmp.title]
+                    // console.log(tmp.data)
+                }
+            })        
+        
             let params = this.state.data
-               
             params["status"] = 1
             params["statusDescription"] = moment().isSameOrBefore(this.state.data.deadline)? "turned in":"late"
             params["submitDate"] = moment()
-            params["formData"] = this.state.data.formData
+            params["formData"] = formData
            
-            console.log(params)
+            // console.log(params)
             this.API_POST_UPDATE(params)
           }
         })
@@ -142,18 +179,12 @@ class StudentAssignment extends React.Component {
                      <TextArea className="event-input" placeholder={element.title} onBlur={this.handleConfirmBlur}  autosize />
                  )}
                </Form.Item>:
-              <Form.Item>
-                {getFieldDecorator(`${element.title}`, {
-                    valuePropName: 'fileList',
-                    getValueFromEvent: this.normFile,
-                })(
-                    <Upload name="logo" listType="picture">
-                    <Button>
-                        <Icon type="upload" /> Click to upload
-                    </Button>
-                    </Upload>
-                )}
-              </Form.Item>}
+               <Form.Item>
+                   <input type ="file" name={element.title} onChange={(e)=>this.handleFile(e)} />
+                   <span className="upload-span"><a href={element.data}>{element.data.split('/')[4]}</a></span>
+               </Form.Item>
+                 
+            }
             </div>
             )
           return formItem

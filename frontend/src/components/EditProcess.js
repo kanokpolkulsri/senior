@@ -19,12 +19,9 @@ class EditProcessForm extends React.Component {
         this.state = {
             loading: false,
             data: [{assignmentName:""}],
-            id:1
+            id: 1
         }
     }
-
-    
-
 
     API_POST_DELETE_ID_PROCESS = (id) => {
         API_ADMIN.POST_DELETE(id)

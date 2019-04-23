@@ -177,7 +177,7 @@ class ReviewCompany extends React.Component {
                                     starDimension="15px"
                                     starSpacing="0px"
                                     />
-                                <img className="company-logo" alt="company-logo" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"/>
+                                <img className="company-logo" alt="company-logo" src={this.state.company.logo}/>
                                 <span>Job Description: {this.getJobDesc()}</span>
                                 <br/>
                                 <span>Payment: {this.state.company.payment} Baht </span>

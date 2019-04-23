@@ -19,6 +19,8 @@ i.fa{
 }
 .company-logo{
     display: inline-block;
+    background-color: #c0c0c0;
+    text-decoration: none;
 }
 .company{
     padding-top: 20px;

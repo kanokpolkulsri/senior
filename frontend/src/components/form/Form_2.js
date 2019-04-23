@@ -25,7 +25,7 @@ class Form_2 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log(response.data)
+                // console.log(response.data)
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
                 this.setState({readonly:readonlyVal}) 
@@ -68,7 +68,7 @@ class Form_2 extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values)
+            // console.log('Received values of form: ', values)
             this.POST_UPDATE_FORM(values)
           }
         })
