@@ -197,9 +197,9 @@ class Form_5 extends React.Component {
     ที่อยู่ (เพื่อประกอบการเดินทางไปนิเทศงานนิสิตที่ถูกต้อง โปรดระบุที่อยู่ตามสถานที่ที่นิสิตปฏิบัติงาน)</span>
                             <Form.Item>
                                 <span className="input-label"><b>ชื่อสถานประกอบการ</b> (ภาษาไทย)</span>
-                                {getFieldDecorator('f5_name_th', {valuePropName:this.state.readonly, valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการภาษาไทย' }],})( <Input className="event-input" style={{width: '75%'}}  placeholder="" />)}<br/>
+                                {getFieldDecorator('f5_name_th', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการภาษาไทย' }],})( <Input className="event-input" style={{width: '75%'}}  placeholder="" />)}<br/>
                                 <span className="input-label"><b>ชื่อสถานประกอบการ</b> (ภาษาอังกฤษ)</span>
-                                {getFieldDecorator('f5_name_en', {valuePropName:this.state.readonly, valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการภาษาอังกฤษ' }],})( <Input className="event-input" style={{width: '75%'}}  placeholder="" />)}
+                                {getFieldDecorator('f5_name_en', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก ชื่อสถานประกอบการภาษาอังกฤษ' }],})( <Input className="event-input" style={{width: '75%'}}  placeholder="" />)}
                                 <br/>
                                 <span className="input-label">เลขที่</span>
                                 {getFieldDecorator('f5_address', {valuePropName:this.state.readonly, rules: [{ required: true, message: 'กรุณากรอก เลขที่' }],})( <Input className="event-input" style={{width: '18%'}}  placeholder="" />)}

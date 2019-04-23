@@ -125,7 +125,7 @@ div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked{
 }
 
 .event-date{
-    font-size: 70px;
+    font-size: 55px;
     font-weight: bold;
     line-height: 85px;
 }
@@ -218,12 +218,18 @@ Button.event-btn.clicked i.material-icons::after{
     color:#415C71;
     border: 1px solid #415C71;
 }
-
-@media only screen and (max-width: 414px) {
-    .event-date {
-      background-color: lightblue;
-    }
-    .feed-content.container{
-        padding: 20;
-    }
+.anticon.icon-from-antd{
+    vertical-align: 0;
+    margin-top:-10px;
+}
+div.tag-check.ant-tag-checkable:hover {
+    color: #048C8A;
+    background-color: #fff;
+    border: 1px solid #048C8A;
+}
+div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked {
+    color: #fff;
+}
+div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked:hover {
+    color: #048C8A;
 }

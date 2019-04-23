@@ -1,6 +1,6 @@
 import React from 'react'
 import '../css/Feed.css'
-import { Tag,message,Row,Col,Button } from 'antd'
+import { Tag,message,Row,Col,Button, Icon } from 'antd'
 import Slider from "react-slick"
 import moment from 'moment'
 
@@ -119,7 +119,7 @@ class Feed extends React.Component {
             if(checkTag || this.state.selectedTags.length === 0){
                 company.push(   
                     <div className="company">
-                        <span className="content feed-company-name">{this.state.Company[i].name}</span> 
+                        <span><a className="content feed-company-name" target="_blank" href={this.state.Company[i].url}>{this.state.Company[i].name}</a></span> 
                         {allTag}
                         <br/>  
                     </div>  
@@ -250,17 +250,17 @@ class Feed extends React.Component {
                  
                 </div>
                 <div className="feed-content container">
-                    <p className="feed-title">Upcoming Events</p>
+                    <p className="feed-title"><Icon type="star" className="icon-from-antd" /> Upcoming Events</p>
                     {/* <div className="all-event"> */}
                     <Slider {...settings}>
                         {this.getEvent()}
                     </Slider>
                     {/* </div> */}
                     <br/><br/>
-                    <p className="feed-title">Announcement</p>
+                    <p className="feed-title"><Icon type="notification" className="icon-from-antd" /> Announcement</p>
                         {this.getAnnouncement()}
                     <br/>
-                    <p className="feed-title">Company Lists</p>
+                    <p className="feed-title"><Icon type="profile" className="icon-from-antd" /> Company Lists</p>
                     <span className="job-desc-text">Job Description:</span> {tagList.map(tag => (
                         <CheckableTag
                             color="#F06050"

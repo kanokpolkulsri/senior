@@ -4,10 +4,6 @@ import {   Link } from 'react-router-dom'
 import '../../css/Form.css'
 import moment from 'moment'
 
-import axios from 'axios'
-const Config = require('../../Config')
-const prePath = Config.API_URL + "/images/"
-const API_URL = Config.API_URL + "/upload"
 const format = 'HH:mm'
 
 const API_TOKEN = require('../../api/Token')

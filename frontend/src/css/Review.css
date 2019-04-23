@@ -54,6 +54,14 @@ i.fa{
 .review-container{
     padding: 30px;
 }
+.sort{
+    width: 400px;
+    position: fixed;
+    right: 30px;
+}
+.ant-select-selection-selected-value{
+    width: 100px;
+}
 .sort-name{
     margin-right:10px;
 }
@@ -96,4 +104,31 @@ div.tag-check.ant-tag-checkable{
     background-color: white;
     color: #048C8A;
     border-color: #048C8A;
+}
+
+@media only screen and (max-width: 860px) {
+    .col-menu{
+        display: none;
+    }
+    .container{
+        width: 900px;
+    }
+}
+@media only screen and (max-width: 575px) {
+    .col-menu{
+        display: none;
+    }
+    .container{
+        width: 500px;
+    }
+}
+
+@media only screen and (max-width: 486px) {
+    .col-menu{
+        display: none;
+    }
+    .container{
+        width: 445px;
+        padding: 0 0 0 0;
+    }
 }

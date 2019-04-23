@@ -98,3 +98,24 @@
 .rvc.even-comment{
     background-color: #eee;
 }
+.anticon.icon-from-antd{
+    vertical-align: 0;
+    margin-top:-10px;
+}
+
+.back-to-review-button{
+    cursor: pointer;
+}
+.back-to-review-button:hover{
+    cursor: pointer;
+    color: #048C8A;
+}
+
+@media only screen and (max-width: 767px) {
+    .short-desc{
+        display: none;
+    }
+    .comment-img{
+        display: none;
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings';
-import { Collapse, Row, Col } from 'antd';
+import { Collapse, Row, Col, Icon } from 'antd';
 
 // var Template = require('./Review.jsx')
 import '../css/ReviewCompany.css';
@@ -129,6 +129,7 @@ class ReviewCompany extends React.Component {
 
         return (
             <div className="container">
+                <span><span className="back-to-review-button" onClick={()=>{this.props.history.push("/Review")}}> Review</span> > {this.state.company.companyName} </span><br/><br/>
                 {
                     this.state.company !== []?
                     <div>
@@ -138,31 +139,27 @@ class ReviewCompany extends React.Component {
                         
                         <Col span={16}>
                             
-                            <p className="topic new-line review-topic">Company Background</p>
+                            <p className="topic new-line review-topic"><Icon type="bank" className="icon-from-antd" /> Company Background</p>
                             <p>{this.state.company.companyBackground}</p>
-                            <p className="topic new-line">Job Description</p>
+                            <br/><p className="topic new-line"><Icon type="read" className="icon-from-antd" /> Job Description</p>
                             <Collapse className="job-desc" defaultActiveKey={['1']} onChange={this.callback}>
                                 {this.genJobDesc()}
                             </Collapse>
 
-                            <p className="topic new-line review-topic">Payment</p>
+                            <br/><p className="topic new-line review-topic"><Icon type="wallet" className="icon-from-antd" /> Payment</p>
                             <p>{this.state.company.payment} Baht</p>
-                            <p className="topic transport review-topic">Transportation Options</p>
+                            <br/><p className="topic transport review-topic"><Icon type="compass" className="icon-from-antd" /> Transportation Options</p>
                             {this.getTransTagDetail()}
 
                             <br/>
 
-                            <p className="topic new-line review-topic">Activities</p>
-
+                            <br/><p className="topic new-line review-topic"><Icon type="global" className="icon-from-antd" /> Activities</p>
                             <span className="review-content">{this.state.company.activities}</span>
-                            <br/>
 
-                            <p className="topic new-line review-topic">Previous CPSK Interns</p>
+                            <br/><br/><p className="topic new-line review-topic"><Icon type="user" className="icon-from-antd" /> Previous CPSK Interns</p>
                             {this.genPreviousIntern()}
-                            <br/>
 
-
-                            <p className="topic new-line review-topic">Comments</p>
+                            <br/><p className="topic new-line review-topic"><Icon type="smile" className="icon-from-antd" /> Comments</p>
                             {this.genComment()}
 
                         </Col>
