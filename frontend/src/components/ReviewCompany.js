@@ -129,6 +129,7 @@ class ReviewCompany extends React.Component {
 
         return (
             <div className="container">
+                <span><span className="back-to-review-button" onClick={()=>{this.props.history.push("/Review")}}> Review</span> > {this.state.company.companyName} </span><br/><br/>
                 {
                     this.state.company !== []?
                     <div>

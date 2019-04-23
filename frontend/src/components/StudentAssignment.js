@@ -4,7 +4,7 @@ import moment from 'moment'
 import '../css/StudentAssignment.css';
 import '../css/App.css'
 
-import { Upload, Button, Icon, Input , Form, Row, Col} from 'antd'
+import { Button, Input , Form, Row, Col} from 'antd'
 
 import axios from 'axios'
 const Config = require('../Config')
@@ -14,24 +14,6 @@ const API_URL = Config.API_URL + "/upload"
 const API_STUDENT = require('../api/Assignment_Student')
 const API_TOKEN = require('../api/Token')
 const { TextArea } = Input
-
-// const props = {
-//     name: 'file',
-//     action: '//jsonplaceholder.typicode.com/posts/',
-//     headers: {
-//       authorization: 'authorization-text',
-//     },
-// onChange(info) {
-//     if (info.file.status !== 'uploading') {
-//       console.log(info.file, info.fileList);
-//     }
-//     if (info.file.status === 'done') {
-//       message.success(`${info.file.name} file uploaded successfully`);
-//     } else if (info.file.status === 'error') {
-//       message.error(`${info.file.name} file upload failed.`);
-//     }
-//   },
-// }
 
 class StudentAssignment extends React.Component {
     constructor(props) {
@@ -99,27 +81,19 @@ class StudentAssignment extends React.Component {
             this.API_POST_ID(this.state.token_username,this.props.match.params.idAssignment)
         })   
     }
-
-    normFile = (e) => {
-        if (Array.isArray(e)) {
-          return e;
-        }
-        console.log(e.fileList)
-        return e && e.fileList;
-    }
     
     componentDidMount = () => {
-        console.log("didmount");
+        // console.log("didmount");
         this.POST_CHECK_TOKEN()
     }
 
     componentDidUpdate = (prevProps,prevState) => {
         if(this.state.token_status !== prevState.token_status){
-            console.log("token_change");
+            // console.log("token_change");
             this.POST_CHECK_TOKEN()
         }
         else if(this.props.match.params.idAssignment !== prevProps.match.params.idAssignment){
-            console.log("params change");
+            // console.log("params change");
             this.API_POST_ID(this.state.token_username,this.props.match.params.idAssignment)
         }
     }
@@ -128,7 +102,7 @@ class StudentAssignment extends React.Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-            console.log(values)
+            // console.log(values)
             this.state.data.formData.map((element) => {
                 element.data = values[element.title]
                 return

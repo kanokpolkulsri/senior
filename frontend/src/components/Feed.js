@@ -119,7 +119,7 @@ class Feed extends React.Component {
             if(checkTag || this.state.selectedTags.length === 0){
                 company.push(   
                     <div className="company">
-                        <span className="content feed-company-name">{this.state.Company[i].name}</span> 
+                        <span><a className="content feed-company-name" target="_blank" href={this.state.Company[i].url}>{this.state.Company[i].name}</a></span> 
                         {allTag}
                         <br/>  
                     </div>  

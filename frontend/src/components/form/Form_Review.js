@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Input, Button, Row, Col, Select, Icon, Divider,  Rate} from 'antd'
+import {Form, Input, Button, Row, Col, Select, Icon, Rate} from 'antd'
 import '../../css/Form.css'
 import moment from 'moment'
 
@@ -277,7 +277,6 @@ class Form_Review extends React.Component {
             if (!err) {
                 console.log("values ", values)
                 values['logo'] = this.state.formField.logo
-                let valuesUpdate = Object.assign({},values)
                 let trans = {}
                 values.transportation.forEach((key)=>{trans[key] = values[key]})
                 // console.log(trans)
@@ -430,15 +429,6 @@ class Form_Review extends React.Component {
 
                         <Select
                             style={{ width: 120 }}
-                            // dropdownRender={menu => (
-                            // <div>
-                            //     {menu}
-                            //     <Divider style={{ margin: '4px 0' }} />
-                            //     <div onClick={this.addCompany}  style={{ padding: '8px', cursor: 'pointer' }}>
-                            //     <Icon type="plus" /> Add Company
-                            //     </div>
-                            // </div>
-                            // )}
                             showSearch
                             value={this.state.studentStatus === 1? this.state.companyName:""}
                             disabled={this.state.studentStatus === 1? true:false}
