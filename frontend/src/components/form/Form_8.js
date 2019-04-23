@@ -19,7 +19,18 @@ class Form_8 extends React.Component {
             defaultForm: 8,
             token_username: "",
             token_status: "student",
-            readonly: "value"        }
+            readonly: "value"
+        }
+    }
+
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     POST_FORM_DATA = (username) => {

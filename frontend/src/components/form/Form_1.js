@@ -22,8 +22,9 @@ class Form_1 extends React.Component {
         }
     }
 
-    updateDeadline = () => {
-        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW()
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
         .then(response => {
             if(response.code === 1){
                 console.log("yeah!")
@@ -37,7 +38,6 @@ class Form_1 extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                // console.log(response.data)
                 forms.setFieldsValue(response.data[0].formData)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
                 this.setState({readonly:readonlyVal}) 

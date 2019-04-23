@@ -13,6 +13,7 @@ const { TextArea } = Input;
 const API_REVIEW = require('../../api/Review')
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const VariableConfig = require('../../api/VariableConfig')
 
 
@@ -41,7 +42,16 @@ class Form_Review extends React.Component {
             formField: {},
             logoPathName: ""
         }
+    }
 
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     componentDidMount = () => {

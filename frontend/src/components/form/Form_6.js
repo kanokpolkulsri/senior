@@ -22,6 +22,16 @@ class Form_6 extends React.Component {
         }
     }
 
+    updateDeadline = (id, year, newDeadline) => {
+        let params = {id: id, year: year, deadline: newDeadline}
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
+    }
+
     POST_FORM_DATA = (username) => {
         let params = {username: username, defaultForm: this.state.defaultForm}
         const forms = this.props.form
