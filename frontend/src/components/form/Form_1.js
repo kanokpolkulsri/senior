@@ -23,7 +23,12 @@ class Form_1 extends React.Component {
     }
 
     updateDeadline = () => {
-
+        API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW()
+        .then(response => {
+            if(response.code === 1){
+                console.log("yeah!")
+            }
+        })
     }
 
     POST_FORM_DATA = (username) => {
