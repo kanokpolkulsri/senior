@@ -17,10 +17,10 @@ class ReviewCompany extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-    
-            company:[]
-        }
-        
+            company:[],
+            eventColor: ["pink","orange","green","blue"],
+            imgSrc: ["https://bit.ly/2W1bWDr", "https://bit.ly/2UvpsOc", "https://bit.ly/2GAxBgo"],
+        }      
     }
   
     genJobDesc = () => {
@@ -57,7 +57,7 @@ class ReviewCompany extends React.Component {
         let transTag = []
         if(this.state.company.transportation)
             for (var k in this.state.company.transportation){
-                transTag.push(<div><span className="tag trans-tag">{k}</span><span className="trans-detail review-content">{this.state.company.transportation[k]}</span></div>)
+                transTag.push(<div><span className={`tag trans-tag rvc ${k}`}>{k}</span><span className="trans-detail review-content">{this.state.company.transportation[k]}</span></div>)
             }
         return transTag
     }
@@ -65,7 +65,7 @@ class ReviewCompany extends React.Component {
         let transShortTag = []
         if(this.state.company.transportationTitle)
             for (var i = 0; i < this.state.company.transportationTitle.length; i++){
-                transShortTag.push(<span className="tag trans-tag">{this.state.company.transportationTitle[i]}</span>)
+                transShortTag.push(<span className={`tag trans-tag rvc ${this.state.company.transportationTitle[i]}`}>{this.state.company.transportationTitle[i]}</span>)
             }
         return transShortTag
     }
@@ -73,8 +73,8 @@ class ReviewCompany extends React.Component {
         let comment = []
         if(this.state.company.comments)
             for (var i = 0; i < this.state.company.comments.length; i++){
-                comment.push( <div className="comment-block col-11">
-                <img className="comment-img col-2" alt="commect-img" src="https://wallperio.com/data/out/404/red-picture_619279372.jpg"></img>
+                comment.push( <div className={`comment-block col-11`}>
+                <img className={`comment-img`} alt="commect-img" src={this.state.imgSrc[this.state.company.comments[i].star - 1]}></img>
                 <div className="comment-content col-8 ">
                     <StarRatings
                     rating={this.state.company.comments[i].star}
@@ -98,13 +98,10 @@ class ReviewCompany extends React.Component {
         if(this.state.company.previousIntern)
             for (var i = 0; i<this.state.company.previousIntern.length;i++){
                 let internTmp  = this.state.company.previousIntern[i]
-                let year = <span className="year">{internTmp.year}</span>
+                let year = <span className="tag trans-tag year rvc orange">{internTmp.year}</span>
                 const intern = internTmp.members.map((option)=>
                     <div><p className="intern-name">{option}</p></div>
-                );
-                // const ske = internTmp.ske.map((option,idx)=>
-                //     <div> <span className="tag ske-tag">SKE</span><p className="intern-name">{option}</p></div>
-                // );
+                )
                 interns.push(<div className="previous-intern-year">{year}{intern}</div>)
             }
         return interns

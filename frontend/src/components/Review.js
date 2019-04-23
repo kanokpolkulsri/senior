@@ -32,7 +32,7 @@ class Review extends React.Component {
             searchValue: undefined,
             paymentValue: undefined,
             jobDescValue: undefined,
-            transValue: undefined
+            transValue: undefined,
            
         }
         this.lastFetchId = 0
@@ -102,19 +102,21 @@ class Review extends React.Component {
       //sort search filter
       searchFilter = () => {
         let tmp = this.state.allreview
-        if(this.state.searchValue !== undefined)
+        if(this.state.searchValue !== undefined){
             tmp = tmp.filter(element => element.companyName === this.state.searchValue)
+        }
         
         var lowRange
         var highRange
         if(this.state.paymentValue !== undefined){
-            if(this.state.paymentValue !== "more than 1000"){
+            if(this.state.paymentValue === "All"){
+                tmp = tmp.filter(element => element.payment)
+            }else if(this.state.paymentValue !== "more than 1000"){
                 console.log("less thn")
                 lowRange = parseInt(this.state.paymentValue.split('-')[0])
                 highRange = parseInt(this.state.paymentValue.split('-')[1])
                 tmp = tmp.filter(element => (element.payment >= lowRange && element.payment <= highRange))
-            }
-            else{
+            }else{
                 console.log("more than")
                 tmp = tmp.filter(element => element.payment >= 1001)
             }
@@ -186,7 +188,7 @@ class Review extends React.Component {
     getTransTag = (j) =>{
         let transShortTag = []
         for (let i = 0; i < this.state.currentReview[j].transportationTitle.length; i++){
-            transShortTag.push(<span className="tag trans-tag">{this.state.currentReview[j].transportationTitle[i]}</span>)
+            transShortTag.push(<span className={`tag trans-tag rv ${this.state.currentReview[j].transportationTitle[i]}`}>{this.state.currentReview[j].transportationTitle[i]}</span>)
         }
         return transShortTag
     }
@@ -206,19 +208,17 @@ class Review extends React.Component {
             tmp = this.state.currentReview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
         else
             tmp = this.state.currentReview.sort((a,b)=> order * (parseInt(a[prop]) - parseInt(b[prop])))
-        // tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
+            // tmp = this.state.allreview.sort((a,b) => order * a["companyName"].localeCompare(b["companyName"]))
             console.log(this.state.sortProp,this.state.sortOrder,tmp)
         this.setState({currentReview:tmp})
-        
-
     }
 
     genResult = () => {
         let result = this.state.currentReview.map((option,idx) => 
-            <div className="company">
+            <div className="rv company">
             <Row>
                 <Col span={6}> 
-                    <img src={option.logo} className="company-logo" href="#"/>
+                    <img src={option.logo} className="rv company-logo" href="#"/>
                 </Col>
                 <Col span={18}> 
                     <div className="company-detail">
@@ -310,7 +310,6 @@ class Review extends React.Component {
                         >
                         {options}
                     </Select>
-                        {/* {data.map(d => <Option key={d.value}>{d.text}</Option>)} */}
                     </div>
                     <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
                     <div className="menu-content">

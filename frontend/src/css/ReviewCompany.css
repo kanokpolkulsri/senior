@@ -67,8 +67,34 @@
     margin-left: 10px
 }
 .comment-img{
-    width:70px;
-    height: 70px;
     vertical-align: top;
-    border-radius: 50%;
+    max-width: 17%;
+    padding: 10px;
+}
+.rvc.mrt{
+    background-color: #F06050;
+}
+.rvc.bts{
+    background-color: #00C7AB;
+}
+.rvc.bus{
+    background-color: #415C71;
+}
+.rvc.pink{
+    background-color: #F06050;
+}
+.rvc.orange{
+    background-color: #EF9033;
+}
+.rvc.green{
+    background-color: #00C7AB;
+}
+.rvc.blue{
+    background-color: #415C71;
+}
+.rvc.odd-comment{
+    background-color: #fff;
+}
+.rvc.even-comment{
+    background-color: #eee;
 }
