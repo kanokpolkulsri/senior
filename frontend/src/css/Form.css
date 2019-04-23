@@ -72,3 +72,14 @@ input.sup-score-input{
     padding: 20px;
     width: 40%;
 }
+.update-deadline-form{
+    background-color: #048C8A;
+    color:white;
+    margin-left: 10px;
+    border:none;
+}
+.breadcrumb-admin,.breadcrumb-admin a{
+
+    font-family: 'sarabun';
+    font-size:18px;
+}
