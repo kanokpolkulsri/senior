@@ -16,7 +16,6 @@ const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 const VariableConfig = require('../../api/VariableConfig')
 
-
 class Form_Review extends React.Component {
     
     constructor(props){
@@ -42,6 +41,16 @@ class Form_Review extends React.Component {
             formField: {},
             logoPathName: ""
         }
+    }
+
+    getCurrentId = (year) => {
+        let params = {defaultForm: this.state.defaultForm, year: year}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
     }
 
     updateDeadline = (id, year, newDeadline) => {
@@ -166,41 +175,41 @@ class Form_Review extends React.Component {
     API_GET_ALL_COMPANY_NAME = () => {
         API_REVIEW.GET_ALL_COMPANY_NAME()
         .then(response => {
-            console.log(response);
+            // console.log(response);
             if(response.code === 1){
                 this.setState({companyList:response.data})
             }
         })
     }
 
-
     POST_UPDATE_FORM = (values) => {
         let params = {username: this.state.token_username, defaultForm: this.state.defaultForm, formData: values, status: 1, statusDescription: "turned in", submitDate: moment()}
         API_ASSIGNMENT_STUDENT.POST_UPDATE_FORM(params)
         .then(response => {
             if(response.code === 1){
-                console.log(params);
+                // console.log(params);
                 this.props.history.push("/assignment/assigned")
             }
         })
     }
 
     API_POST_UPDATE = (values) => {
-        console.log("update api",values);
-       API_REVIEW.POST_UPDATE(values)
-       .then(response => {
-           if(response.code === 1){
-                console.log("update",response);
-           }
-       })
+        // console.log("update api",values);
+        API_REVIEW.POST_UPDATE(values)
+        .then(response => {
+            if(response.code === 1){
+                // this.props.history.push("/assignment/assigned")
+                // console.log("update",response);
+            }
+        })
     }
 
     API_POST_ADD = (values) => {
-        console.log("add",values);
+        // console.log("add",values);
         API_REVIEW.POST_ADD(values)
         .then(response => {
             if(response.code === 1){
-                this.props.history.push("/assignment/assigned")
+                // this.props.history.push("/assignment/assigned")
             }
         })
     }

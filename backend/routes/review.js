@@ -28,7 +28,9 @@ router.post('/search', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.find({_id: mongo.ObjectID(req.params.id)}).toArray()
-  .then(response => res.send({code: 1, data: response[0]}))
+  .then(response => {
+    res.send({code: 1, data: response[0]})
+  })
   .catch(() => res.send({code: 0, data: ""}))
 });
 
@@ -40,7 +42,6 @@ router.post('/add', (req, res, next) => {
 });
 
 router.post('/update', (req, res, next) => {
-  console.log(req.body)
   const DB_REVIEW = req.app.locals.DB_REVIEW
   DB_REVIEW.updateOne({companyName: req.body.companyName}, {$set: req.body})
   .then(() => res.send({code: 1}))

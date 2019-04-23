@@ -21,6 +21,16 @@ class Form_2 extends React.Component {
         }
     }
 
+    getCurrentId = (year) => {
+        let params = {defaultForm: this.state.defaultForm, year: year}
+        API_ASSIGNMENT_ADMIN.POST_DEADLINE_DEFAULTFORM_YEAR(params)
+        .then(response => {
+            if(response.code === 1){
+                console.log(response.data)
+            }
+        })
+    }
+
     updateDeadline = (id, year, newDeadline) => {
         let params = {id: id, year: year, deadline: newDeadline}
         API_ASSIGNMENT_ADMIN.POST_UPDATE_DEADLINE_FORMREVIEW(params)

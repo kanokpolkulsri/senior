@@ -50,3 +50,9 @@ export const POST_UPDATE_DEADLINE_FORMREVIEW = async (params) => {
     const res = await axios.post(API_URL + "/update_deadline_formreview", params)
     return await res.data
 }
+
+export const POST_DEADLINE_DEFAULTFORM_YEAR = async (params) => {
+    const res = await axios.post(API_URL + "/deadline_defaultform_year", params)
+    return await res.data
+}
+
