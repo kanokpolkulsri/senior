@@ -167,7 +167,7 @@ class Form_Review extends React.Component {
                 transportation: response.data.transportationTitle,
                 comments:comment[0].content,
                 star:comment[0]["star"]})
-                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle })
+                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo) === undefined ? "" : (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle })
             }
         })
     }
@@ -313,6 +313,10 @@ class Form_Review extends React.Component {
                 
                     })
                     values.jobDescriptionContent = jobTmp
+                    let keyJob = Object.keys(jobTmp)
+                    console.log("keyJob",keyJob)
+                    values.jobDescriptionTitle = keyJob
+                    
                     // console.log('this.state.job',this.state.data.jobDescriptionTitle);
                     // console.log('jobTmp',jobTmp);
                 }else{
@@ -339,12 +343,19 @@ class Form_Review extends React.Component {
                             }
                         })
                         values.jobDescriptionContent = this.state.data.jobDescriptionContent
+
+                        let keyJob = Object.keys(values.jobDescriptionContent)
+                        console.log("keyJob",keyJob)
+                        values.jobDescriptionTitle = keyJob
+
                         const comment = {"star":values["star"],"content":values["comments"],"username":this.state.token_username}
                         this.state.data.comments.push(comment)
                         values.comments = this.state.data.comments
 
                     }else if(this.state.status === 0){
-                        values.jobDescriptionContent.forEach((key)=> {
+                        console.log(values.jobDescriptionContent);
+                        values.jobDescriptionContent = {}
+                        values.jobDescriptionTitle.forEach((key)=> {
                             values.jobDescriptionContent[key] = [{"username":this.state.token_username,"content":values[key]}]
                         })
                         const comment = {"star":values["star"],"content":values["comments"],"username":this.state.token_username}

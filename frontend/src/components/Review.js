@@ -1,7 +1,7 @@
 import React from 'react'
 import StarRatings from 'react-star-ratings'
 import { NavLink } from "react-router-dom"
-import { Tag, Row, Col, Select, message, Checkbox } from 'antd'
+import { Tag, Row, Col, Select, message, Checkbox, Button } from 'antd'
 import debounce from 'lodash/debounce'
 
 import '../css/App.css'
@@ -33,6 +33,9 @@ class Review extends React.Component {
             paymentValue: undefined,
             jobDescValue: undefined,
             transValue: undefined,
+            indeterminate: true,
+            checkAll: false,
+
            
         }
         this.lastFetchId = 0
@@ -105,6 +108,18 @@ class Review extends React.Component {
         if(this.state.searchValue !== undefined){
             tmp = tmp.filter(element => element.companyName === this.state.searchValue)
         }
+
+
+        if(this.state.jobDescValue !== undefined){
+            var jobDesc = this.state.jobDescValue
+            tmp = tmp.filter(function(array_el){
+                return jobDesc.filter(function(job){
+                    console.log(job)
+                    
+                   return array_el.jobDescriptionTitle.includes(job.toLowerCase())
+                }).length === jobDesc.length
+            })
+        }
         
         var lowRange
         var highRange
@@ -123,6 +138,7 @@ class Review extends React.Component {
         }
        
 
+
 //        tmp = tmp.filter(element => this.state.jobDescValue.includes(element.jobDesc))
         if(this.state.selectedTags.length !== 0){
             var selectedTags = this.state.selectedTags
@@ -137,15 +153,26 @@ class Review extends React.Component {
         
         console.log(tmp)
 
-
-        this.setState({currentReview :tmp})
+        if(this.state.currentReview !== tmp)
+            this.setState({currentReview :tmp})
       }
 
-
-
+      clearSearch = () => {
+        this.setState({ searchValue : undefined },() => {this.searchFilter()})
+      }
+      clearFilter = () => {
+        this.setState({
+            jobDescValue: [],
+            indeterminate: false,
+            checkAll: false,
+            paymentValue:"All",selectedTags:[]},() => {this.searchFilter()})
+      }
   
     onJobDescChange = (value) => {
-        this.setState({ jobDescValue : value },() => {this.searchFilter()})
+        this.setState({
+            jobDescValue:value,
+            indeterminate: true,
+            },() => {this.searchFilter()})
         
     }
 
@@ -293,8 +320,10 @@ class Review extends React.Component {
         
             <Row>
                 <Col span={6}>
-                <div className="col-menu">
-                    <span className="menu-header"><i className="fa fa-search"></i>  Search</span>
+                <div className="col-menu"> 
+                    <span className="menu-header"><span><i className="fa fa-search"></i>  Search</span>
+                    <Button className="menu-clear" onClick={ this.clearSearch }>Clear</Button>
+                    </span>
                     <div className="menu-content">  
                     <Select
                             showSearch
@@ -311,11 +340,13 @@ class Review extends React.Component {
                         {options}
                     </Select>
                     </div>
-                    <span className="menu-header"><i className="material-icons">tune</i>  Filter</span>
+                    <span className="menu-header"><span><i className="material-icons">tune</i>  Filter </span>
+                    <Button className="menu-clear" onClick={ this.clearFilter }>Clear</Button>
+                    </span>
                     <div className="menu-content">
                         <span className="filter-topic">Job Description</span>
                         <div className="form-check">
-                        <Checkbox.Group style={{ width: '100%' }} onChange={this.onJobDescChange}>
+                        <Checkbox.Group style={{ width: '100%' }} value={this.state.jobDescValue}  onChange={this.onJobDescChange}>
                             <Row>    
                                 {this.getJobDescChoice()}                    
                             </Row>
