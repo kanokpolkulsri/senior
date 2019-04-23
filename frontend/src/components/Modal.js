@@ -74,7 +74,7 @@ class AssignmentModal extends React.Component {
             footer={[
                 <Button key="back" onClick={this.props.handleCancel}>Return</Button>,
                 <Button key="submit" type="primary" loading={this.state.modalLoading} onClick={() => this.props.handleOk(this.state.rowSelected)}>
-                Duplicate {this.state.rowSelectedLength === 0? "": " "+this.state.rowSelectedLength+" item(s)"}
+                {this.state.rowSelectedLength === 0? "Duplicate": "Duplicate "+this.state.rowSelectedLength+" item(s)"}
                 </Button>
             ]}
             >

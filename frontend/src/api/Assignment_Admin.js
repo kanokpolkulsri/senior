@@ -45,3 +45,8 @@ export const POST_DELETE = async (id) => {
     const res = await axios.post(API_URL + "/delete", params)
     return await res.data
 }
+
+export const POST_UPDATE_DEADLINE_FORMREVIEW = async (params) => {
+    const res = await axios.post(API_URL + "/update_deadline_formreview", params)
+    return await res.data
+}

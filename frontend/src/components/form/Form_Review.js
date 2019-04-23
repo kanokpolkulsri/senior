@@ -11,6 +11,7 @@ const Option = Select.Option;
 const { TextArea } = Input;
 const API_REVIEW = require('../../api/Review')
 const VariableConfig = require('../../api/VariableConfig')
+const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
 
 
 class Form_Review extends React.Component {
@@ -27,6 +28,8 @@ class Form_Review extends React.Component {
             jobSelect:[],
             status:0,
             formField: {},
+            logoPathFileReviewBig: "",
+            logoPathFileReviewStudent: "",
         }
 
     }
@@ -276,7 +279,7 @@ class Form_Review extends React.Component {
         .then(response => {
             if(response.code === 1){
                 console.log(response)
-                this.setState({data:response.data,status:1})
+                this.setState({data:response.data,status:1, logoPathFileReviewBig: response.data.logo})
                 this.props.form.setFieldsValue({companyName:response.data.companyName,
                 companyBackground:response.data.companyBackground,
                 payment:response.data.payment,
@@ -284,8 +287,6 @@ class Form_Review extends React.Component {
                 transportationTitle: response.data.transportationTitle,
                 transportation: response.data.transportationTitle})
                 this.setState({companyName: response.data.companyName, transSelect: response.data.transportationTitle })
-                
-               
             }
         })
     }
@@ -447,10 +448,16 @@ class Form_Review extends React.Component {
                             <span className="input-label">Company Background</span>
                             {getFieldDecorator('companyBackground', {rules: [{ required: true, message: 'please input company background' }],})( <TextArea className="event-input" style={{width: '55%'}}  placeholder=""  autosize />)}
                             <br/>
-                            {/* plam */}
-                            {/* <span className="input-label">Logo</span>
+
+
+
+                            <span className="input-label">Logo</span>
                             <input type ="file" name="logo" onChange={(e)=>this.handleFile(e)} />
-                            <br/> */}
+                            <span className="upload-span"><a href={this.state.logoPathFile}>{this.state.logoPathFile.split('/')[4]}</a></span>
+               
+
+
+
                             <span className="input-label">Job Description</span>
                             {getFieldDecorator('jobDescriptionTitle')(<Select
                                 mode="multiple"
