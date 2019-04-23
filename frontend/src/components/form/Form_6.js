@@ -1,5 +1,6 @@
 import React from 'react'
-import {Form, Input, Button, Row, Col} from 'antd'
+import {Form, Input, Button, Row, Col,DatePicker,TimePicker} from 'antd'
+import {   Link } from 'react-router-dom'
 import '../../css/Form.css'
 import moment from 'moment'
 
@@ -7,6 +8,7 @@ const { TextArea } = Input
 const API_TOKEN = require('../../api/Token')
 const API_ASSIGNMENT_STUDENT = require('../../api/Assignment_Student')
 const API_ASSIGNMENT_ADMIN = require('../../api/Assignment_Admin')
+const format = 'HH:mm'
 
 class Form_6 extends React.Component {
     
@@ -97,6 +99,16 @@ class Form_6 extends React.Component {
             <div className="container">
                 <Row>
                     <Col span={30}>
+                    <div>
+                        <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
+                        <span className="input-label">Assignment Deadline: </span>
+                        <DatePicker className="event-date" onChange={this.onChange} />
+                        <span className="input-label">Time: </span>
+                        <TimePicker format={format}  onChange={this.onStartDateChange}/> 
+                        <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
+                    </div>
+                    <br/>
+                    <br/>
                     <span>
                         <center>
                         <b>แบบแจ้งแผนปฏิบัติงานสหกิจศึกษา</b><br/>

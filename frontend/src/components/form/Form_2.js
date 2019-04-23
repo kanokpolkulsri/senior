@@ -1,5 +1,6 @@
 import React from 'react'
-import {Form, Input, Button, Row, Col, DatePicker, TimePicker} from 'antd'
+import {Form, Input, Button, Row, Col,DatePicker,TimePicker} from 'antd'
+import {   Link } from 'react-router-dom'
 import '../../css/Form.css'
 import moment from 'moment'
 
@@ -81,6 +82,16 @@ class Form_2 extends React.Component {
             <div className="container">
                 <Row>
                     <Col span={30}>
+                    <div>
+                        <span className="breadcrumb-admin">Process > <Link style={{ textDecoration: 'none', color: 'rgb(0,0,0,0.65)',padding:'0px 3px' }} to="/admin/process/assignment"> Assignment </Link> > ข้อมูลสถานประกอบการในโครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์</span><br/>
+                        <span className="input-label">Assignment Deadline: </span>
+                        <DatePicker className="event-date" onChange={this.onChange} />
+                        <span className="input-label">Time: </span>
+                        <TimePicker format={format}  onChange={this.onStartDateChange}/> 
+                        <Button className="update-deadline-form" onClick={this.updateDeadline}>Save an update</Button>
+                    </div>
+                    <br/>
+                    <br/>
                     <span>
                         <center>
                         <b>แบบแจ้งยืนยันการนิเทศงานนิสิตสหกิจศึกษา</b><br/>
