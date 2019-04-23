@@ -82,3 +82,18 @@ div.tag-check.ant-tag-checkable{
 .rv.bus{
     background-color: #415C71;
 }
+.menu-header span{
+    vertical-align:-webkit-baseline-middle;
+}
+.menu-clear{
+    background-color: #048C8A;
+    color:white;
+    border:0.8px solid white;
+    right:10px;
+    position:absolute;
+}
+.menu-clear:hover{
+    background-color: white;
+    color: #048C8A;
+    border-color: #048C8A;
+}
