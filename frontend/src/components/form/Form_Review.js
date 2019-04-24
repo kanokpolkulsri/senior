@@ -39,7 +39,8 @@ class Form_Review extends React.Component {
             studentStatus:0,
             _id:"",
             formField: {},
-            logoPathName: ""
+            logoPathName: "",
+
         }
     }
 
@@ -119,7 +120,6 @@ class Form_Review extends React.Component {
     }
 
     handleTransportChange = (value) => {
-        console.log(value);
         
         this.setState({transSelect: value})
         const { form } = this.props;
@@ -149,7 +149,6 @@ class Form_Review extends React.Component {
             if(response.code === 1){
                 // console.log('student',response.data)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
-                this.setState({readonly:readonlyVal})
                 const status = response.data[0].status;
                 this.setState({data:response.data[0].formData,status:1,studentStatus:status,_id:response.data[0]._id})
                 response.data = response.data[0].formData
@@ -164,7 +163,11 @@ class Form_Review extends React.Component {
                 transportation: response.data.transportationTitle,
                 comments:comment[0].content,
                 star:comment[0]["star"]})
-                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo) === undefined ? "" : (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle }, () => {console.log(this.state)})
+                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo) === undefined ? "" : (response.data.logo).split('/')[4], 
+                companyName: response.data.companyName, transSelect: response.data.transportationTitle, 
+                jobSelect: response.data.jobDescriptionTitle }, () => {console.log(this.state)
+                this.setState({readonly:readonlyVal})
+                })
             }
         })
     }
@@ -238,11 +241,17 @@ class Form_Review extends React.Component {
             let username = response.token_username
             let status = response.token_status
             if(status === "admin"){
-                this.POST_FORM_DATA(this.props.match.params.idStudent)
-            }else if(status === "student"){
+                if(this.props.location.pathname.includes("/report/"))
+                    this.POST_FORM_DATA(this.props.match.params.idStudent)
+                else if(this.props.location.pathname.includes("/assignment/")){
+                    let readonlyVal = status === "admin"? "readOnly":"value"
+                    this.setState({readonly:readonlyVal}) 
+                }
+                    
+            }
+            else if(status === "student"){
                 this.POST_FORM_DATA(username)
             }
-
             this.setState({token_username: username, token_status: status, token_firstname: firstname, token_lastname: lastname})
         })
     }
