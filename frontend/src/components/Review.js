@@ -317,7 +317,8 @@ class Review extends React.Component {
         const { selectedTags } = this.state
         const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>)
         return (
-        
+            <div>
+            <div className="cut-more-than-861">
             <Row>
                 <Col span={6}>
                 <div className="col-menu"> 
@@ -371,11 +372,8 @@ class Review extends React.Component {
                         </CheckableTag>
                         ))}
                     </div>
-                  
-
                 </div>
                 </Col>
-
                 <Col span={18}>
                 <div className="container review-container">
                     <Row>
@@ -410,16 +408,104 @@ class Review extends React.Component {
                         <Row>
                             {this.genResult()}
                         </Row>
-                        
                     </Row>
-                
-         
-
                 </div>
                 </Col>
-               
-             
             </Row>
+            </div>
+            
+            <div className="cut-less-than-861">
+            <Row>
+                <div className="col-menu"> 
+                    <span className="menu-header"><span><i className="fa fa-search"></i>  Search</span>
+                    <Button className="menu-clear" onClick={ this.clearSearch }>Clear</Button>
+                    </span>
+                    <div className="menu-content">  
+                    <Select
+                            showSearch
+                            className="input-search"
+                            value={this.state.searchValue}
+                            placeholder="Enter Company Name"
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch}
+                            onChange={this.handleSearchChange}
+                            notFoundContent={null}
+                        >
+                        {options}
+                    </Select>
+                    </div>
+                    <span className="menu-header"><span><i className="material-icons">tune</i>  Filter </span>
+                    <Button className="menu-clear" onClick={ this.clearFilter }>Clear</Button>
+                    </span>
+                    <div className="menu-content">
+                        <span className="filter-topic">Job Description</span>
+                        <div className="form-check">
+                        <Checkbox.Group style={{ width: '100%' }} value={this.state.jobDescValue}  onChange={this.onJobDescChange}>
+                            <Row>    
+                                {this.getJobDescChoice()}                    
+                            </Row>
+                        </Checkbox.Group>
+                        </div>
+                        <span className="filter-topic">Payment Range</span>
+                        <Select    
+                            placeholder="Select a payment range"
+                            style={{ width: 200 }} 
+                            onChange={this.handlePaymentChange}>
+                            {paymentRange.map(range => <Option key={range}>{range}</Option>)}
+                        </Select>
+                        <span className="filter-topic">Transportation options</span>
+                        {transTag.map(tag => (
+                        <CheckableTag
+                            className="tag-check"
+                            key={tag}
+                            checked={selectedTags.indexOf(tag) > -1}
+                            onChange={checked => this.handleChange(tag, checked)}
+                        >
+                            {tag}
+                        </CheckableTag>
+                        ))}
+                    </div>
+                </div>
+                <div className="container review-container">
+                    <Row>
+                    <div className="justify-content-end">
+                        <Col span={8} offset={16}>
+                        <div className="sort">
+                            <span>Sort By: </span>
+                            <Select defaultValue="companyName" className="sort-select sort-name" onChange={this.handlePropChange}> 
+                                <Option value="companyName">
+                                    Name
+                                </Option>
+                                <Option value="payment">
+                                    Payment
+                                </Option>
+                                <Option value="star">
+                                    Rating
+                                </Option>
+                            </Select>
+                            <Select defaultValue={1} className="sort-select sort-asending" onChange={this.handleOrderChange}>
+                                <Option value={1}>
+                                    Ascending
+                                </Option>
+                                <Option value={-1}>
+                                    Descending
+                                </Option>
+                            </Select>
+                        </div>
+            
+                        </Col>
+                        </div>
+                        <br/>
+                        <Row>
+                            {this.genResult()}
+                        </Row>
+                    </Row>
+                </div>
+            </Row>
+            </div>
+            </div>
             )
     }
 }

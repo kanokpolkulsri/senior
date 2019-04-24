@@ -76,17 +76,15 @@ class Form_Review extends React.Component {
             this.refs["addCompanyBlock"].classList.add("hidden")
 
         }
-      }
+    }
       
     handleBlur = () => {
         console.log('blur');
-      }
+    }
       
     handleFocus = () => {
         console.log('focus');
-      }
-      
-  
+    }
 
     addCompany = () => {
         
@@ -132,9 +130,8 @@ class Form_Review extends React.Component {
         });
     }
 
-
     handleJobDescChange = (value) => {
-        console.log(value);
+        // console.log(value);
         
         this.setState({jobSelect: value})
         const { form } = this.props;
@@ -150,7 +147,7 @@ class Form_Review extends React.Component {
         API_ASSIGNMENT_STUDENT.POST_FORM_DATA(params)
         .then(response => {
             if(response.code === 1){
-                console.log('student',response.data)
+                // console.log('student',response.data)
                 let readonlyVal = this.state.token_status === "admin"? "readOnly":"value"
                 this.setState({readonly:readonlyVal})
                 const status = response.data[0].status;
@@ -167,7 +164,7 @@ class Form_Review extends React.Component {
                 transportation: response.data.transportationTitle,
                 comments:comment[0].content,
                 star:comment[0]["star"]})
-                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo) === undefined ? "" : (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle })
+                this.setState({formField: {'logo': response.data.logo}, logoPathName: (response.data.logo) === undefined ? "" : (response.data.logo).split('/')[4], companyName: response.data.companyName, transSelect: response.data.transportationTitle, jobSelect: response.data.jobDescriptionTitle }, () => {console.log(this.state)})
             }
         })
     }

@@ -20,6 +20,7 @@
     left:50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 80%;
 
 }
 .feed-content.container{
@@ -232,4 +233,25 @@ div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked {
 }
 div.tag-check.ant-tag-checkable.tag-check.ant-tag-checkable-checked:hover {
     color: #048C8A;
+}
+
+@media only screen and (max-width: 756px) {
+    .feed-logo{
+        font-size: 25px;
+    }
+}
+
+@media only screen and (max-width: 458px) {
+    .feed-logo{
+        font-size: 20px;
+    } 
+}
+
+@media only screen and (max-width: 414px) {
+    .feed-logo{
+        font-size: 15px;
+    }
+    .header-feed{
+        width: 100%;
+    }
 }

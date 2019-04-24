@@ -55,8 +55,6 @@ class Navigation extends React.Component {
     logout = () => {
         this.REMOVE_TOKEN_LOCAL_STORAGE()
         window.location.reload();
-        // console.log(this.props.location);
-        // this.props.history.push('/')
     }
 
     REMOVE_TOKEN_LOCAL_STORAGE = () => {
@@ -88,10 +86,10 @@ class Navigation extends React.Component {
         return (
             <div className={`header ${headerClass}`}>
              <Row>
-                <Col span={6}>
-                    <span className="web-logo">Internship Program  </span>
-                </Col>
-                <Col span={14} offset={4}>
+                {/* <Col span={6}> */}
+                    <span className="web-logo">Internship Program</span>
+                {/* </Col> */}
+                {/* <Col span={14} offset={4}> */}
                     <div className="nav"> 
                     <NavLink className="nav-menu announcement" to='/'>Announcement</NavLink>
                         <Divider className="divider" type="vertical" />
@@ -119,28 +117,29 @@ class Navigation extends React.Component {
                        
                     </div> 
                     <div className="nav-small"> 
-                    <NavLink className="nav-menu announcement" to='/'><Icon type="notification" /></NavLink>
-                        <NavLink className="nav-menu review" to='/Review'><Icon type="solution" /></NavLink>
-                        <NavLink className="nav-menu faq" to='/FAQ'><Icon type="question" /></NavLink>
+                        <NavLink className="nav-menu announcement" to='/'><Icon className="nav-small-icon" type="notification" /></NavLink>
+                        <Divider className="divider" type="vertical" />
+                        <NavLink className="nav-menu review" to='/Review'><Icon className="nav-small-icon" type="solution" /></NavLink>
+                        <Divider className="divider" type="vertical" />
+                        <NavLink className="nav-menu faq" to='/FAQ'><Icon  className="nav-small-icon"type="question" /></NavLink>
+                        <Divider className="divider" type="vertical" />
                         {
                             this.state.token_status === "student"? 
                             <span>
-                                <NavLink className="nav-menu student" to='/schedule'><Icon type="folder" /></NavLink>
+                                <NavLink className="nav-menu student" to='/schedule'><Icon className="nav-small-icon" type="folder" /></NavLink>
                             </span> : this.state.token_status === "admin"? 
                             <span>
-                                <NavLink className="nav-menu admin" to='/admin'><Icon type="setting" /></NavLink>
+                                <NavLink className="nav-menu admin" to='/admin'><Icon className="nav-small-icon" type="setting" /></NavLink>
                             </span> : <span></span>   
                         }
-                        
-                       {
-                           this.state.token_username === ""? 
-                           <NavLink className="" to='/Login'><Icon type="login" /></NavLink>:
-                           <span className="" onClick={this.logout}><Icon type="logout" /></span>
+                        {
+                            this.state.token_username === ""? 
+                            <NavLink className="" to='/Login'><Icon className="nav-small-icon" type="login" /></NavLink>:
+                            <span className="" onClick={this.logout}><Icon className="nav-small-icon" type="logout" /></span>
 
-                       } 
-                       
+                        } 
                     </div> 
-                </Col> 
+                {/* </Col>  */}
        
              </Row>
 

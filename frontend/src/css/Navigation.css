@@ -9,6 +9,9 @@
     font-weight: bold;
     font-size: 20px;
     text-transform: uppercase;
+    position: absolute;
+    top:0;
+    left:0;
 }
 .not-index .web-logo{
     color: #048C8A;
@@ -19,7 +22,7 @@
 }
 .nav-menu{
     height:30px;
-    padding: 3px 30px 0px 30px;
+    padding: 3px 15px 0px 15px;
 }
 .divider{
     font-size: xx-large;
@@ -79,13 +82,38 @@
 .nav-small{
     display:none;
 }
+.nav-small-icon{
+    font-size: 20px;
+}
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 766px) {
     .nav{
         display: none;
     }
     .nav-small{
         display:block;
+        position: absolute;
+        right:0;
+    }
+}
+
+@media only screen and (max-width: 490px) {
+    .nav-small-icon{
+        font-size: 15px;
+    }
+    .nav-menu{
+        height:30px;
+        padding: 3px 10px 0px 10px;
+    }
+    .divider{
+        display: none;
+    }
+    .container{
+        padding: 10;
+    }
+    .web-logo{
+        padding-top: 6px;
+        font-size: 15px;
     }
     
 }
